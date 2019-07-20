@@ -5,7 +5,7 @@ var ex1, ex2, ex3, ex4, ex5, ex6;
 
 function setUpExercises(){
     ex1 = new Exercise("Ex1");
-    var exercise1 = getExerciseData()
+    var exercise1 = getExercise1Data()
     for (var i = 0; i < exercise1.length; i++){
         ex1.questions.push(exercise1[i]);
     }
@@ -13,6 +13,7 @@ function setUpExercises(){
     setupQuestionEx1(ex1);
     
     ex2 = new Exercise("Ex2");
+    var exercise2 = getExercise2Data()
     for (var i = 0; i < exercise2.length; i++){
         ex2.questions.push(exercise2[i]);
     }
@@ -20,6 +21,7 @@ function setUpExercises(){
     setupQuestionEx2(ex2);
     
     ex3 = new Exercise("Ex3");
+    var exercise3 = getExercise3Data()
     for (var i = 0; i < exercise3.length; i++){
         ex3.questions.push(exercise3[i]);
     }
@@ -27,6 +29,7 @@ function setUpExercises(){
     setupQuestionEx3(ex3);
     
     ex4 = new Exercise("Ex4");
+    var exercise4 = getExercise4Data()
     for (var i = 0; i < exercise4.length; i++){
         ex4.questions.push(exercise4[i]);
     }
@@ -34,6 +37,7 @@ function setUpExercises(){
     setupQuestionEx4(ex4);
     
     ex5 = new Exercise("Ex5");
+    var exercise5 = getExercise5Data()
     for (var i = 0; i < exercise5.length; i++){
         ex5.questions.push(exercise5[i]);
     }
@@ -41,6 +45,7 @@ function setUpExercises(){
     setupQuestionEx5(ex5);
     
     ex6 = new Exercise("Ex6");
+    var exercise6 = getExercise6Data()
     for (var i = 0; i < exercise6.length; i++){
         ex6.questions.push(exercise6[i]);
     }
