@@ -5,6 +5,7 @@ var ex1, ex2, ex3, ex4, ex5, ex6;
 
 function setUpExercises(){
     ex1 = new Exercise("Ex1");
+    var exercise1 = getExerciseData()
     for (var i = 0; i < exercise1.length; i++){
         ex1.questions.push(exercise1[i]);
     }
