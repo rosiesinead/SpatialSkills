@@ -11,7 +11,7 @@
 function enableTouch(canvas) {
     //this enables touch for the canvas object
     //Based upon JQuery bind structure posted by Levarne Sobotker on stackoverflow: https://stackoverflow.com/questions/7069458/prevent-touchstart-when-swiping
-    $('#' + canvas.id).on('touchend', function(e){
+    $('#' + canvas.id).on('vmouseup', function(e){
         if(touchmoved != true){
       
          
@@ -32,18 +32,18 @@ function enableTouch(canvas) {
             //pass to logic to help determine whether to add touch, and possibly a line
             addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
         }
-    }).on('touchmove', function(e){
+    }).on('vmousemove', function(e){
         touchmoved = true;
         
-    }).on('touchstart', function(e){
+    }).on('vmousedown', function(e){
         touchmoved = false; 
-        touches = e.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+        touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
     });
 }
     
 function disableTouch(canvas) {
     //this disables touch for the canvas object
-    $('#' + canvas.id).unbind('touchend');
+    $('#' + canvas.id).unbind('vmouseup');
 }
 
 
@@ -52,7 +52,7 @@ function disableTouch(canvas) {
 function enableTouchOrth(canvas) {
     //this enables touch for the canvas object
     //Based upon JQuery bind structure posted by Levarne Sobotker on stackoverflow: https://stackoverflow.com/questions/7069458/prevent-touchstart-when-swiping
-        $('#' + canvas.id).on('touchend', function(e){
+        $('#' + canvas.id).on('vmouseup', function(e){
             if(touchmoved != true){
       
          
@@ -73,17 +73,17 @@ function enableTouchOrth(canvas) {
                 //pass to logic to help determine whether to add touch, and possibly a line
                 addPointOrth(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
             }
-        }).on('touchmove', function(e){
+        }).on('vmousemove', function(e){
             touchmoved = true;
         
-        }).on('touchstart', function(e){
+        }).on('vmousedown', function(e){
             touchmoved = false; 
-            touches = e.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+            touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
         });
 }
     
 function disableTouchOrth(canvas) {
     //this disables touch for the canvas object
-    $('#' + canvas.id).unbind('touchend');
+    $('#' + canvas.id).unbind('vmouseup');
 }
 
