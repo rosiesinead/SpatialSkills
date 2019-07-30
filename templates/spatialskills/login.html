@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title> 
+</head>
+     
+     <!-- Start of login page: #login -->
+     <div data-role="page" id="login">
+
+        <div data-role="header">
+         <h1>Login</h1>
+        </div><!-- /header -->
+ 
+        <div role="main" class="ui-content" style="padding:0;">
+ 
+              <form id="loginForm"method="POST" action='/processor'>
+                  <label for="username">Username:</label>
+                  <input type="text" name="username" id="username"/>
+                  <label for="password">Password:</label>
+                  <input type="password" name="password" id="password"/>
+                  <button type ="submit">Login!</button>  
+              </form>
+ 
+ 
+           </div><!-- /content -->
+      </div><!-- /page -->
+
+</html>

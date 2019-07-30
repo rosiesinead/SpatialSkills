@@ -107,28 +107,6 @@
   </head>
    <body onload="startupAll();">
 
-     <!-- Start of login page: #login -->
-     <div data-role="page" id="login">
-
-       <div data-role="header">
-        <h1>Login</h1>
-       </div><!-- /header -->
-
-       <div role="main" class="ui-content" style="padding:0;">
-
-             <form id="loginForm">
-                 <label for="username">Username:</label>
-                 <input id="username" type="text" value=""/>
-                 <label for="password">Password:</label>
-                 <input id="password" type="password" value=""/>
-                 <input id="loginButton" type="button" value="Login" onClick="login()"/>
-             </form>
-
-
-          </div><!-- /content -->
-     </div><!-- /page -->
-
-
      <!-- Start of home page: #home -->
      <div data-role="page" id="home" class="ui-responsive-panel">
 
@@ -700,7 +678,7 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Exercise6Questions.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Exercise.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/ExercisesSetup.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Login.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='spatialskills/js/Login.js') }}"></script> -->
     <script src="{{ url_for('static', filename='spatialskills/js/Question.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/CanvasObject.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Line.js') }}"></script>
@@ -720,13 +698,15 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricReflection.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/HomePageLoad.js') }}"></script>
 
+
+  </body>
+
     <div id="dbEx1">{{exercise1}}</div>
     <div id="dbEx2">{{exercise2}}</div>
     <div id="dbEx3">{{exercise3}}</div>
     <div id="dbEx4">{{exercise4}}</div>
     <div id="dbEx5">{{exercise5}}</div>
     <div id="dbEx6">{{exercise6}}</div>
-  </body>
 
     <!--<script type="text/javascript" src="{{ url_for('static', filename='spatialskills/cordova.js') }}"></script>-->
     <script type="text/javascript" src="{{ url_for('static', filename='spatialskills/js/index.js') }}"></script>

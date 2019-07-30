@@ -1,8 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user
 
 app = Flask(__name__)
-
 
 #connect to database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ssdatabase.db'
@@ -23,9 +23,42 @@ class Users(db.Model,UserMixin ):
     username = db.Column(db.String(255))
     role = db.Column(db.String(255), default='user')
 
-  
+#start at login page
 @app.route('/')
 def spatialskills():
+    return render_template("spatialskills/login.html")
+
+#login process
+@app.route('/processor', methods=['POST'])
+def processor():
+    #get username from login form
+    username = request.form['username']
+    #create user variable and query the table by username
+    user=Users.query.filter_by(username=username).first()
+    #content found in database is now saved in user variable
+
+    #if user is in database then:
+    if user:
+            #get user role
+            role = Users.query.with_entities(Users.role).filter_by(username=username).scalar()
+            if role == 'admin':
+                return redirect(url_for('admin'))
+            else:
+                return redirect(url_for('homepage'))
+    else:
+        new_user = Users(username =username)
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('homepage'))
+
+#go to admin page
+@app.route('/admin')
+def admin():
+    return render_template("spatialskills/Ex1_ADMIN_DrawOrthographic.html")
+
+#get exercises from database and pass to index.
+@app.route('/homepage')
+def homepage():
     getEx1 = Exercises.query.with_entities(Exercises.exercise_data).filter(Exercises.exercise_number==1).all()
     exercise1 = [x[0] for x in getEx1]
     getEx2 = Exercises.query.with_entities(Exercises.exercise_data).filter(Exercises.exercise_number==2).all()
