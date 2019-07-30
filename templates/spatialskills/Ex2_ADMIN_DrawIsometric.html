@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8"/>
     <title>Canvas tutorial</title>
-    <script src="js/vendor/jquery.js"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/vendor/jquery.js') }}"></script>
     <script src=""></script>
     <script src=""></script>
     <script src=""></script>
@@ -86,18 +86,20 @@
       <div>
           Log: <pre id="log" style="border: 1px solid #ccc;"></pre>
       </div> 
-    <script src="js/Question.js"></script>
-    <script src="js/CanvasObject.js"></script>
-    <script src="js/GridText.js"></script>
-    <script src="js/Line.js"></script>
-    <script src="js/LineProperties.js"></script>
-    <script src="js/IsometricDistances.js"></script>
-    <script src="js/OrthographicDistances.js"></script>
-    <script src="js/AddTouch_ADMIN_only.js"></script>  
-    <script src="js/Messages.js"></script> 
-    <script src="js/IsometricAnswers.js"></script>
-    <script src="js/OrthographicAnswers.js"></script>
-    <script src="js/Startup_Ex2_Admin.js"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/Question.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/CanvasObject.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/GridText.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/Line.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/LineProperties.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/IsometricDistances.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/OrthographicDistances.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/AddTouch_ADMIN_only.js') }}"></script>  
+      <script src="{{ url_for('static', filename='spatialskills/js/Messages.js') }}"></script> 
+      <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/OrthographicAnswers.js') }}"></script>
+      <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex2_Admin.js') }}"></script>
+
+
   </body>
     
      
