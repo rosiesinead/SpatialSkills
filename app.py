@@ -54,7 +54,7 @@ def processor():
 #go to admin page
 @app.route('/admin')
 def admin():
-    return render_template("spatialskills/Ex1_ADMIN_DrawOrthographic.html")
+    return render_template("spatialskills/Ex5_ADMIN_RotationsMultiple.html")
 
 #get exercises from database and pass to index.
 @app.route('/homepage')
