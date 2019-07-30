@@ -4,12 +4,24 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 
+#connect to database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ssdatabase.db'
-db = SQLAlchemy(app)
-db.Model.metadata.reflect(db.engine)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+#create a database variable
+db = SQLAlchemy(app)
+
+#create database model for exercises table
 class Exercises(db.Model):
-    __table__ = db.Model.metadata.tables['exercises']
+    exercise_number = db.Column(db.Integer, primary_key=True)
+    question_number = db.Column(db.Integer, primary_key=True)
+    exercise_data = db.Column(db.String(10000))
+
+#create database model for users table
+class Users(db.Model,UserMixin ):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255))
+    role = db.Column(db.String(255), default='user')
 
   
 @app.route('/')
