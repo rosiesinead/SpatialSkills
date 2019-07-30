@@ -145,6 +145,10 @@ function addPointOrth(x, y, canvasObject){
             if (canvasObject.dashed == true){
                 canvasObject.tempLine[0].type = "dashed";
             }
+
+            //Rosie note: at this point maybe check the array for the tempLine, if it exists then remove it,
+            //else continue with code...
+            
             //add tempLine to the currently drawn lines array
             canvasObject.linesCurrentlyDrawn.push(canvasObject.tempLine[0]);
             //add the new line to All Lines drawn as well
