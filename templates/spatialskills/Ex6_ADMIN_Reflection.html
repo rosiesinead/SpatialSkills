@@ -9,6 +9,7 @@
     <script src=""></script>
     <style type="text/css">
       canvas { border: 1px solid black; } 
+      
         #stage {
     width: 600px;
     height: 600px;
@@ -19,7 +20,7 @@
         position: absolute; }
   
   #isometricPreImageMirrorEx6 { z-index: 1;
-        position: absolute; }
+        position: absolute; 
         background-color: white; }
     </style>
   </head>
@@ -72,19 +73,19 @@
           <textarea id="question" rows="20" columns="60" style="width:100%"></textarea>
           
       </div>
-    <script src="js/Question.js"></script>
-    <script src="js/CanvasObject.js"></script>
-    <script src="js/RotationCanvas.js"></script>
-    <script src="js/AlphabeticRotation.js"></script>
-    <script src="js/Line.js"></script>
-    <script src="js/Axis.js"></script>
-    <script src="js/AxisTrail.js"></script>
-    <script src="js/LineProperties.js"></script>
-    <script src="js/IsometricDistances.js"></script>
-    <script src="js/AddTouch_ADMIN_only.js"></script>  
-    <script src="js/Messages.js"></script> 
-    <script src="js/IsometricAnswers.js"></script>
-    <script src="js/Startup_Ex6_Admin.js"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Question.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/CanvasObject.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/RotationCanvas.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/AlphabeticRotation.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Line.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Axis.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/AxisTrail.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/LineProperties.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/IsometricDistances.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/AddTouch_ADMIN_only.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/Messages.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex6_Admin.js') }}"></script>
   </body>
     
      
