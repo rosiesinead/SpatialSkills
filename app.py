@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user
+import json
 
 app = Flask(__name__)
 
@@ -54,7 +56,21 @@ def processor():
 #go to admin page
 @app.route('/admin')
 def admin():
-    return render_template("spatialskills/Ex5_ADMIN_RotationsMultiple.html")
+    return render_template("spatialskills/Ex1_ADMIN_DrawOrthographic.html")
+
+#add a new question to database
+@app.route('/newquestion', methods=['POST'])
+def newquestion():
+    data = json.dumps(request.form)
+    #need to send exercise number with request
+    ex_num = 1
+    #get highest question number in database and increment
+    qu_num = db.session.query(func.max(Exercises.question_number)).filter_by(exercise_number=ex_num).scalar() + 1
+    print(qu_num)
+    new_ex = Exercises(exercise_number=ex_num, question_number=qu_num,exercise_data =data)
+    db.session.add(new_ex)
+    db.session.commit()
+    return ""
 
 #get exercises from database and pass to index.
 @app.route('/homepage')
