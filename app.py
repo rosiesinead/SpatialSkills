@@ -61,13 +61,17 @@ def admin():
 #add a new question to database
 @app.route('/newquestion', methods=['POST'])
 def newquestion():
+    #receive data and convert to dictionary
     data = json.dumps(request.form)
-    #need to send exercise number with request
-    ex_num = 1
-    #get highest question number in database and increment
+    dataTodict = json.loads(data)
+    #get exercise number and exercise data from dictionary and store in variables
+    ex_num = dataTodict["ex_num"]
+    ex_data = dataTodict["ex_data"]
+    #get highest question number in database for that exercise and increment it
     qu_num = db.session.query(func.max(Exercises.question_number)).filter_by(exercise_number=ex_num).scalar() + 1
-    print(qu_num)
-    new_ex = Exercises(exercise_number=ex_num, question_number=qu_num,exercise_data =data)
+    #create new exercise
+    new_ex = Exercises(exercise_number=ex_num, question_number=qu_num,exercise_data =ex_data)
+    #commit to database
     db.session.add(new_ex)
     db.session.commit()
     return ""
