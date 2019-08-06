@@ -184,4 +184,16 @@ function writeToJSON(question){
     
     //write the Question object out to the textarea in JSON format
     document.getElementById("question").value = JSON.stringify(tempQuestion);
+
+    var exercise_obj = {ex_num:3,ex_data:JSON.stringify(tempQuestion)}
+
+    var saveData = $.ajax({
+        type: "POST",
+        url: "/newquestion",
+        data: exercise_obj,
+        dataType: "json",
+        success: function(resultData){
+            alert("Save Complete");
+        }
+  });
 }

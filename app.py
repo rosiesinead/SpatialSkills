@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
 from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user
 import json
+import pandas as pd
 
 app = Flask(__name__)
 
@@ -48,6 +49,7 @@ def processor():
             else:
                 return redirect(url_for('homepage'))
     else:
+        #add new user to db
         new_user = Users(username =username)
         db.session.add(new_user)
         db.session.commit()
@@ -56,7 +58,7 @@ def processor():
 #go to admin page
 @app.route('/admin')
 def admin():
-    return render_template("spatialskills/Ex1_ADMIN_DrawOrthographic.html")
+    return render_template("spatialskills/Ex5_ADMIN_RotationsMultiple.html")
 
 #add a new question to database
 @app.route('/newquestion', methods=['POST'])
@@ -74,7 +76,15 @@ def newquestion():
     #commit to database
     db.session.add(new_ex)
     db.session.commit()
+
     return ""
+
+#send exercise data from database
+@app.route('/getexercises', methods=['GET'])
+def get_python_data():
+    dataframe = pd.read_sql_table('exercises', 'sqlite:///ssdatabase.db')
+    senddata = dataframe.to_json(orient='records')
+    return json.dumps(senddata)
 
 #get exercises from database and pass to index.
 @app.route('/homepage')
