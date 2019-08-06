@@ -1,7 +1,13 @@
 //function used before home page loads
 //loops through all Questions in all Exercises and tallies up attempted and correct Questions
 
-$(document).on('pagebeforeshow', '#home', function(){ 
+//ROSIE NOTE: i think this will need to get existing table data and add to it, 
+//not overwrite it, in order to save progress
+
+$(document).on('pagebeforeshow', '#home', function (){ 
+
+                    var statistics = [];
+
                     //loop through the exercises
                     for (var i = 0; i < exercises.length; i++){
                         var numOfQs = document.getElementById("tdQuestions" + exercises[i].name);
@@ -33,12 +39,22 @@ $(document).on('pagebeforeshow', '#home', function(){
                             if (correct == true){
                                 correctNumber++;
                             }
+                            //create statistic and add to array
+                            statistics.push(new Statistic(6,(i+1),(j+1),Number(attempted),Number(correct)))
                         }
                         //update table with exercise information
                         attemptedQs.innerHTML = attemptedNumber;
                         correctQs.innerHTML = correctNumber;
                     }
+
+                    var saveStats = $.ajax({
+                        type: "POST",
+                        url: "/userstats",
+                        data: {statistics:statistics},
+                        dataType: "json",
+                        success: function(resultData){
+                            alert("Save Complete");
+                        }
+                  });
                     
-                    
-                    //count the number of questions that are correct (need 3 correct for ex1 qs)
                 });

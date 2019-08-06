@@ -14,6 +14,7 @@ function setUpExercises(){
         dataType: 'json',
         success: function(res) {
             received = JSON.parse(res)
+            //console.log(res)
             //alert(res);
         }
     });
