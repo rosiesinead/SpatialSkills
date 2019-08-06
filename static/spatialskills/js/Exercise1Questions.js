@@ -4,3 +4,5 @@ function getExercise1Data(){
     var exercise1 = JSON.parse(r)
     return exercise1
 }
+
+//DELETE THESE?

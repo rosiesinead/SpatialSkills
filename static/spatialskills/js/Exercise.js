@@ -8,6 +8,7 @@
 
 function Exercise(name) {
     this.name = name;
+    this.num;
     this.questions = [];
     this.currentQuestion = 1;
     this.numRight = 0;
