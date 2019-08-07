@@ -12,6 +12,18 @@ function displayProgress(){
                             //alert(res);
                         }
                     });
+                    
+                    //NOTE: this is not technically accurate as not all canvases may have been correct but does it matter?
+                    //infact should it count as correct if only part of the solution is correct?? I think no
+                    
+                    //loop through database data and update the matching exercise.question.answercanvas with correct or not
+                    for (var l = 0; l < received.length; l++){
+                        var k =0
+                        var current = received[l]
+                        exercises[current.exercise_number-1].questions[current.question_number-1].answerCanvas[k].correct=current.complete
+                        k++
+                    }
+                   
                 
                 //loop through the exercises
                 for (var i = 0; i < exercises.length; i++){
@@ -30,9 +42,12 @@ function displayProgress(){
                             attemptedNumber += received[j].attempted;
                             correctNumber += received[j].complete
                         }
-                        
+
+                                          
                   
                     }
+
+                    
 
                     //update table with exercise information
                     attemptedQs.innerHTML = attemptedNumber;

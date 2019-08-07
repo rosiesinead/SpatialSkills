@@ -3,6 +3,7 @@
 
 //ROSIE NOTE: i think this will need to get existing table data and add to it, 
 //not overwrite it, in order to save progress
+//just had a thought though - number have to match up. can't complete more than exists...
 
 $(document).on('pagebeforeshow', '#home', function (){ 
 
@@ -31,29 +32,40 @@ $(document).on('pagebeforeshow', '#home', function (){
                                 if (exercises[i].questions[j].answerCanvas[k].correct != true){
                                     correct = false;
                                 }
+                            
                             }
                             //if attempted and completely correct, add numbers to totals
-                            if (attempted == true){
-                                attemptedNumber++;
-                            }
                             if (correct == true){
                                 correctNumber++;
                             }
-                            //create statistic and add to array
-                            statistics.push(new Statistic(6,(i+1),(j+1),Number(attempted),Number(correct)))
+                            
+                            if (attempted == true){
+                                attemptedNumber++;
+                              
+                                
+                            }
+
+                            //create a statistic object and add to array
+                            statistics.push(new Statistic('rosie',(i+1),(j+1),Number(attempted),Number(correct)))
+                            
+                            
                         }
                         //update table with exercise information
                         attemptedQs.innerHTML = attemptedNumber;
                         correctQs.innerHTML = correctNumber;
                     }
 
+                    
+
+                    //console.log(statistics)
+
                     var saveStats = $.ajax({
                         type: "POST",
                         url: "/userstats",
-                        data: {statistics:statistics},
-                        dataType: "json",
+                        data: JSON.stringify(statistics),
+                        dataType: "text",
                         success: function(resultData){
-                            alert("Save Complete");
+                           // alert("Save Complete");
                         }
                   });
                     
