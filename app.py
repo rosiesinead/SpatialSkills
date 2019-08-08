@@ -30,8 +30,10 @@ class Stats(db.Model,UserMixin ):
     username = db.Column(db.String(255), primary_key=True)
     exercise_number = db.Column(db.Integer, primary_key=True)
     question_number = db.Column(db.Integer, primary_key=True)
+    answer_canvas = db.Column(db.Integer, primary_key=True)
     attempted = db.Column(db.Boolean, default=False)
     complete = db.Column(db.Boolean, default=False)
+    answer_data = db.Column(db.String(1000000))
 
 #---------------------------------------------------------------------------
 
@@ -113,10 +115,8 @@ def userstats():
     dataToDict = json.loads(dataReceived)
     extractKey = next(iter(dataToDict))
     df = pd.read_json(extractKey)
-    print(df)
     #if empty don't write to database
     if df.empty:
-        print("empty")
         return ""
     else:
         #alternative solution...

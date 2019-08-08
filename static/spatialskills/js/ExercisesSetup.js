@@ -6,14 +6,14 @@ var exercises = [];
 function setUpExercises(){
 
     //send ajax get request
-    var received;
+    var receivedEx;
     $.ajax({
         async: false, //seems like this is necessary in order to use the received variable outside the scope
         url: "/getexercises",
         type: 'GET',
         dataType: 'json',
         success: function(res) {
-            received = JSON.parse(res)
+            receivedEx = JSON.parse(res)
             //console.log(res)
             //alert(res);
         }
@@ -27,10 +27,30 @@ function setUpExercises(){
     //loop through database data, set current exercise to current.
     //get exercise object from array, add current exercise data to question array
     //JSON parse exercise data to convert to a question object  
-    for (var i = 0; i < received.length; i++){
-        var current = received[i]
+    for (var i = 0; i < receivedEx.length; i++){
+        var current = receivedEx[i]
         var exercise = exercises[current.exercise_number-1]
         exercise.questions.push(JSON.parse(current.exercise_data))
+    }
+
+    var receivedStat;
+    $.ajax({
+        async: false, //seems like this is necessary in order to use the received variable outside the scope
+        url: "/getprogress",
+        type: 'GET',
+        dataType: 'json',
+        success: function(res) {
+            receivedStat = JSON.parse(res)
+            //console.log(received)
+            //alert(res);
+        }
+    });
+
+    //loop through database data and update the matching exercise.question.answercanvas with user data
+    for (var j = 0; j < receivedStat.length; j++){
+            var current = receivedStat[j]
+            var answer_data = JSON.parse(current.answer_data)
+            exercises[current.exercise_number-1].questions[current.question_number-1].answerCanvas[current.answer_canvas-1]=answer_data;
     }
 
     //this is not ideal...

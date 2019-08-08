@@ -32,8 +32,14 @@ $(document).on('pagebeforeshow', '#home', function (){
                                 if (exercises[i].questions[j].answerCanvas[k].correct != true){
                                     correct = false;
                                 }
+
+                                 //create a statistic object and add to array
+                            statistics.push(new Statistic('rosie',(i+1),(j+1),(k+1),Number(attempted),Number(correct),JSON.stringify(exercises[i].questions[j].answerCanvas[k])))                         
                             
                             }
+
+                           
+
                             //if attempted and completely correct, add numbers to totals
                             if (correct == true){
                                 correctNumber++;
@@ -45,8 +51,7 @@ $(document).on('pagebeforeshow', '#home', function (){
                                 
                             }
 
-                            //create a statistic object and add to array
-                            statistics.push(new Statistic('rosie',(i+1),(j+1),Number(attempted),Number(correct)))
+                            
                             
                             
                         }
