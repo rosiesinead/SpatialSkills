@@ -164,7 +164,7 @@ function writeToJSON(question){
         data: exercise_obj,
         dataType: "json",
         success: function(resultData){
-            alert("Save Complete");
+           // alert("Save Complete");
         }
   });
 }

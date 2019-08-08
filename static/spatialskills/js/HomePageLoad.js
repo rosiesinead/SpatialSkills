@@ -1,7 +1,14 @@
 //function used before home page loads
 //loops through all Questions in all Exercises and tallies up attempted and correct Questions
 
-$(document).on('pagebeforeshow', '#home', function(){ 
+//ROSIE NOTE: i think this will need to get existing table data and add to it, 
+//not overwrite it, in order to save progress
+//just had a thought though - number have to match up. can't complete more than exists...
+
+$(document).on('pagebeforeshow', '#home', function (){ 
+
+                    var statistics = [];
+
                     //loop through the exercises
                     for (var i = 0; i < exercises.length; i++){
                         var numOfQs = document.getElementById("tdQuestions" + exercises[i].name);
@@ -25,20 +32,46 @@ $(document).on('pagebeforeshow', '#home', function(){
                                 if (exercises[i].questions[j].answerCanvas[k].correct != true){
                                     correct = false;
                                 }
+
+                                 //create a statistic object and add to array
+                            statistics.push(new Statistic('rosie',(i+1),(j+1),(k+1),Number(attempted),Number(correct),JSON.stringify(exercises[i].questions[j].answerCanvas[k])))                         
+                            
                             }
+
+                           
+
                             //if attempted and completely correct, add numbers to totals
-                            if (attempted == true){
-                                attemptedNumber++;
-                            }
                             if (correct == true){
                                 correctNumber++;
                             }
+                            
+                            if (attempted == true){
+                                attemptedNumber++;
+                              
+                                
+                            }
+
+                            
+                            
+                            
                         }
                         //update table with exercise information
                         attemptedQs.innerHTML = attemptedNumber;
                         correctQs.innerHTML = correctNumber;
                     }
+
                     
+
+                    //console.log(statistics)
+
+                    var saveStats = $.ajax({
+                        type: "POST",
+                        url: "/userstats",
+                        data: JSON.stringify(statistics),
+                        dataType: "text",
+                        success: function(resultData){
+                           // alert("Save Complete");
+                        }
+                  });
                     
-                    //count the number of questions that are correct (need 3 correct for ex1 qs)
                 });
