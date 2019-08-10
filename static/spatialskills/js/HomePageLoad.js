@@ -66,7 +66,7 @@ $(document).on('pagebeforeshow', '#home', function (){
 
                     var saveStats = $.ajax({
                         type: "POST",
-                        url: "/userstats",
+                        url: "/writeprogress",
                         data: JSON.stringify(statistics),
                         dataType: "text",
                         success: function(resultData){

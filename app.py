@@ -25,8 +25,8 @@ class Users(db.Model,UserMixin ):
     username = db.Column(db.String(255),primary_key=True)
     role = db.Column(db.String(255), default='user')
 
-#create database model for stats table
-class Stats(db.Model,UserMixin ):
+#create database model for progress table
+class Progress(db.Model,UserMixin ):
     username = db.Column(db.String(255), primary_key=True)
     exercise_number = db.Column(db.Integer, primary_key=True)
     question_number = db.Column(db.Integer, primary_key=True)
@@ -100,17 +100,17 @@ def getexercises():
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)
 
-#get user stats from database
+#get user progress from database
 @app.route('/getprogress', methods=['GET'])
 def getprogress():
     username = 'rosie'
-    dataframe = pd.read_sql_query("select * from stats where username =?", 'sqlite:///ssdatabase.db',params=[username])
+    dataframe = pd.read_sql_query("select * from progress where username =?", 'sqlite:///ssdatabase.db',params=[username])
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)
 
-#add user stats to database
-@app.route('/userstats', methods=['POST'])
-def userstats():
+#add user progress to database
+@app.route('/writeprogress', methods=['POST'])
+def writeprogress():
     dataReceived = json.dumps(request.form)
     dataToDict = json.loads(dataReceived)
     extractKey = next(iter(dataToDict))
@@ -122,14 +122,14 @@ def userstats():
         #alternative solution...
         #somehow loop through dataframe and check if each exist?
         username = 'rosie'
-        stat  = Stats.query.filter_by(username=username).first()
+        stat  = Progress.query.filter_by(username=username).first()
         #if exists, update
         if stat:
-            db.session.bulk_update_mappings(Stats, df.to_dict(orient="records"))
+            db.session.bulk_update_mappings(Progress, df.to_dict(orient="records"))
             db.session.commit()
             print("updated database")
         else:
-            db.session.bulk_insert_mappings(Stats, df.to_dict(orient="records"))
+            db.session.bulk_insert_mappings(Progress, df.to_dict(orient="records"))
             db.session.commit()
             print("added to database")
     return ""
