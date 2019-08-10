@@ -33,22 +33,22 @@ function setUpExercises(){
         exercise.questions.push(JSON.parse(current.exercise_data))
     }
 
-    var receivedStat;
+    var receivedProg;
     $.ajax({
         async: false, //seems like this is necessary in order to use the received variable outside the scope
         url: "/getprogress",
         type: 'GET',
         dataType: 'json',
         success: function(res) {
-            receivedStat = JSON.parse(res)
+            receivedProg = JSON.parse(res)
             //console.log(received)
             //alert(res);
         }
     });
 
     //loop through database data and update the matching exercise.question.answercanvas with user data
-    for (var j = 0; j < receivedStat.length; j++){
-            var current = receivedStat[j]
+    for (var j = 0; j < receivedProg.length; j++){
+            var current = receivedProg[j]
             var answer_data = JSON.parse(current.answer_data)
             exercises[current.exercise_number-1].questions[current.question_number-1].answerCanvas[current.answer_canvas-1]=answer_data;
     }
