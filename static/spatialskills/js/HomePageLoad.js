@@ -1,13 +1,7 @@
 //function used before home page loads
 //loops through all Questions in all Exercises and tallies up attempted and correct Questions
 
-//ROSIE NOTE: i think this will need to get existing table data and add to it, 
-//not overwrite it, in order to save progress
-//just had a thought though - number have to match up. can't complete more than exists...
-
 $(document).on('pagebeforeshow', '#home', function (){ 
-
-                    var statistics = [];
 
                     //loop through the exercises
                     for (var i = 0; i < exercises.length; i++){
@@ -32,9 +26,6 @@ $(document).on('pagebeforeshow', '#home', function (){
                                 if (exercises[i].questions[j].answerCanvas[k].correct != true){
                                     correct = false;
                                 }
-
-                                 //create a statistic object and add to array
-                            statistics.push(new Statistic('rosie',(i+1),(j+1),(k+1),Number(attempted),Number(correct),JSON.stringify(exercises[i].questions[j].answerCanvas[k])))                         
                             
                             }
 
@@ -59,19 +50,7 @@ $(document).on('pagebeforeshow', '#home', function (){
                         attemptedQs.innerHTML = attemptedNumber;
                         correctQs.innerHTML = correctNumber;
                     }
+                   
 
                     
-
-                    //console.log(statistics)
-
-                    var saveStats = $.ajax({
-                        type: "POST",
-                        url: "/writeprogress",
-                        data: JSON.stringify(statistics),
-                        dataType: "text",
-                        success: function(resultData){
-                           // alert("Save Complete");
-                        }
-                  });
-                    
-                });
+});

@@ -31,8 +31,8 @@ class Progress(db.Model,UserMixin ):
     exercise_number = db.Column(db.Integer, primary_key=True)
     question_number = db.Column(db.Integer, primary_key=True)
     answer_canvas = db.Column(db.Integer, primary_key=True)
-    attempted = db.Column(db.Boolean, default=False)
-    complete = db.Column(db.Boolean, default=False)
+    attempted = db.Column(db.Integer, default=0)
+    complete = db.Column(db.Integer, default=0)
     answer_data = db.Column(db.String(1000000))
 
 #---------------------------------------------------------------------------
@@ -65,6 +65,7 @@ def login():
         db.session.commit()
         return redirect(url_for('homepage'))
 
+
 #go to homepage  
 @app.route('/homepage')
 def homepage():
@@ -73,17 +74,17 @@ def homepage():
 #go to admin page
 @app.route('/admin')
 def admin():
-    return render_template("spatialskills/Ex5_ADMIN_RotationsMultiple.html")
+    return render_template("spatialskills/Admin_Homepage.html")
 
 #add a new question to database
 @app.route('/newquestion', methods=['POST'])
 def newquestion():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
-    dataTodict = json.loads(data)
+    dataToDict = json.loads(data)
     #get exercise number and exercise data from dictionary and store in variables
-    ex_num = dataTodict["ex_num"]
-    ex_data = dataTodict["ex_data"]
+    ex_num = dataToDict["ex_num"]
+    ex_data = dataToDict["ex_data"]
     #get highest question number in database for that exercise and increment it
     qu_num = db.session.query(func.max(Exercises.question_number)).filter_by(exercise_number=ex_num).scalar() + 1
     #create new exercise
@@ -111,29 +112,32 @@ def getprogress():
 #add user progress to database
 @app.route('/writeprogress', methods=['POST'])
 def writeprogress():
-    dataReceived = json.dumps(request.form)
-    dataToDict = json.loads(dataReceived)
-    extractKey = next(iter(dataToDict))
-    df = pd.read_json(extractKey)
-    #if empty don't write to database
-    if df.empty:
-        return ""
-    else:
-        #alternative solution...
-        #somehow loop through dataframe and check if each exist?
-        username = 'rosie'
-        stat  = Progress.query.filter_by(username=username).first()
-        #if exists, update
-        if stat:
-            db.session.bulk_update_mappings(Progress, df.to_dict(orient="records"))
-            db.session.commit()
-            print("updated database")
+    #receive data and convert to dictionary
+    data = json.dumps(request.form)
+    dataToDict = json.loads(data)
+    #data from dictionary and store in variables
+    username = dataToDict["username"]
+    exercise_number = dataToDict["exercise_number"]
+    question_number = dataToDict["question_number"]
+    answer_canvas= dataToDict["answer_canvas"]
+    complete = dataToDict["complete"]
+    answer_data = dataToDict["answer_data"]
+    #check if prog already exists in database
+    checkProg = db.session.query(Progress).filter_by(username=username,exercise_number=exercise_number,question_number=question_number,answer_canvas=answer_canvas).first()
+    #if it does, check whether it has been completed already and if so don't change anything
+    #otherwise update complete and answer_data columns
+    if checkProg:
+        if checkProg.complete==1:
+            return ""
         else:
-            db.session.bulk_insert_mappings(Progress, df.to_dict(orient="records"))
+            checkProg.complete = complete            
+            check_stat.answer_data=answer_data
             db.session.commit()
-            print("added to database")
+    #if stat doesn't already exist then add it
+    else:
+        db.session.execute(Progress.__table__.insert(), dataToDict)
+        db.session.commit()
     return ""
-
 
 if __name__ == "__main__":
     app.run(debug=True)
