@@ -138,7 +138,16 @@ function writeToJSON(question){
     //write the Question object out to the textarea in JSON format
     document.getElementById("question").value = JSON.stringify(tempQuestion);
 
-    var exercise_obj = {ex_num:1,ex_data:JSON.stringify(tempQuestion)}
+    var withAnswers = tempQuestion
+
+    for (var i = 0; i < question.answerCanvas.length; i++){
+        withAnswers.answerCanvas[i].linesCurrentlyDrawn = tempQuestion.answerCanvas.correctAnswer;
+        withAnswers.answerCanvas[i].linesAllDrawn = tempQuestion.answerCanvas.correctAnswer;
+
+    }
+    
+
+    var exercise_obj = {ex_num:1,ex_data:JSON.stringify(tempQuestion),answers:JSON.stringify(withAnswers)}
 
     var saveData = $.ajax({
         type: "POST",
@@ -146,7 +155,7 @@ function writeToJSON(question){
         data: exercise_obj,
         dataType: "json",
         success: function(resultData){
-            //alert("Save Complete");
+        alert("Save Complete");
         }
   });
   

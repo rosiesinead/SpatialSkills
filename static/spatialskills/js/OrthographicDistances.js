@@ -122,7 +122,7 @@ function addPointOrth(x, y, canvasObject){
         var adjustedCoordinateX = findTrueXCoordOrth(dotCoordinateArray[0]);
         var adjustedCoordinateY = findTrueYCoordOrth(dotCoordinateArray[1]);
     
-    //if empty then this is the first touch point, otherwise it is the second touch point
+    //if empty" then this is the first touch point, otherwise it is the second touch point
     if(canvasObject.tempLine.length == 0){
         //below we used to add a new line to lines, but let's create a temp line instead so we can do some checks e.g. make sure there are 2 points, and make sure they are different
         canvasObject.tempLine[0] = new Line(dotCoordinateArray[0], dotCoordinateArray[1], 0, 0);

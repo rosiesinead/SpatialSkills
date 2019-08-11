@@ -72,6 +72,8 @@ function checkAnswer(canvasObject, answerId){
     else if (correctLines < correctAnswer.length){
          answer.innerHTML = incorrectAddMoreMessage;
     }
+
+    writeToDatabase(canvasObject)
 }
 
 //function to find the bottom left point of a shape
