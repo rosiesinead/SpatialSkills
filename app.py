@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func
-from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user
+from flask_login import LoginManager, UserMixin, login_user,login_required, logout_user,current_user
 import json
 import pandas as pd
 
@@ -10,9 +10,14 @@ app = Flask(__name__)
 #connect to database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ssdatabase.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'secretkey'
 
 #create a database variable
 db = SQLAlchemy(app)
+
+#initialise login manager
+login_manager = LoginManager()
+login_manager.init_app(app)
 
 #create database model for exercises table
 class Exercises(db.Model):
@@ -22,24 +27,28 @@ class Exercises(db.Model):
 
 #create database model for users table
 class Users(db.Model,UserMixin ):
-    username = db.Column(db.String(255),primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(255),unique=True)
     role = db.Column(db.String(255), default='user')
 
 #create database model for progress table
 class Progress(db.Model,UserMixin ):
-    username = db.Column(db.String(255), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), primary_key=True)
     exercise_number = db.Column(db.Integer, primary_key=True)
     question_number = db.Column(db.Integer, primary_key=True)
     answer_canvas = db.Column(db.Integer, primary_key=True)
-    attempted = db.Column(db.Integer, default=0)
     complete = db.Column(db.Integer, default=0)
     answer_data = db.Column(db.String(1000000))
 
 #---------------------------------------------------------------------------
 
+@login_manager.user_loader
+def load_user(user_id):
+    return Users.query.get((int(user_id)))
+
 #start at login page
 @app.route('/')
-def spatialskills():
+def index():
     return render_template("spatialskills/login.html")
 
 #login process
@@ -48,36 +57,50 @@ def login():
     #get username from login form
     username = request.form['username']
     #create user variable and query the table by username
-    user=Users.query.filter_by(username=username).first()
+    user = Users.query.filter_by(username=username).first()
     #content found in database is now saved in user variable
     #if user is in database then:
     if user:
-            #get user role
-            role = Users.query.with_entities(Users.role).filter_by(username=username).scalar()
-            if role == 'admin':
+            #login user in, check role and redirect to appropriate page
+            login_user(user)
+            if current_user.role == 'admin':
                 return redirect(url_for('admin'))
             else:
                 return redirect(url_for('homepage'))
     else:
         #add new user to db
-        new_user = Users(username =username)
+        new_user = Users(username=username)
         db.session.add(new_user)
         db.session.commit()
+        login_user(new_user)
         return redirect(url_for('homepage'))
-
 
 #go to homepage  
 @app.route('/homepage')
+@login_required
 def homepage():
-    return render_template("spatialskills/index.html")
+    return render_template("spatialskills/index.html", user = current_user.username)
 
 #go to admin page
 @app.route('/admin')
+@login_required
 def admin():
-    return render_template("spatialskills/Admin_Homepage.html")
+    if current_user.role == 'admin':
+        return render_template("spatialskills/Admin_Homepage.html")
+    else:
+        return redirect(url_for('homepage'))
+
+#logout and return to login page
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 
 #add a new question to database
 @app.route('/newquestion', methods=['POST'])
+@login_required
 def newquestion():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
@@ -96,6 +119,7 @@ def newquestion():
 
 #send exercise data from database
 @app.route('/getexercises', methods=['GET'])
+@login_required
 def getexercises():
     dataframe = pd.read_sql_table('exercises', 'sqlite:///ssdatabase.db')
     senddata = dataframe.to_json(orient='records')
@@ -103,27 +127,27 @@ def getexercises():
 
 #get user progress from database
 @app.route('/getprogress', methods=['GET'])
+@login_required
 def getprogress():
-    username = 'rosie'
-    dataframe = pd.read_sql_query("select * from progress where username =?", 'sqlite:///ssdatabase.db',params=[username])
+    dataframe = pd.read_sql_query("select * from progress where user_id =?", 'sqlite:///ssdatabase.db',params=[current_user.id])
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)
 
 #add user progress to database
 @app.route('/writeprogress', methods=['POST'])
+@login_required
 def writeprogress():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
     #data from dictionary and store in variables
-    username = dataToDict["username"]
     exercise_number = dataToDict["exercise_number"]
     question_number = dataToDict["question_number"]
     answer_canvas= dataToDict["answer_canvas"]
     complete = dataToDict["complete"]
     answer_data = dataToDict["answer_data"]
     #check if prog already exists in database
-    checkProg = db.session.query(Progress).filter_by(username=username,exercise_number=exercise_number,question_number=question_number,answer_canvas=answer_canvas).first()
+    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_number=exercise_number,question_number=question_number,answer_canvas=answer_canvas).first()
     #if it does, check whether it has been completed already and if so don't change anything
     #otherwise update complete and answer_data columns
     if checkProg:
