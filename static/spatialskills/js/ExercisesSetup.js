@@ -41,7 +41,7 @@ function setUpExercises(){
         dataType: 'json',
         success: function(res) {
             receivedProg = JSON.parse(res)
-            //console.log(received)
+           //console.log(receivedProg)
             //alert(res);
         }
     });
@@ -49,7 +49,7 @@ function setUpExercises(){
     //loop through database data and update the matching exercise.question.answercanvas with user data
     for (var j = 0; j < receivedProg.length; j++){
             var current = receivedProg[j]
-            var answer_data = JSON.parse(current.answer_data)
+            var answer_data = JSON.parse(current.answer_data)         
             exercises[current.exercise_number-1].questions[current.question_number-1].answerCanvas[current.answer_canvas-1]=answer_data;
     }
 
