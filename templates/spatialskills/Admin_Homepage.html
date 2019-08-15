@@ -288,8 +288,8 @@
                                 <p id="orthographicSideEx1Answer" style="display:inline;"></p>
                             </div>
 
-                            <button id="orthographicEx1EditButton" data-inline="true" >Edit Question</button>
-                            <button id="orthographicEx1EditButton" data-inline="true" >Add New Question</button>
+                            <button id="Ex1EditButton" data-inline="true" >Save Changes</button>
+                            <button id="Ex1DeleteButton" data-inline="true" >Delete Question</button>
                     </div>
 
                     <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex1" class="mymenu">
@@ -382,6 +382,10 @@
 
                         </div>
                         <div><p id="isometricEx2Answer"></p></div>
+                        
+                        <button id="Ex2EditButton" data-inline="true" >Save Changes</button>
+                        <button id="Ex2DeleteButton" data-inline="true" >Delete Question</button>
+
                     </div>
 
                     <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex2" class="mymenu">
@@ -447,6 +451,11 @@
                             <p id="answer"></p>
                             <br>
                         </div>
+
+                        <button id="Ex3EditButton" data-inline="true" >Save Changes</button>
+                        <button id="Ex3DeleteButton" data-inline="true" >Delete Question</button>
+
+
                     </div>
 
                     <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex3" class="mymenu">
@@ -511,6 +520,8 @@
                             <p id="answer"></p>
                             <br>
                         </div>
+                        <button id="Ex4EditButton" data-inline="true" >Save Changes</button>
+                        <button id="Ex4DeleteButton" data-inline="true" >Delete Question</button>
                     </div>
 
                     <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex4" class="mymenu">
@@ -579,6 +590,8 @@
                             <p id="answer"></p>
                             <br>
                         </div>
+                        <button id="Ex5EditButton" data-inline="true" >Save Changes</button>
+                        <button id="Ex5DeleteButton" data-inline="true" >Delete Question</button>
             </div>
            <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex5" class="mymenu">
                 <ul data-role="listview">
@@ -640,6 +653,8 @@
                             <p id="answer"></p>
                             <br>
                         </div>
+                        <button id="Ex6EditButton" data-inline="true" >Save Changes</button>
+                        <button id="Ex6DeleteButton" data-inline="true" >Delete Question</button>
 
             </div>
             <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex6" class="mymenu">
@@ -660,7 +675,6 @@
                     </div>
         </div>
 
-
     <script src="{{ url_for('static', filename='spatialskills/js/Exercise.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Admin_ExerciseSetup.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/DBExercise.js') }}"></script> 
@@ -670,19 +684,27 @@
     <script src="{{ url_for('static', filename='spatialskills/js/LineProperties.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/IsometricDistances.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/OrthographicDistances.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/AddTouch.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='spatialskills/js/AddTouch.js') }}"></script> -->
     <script src="{{ url_for('static', filename='spatialskills/js/Messages.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/OrthographicAnswers.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup2_All.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawOrthographicFromIsometric.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Admin_SetUpEx1.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawOrthographicFromIsometric.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawIsometricFromOrthographic.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricRotationDegreesSingleAxis.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricRotationArrowsSingleAxis.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricRotationArrowsMultipleAxes.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricReflection.js') }}"></script>
-    
-    <script src="{{ url_for('static', filename='spatialskills/js/Statistic.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricReflection.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='spatialskills/js/AddTouch_ADMIN_only.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex1_Admin.js') }}"></script>  -->
+    <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex2_Admin.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex3_Admin.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex4_Admin.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex5_Admin.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex6_Admin.js') }}"></script>  
+ -->
+ <script src="{{ url_for('static', filename='spatialskills/js/WriteQuestionsToDatabase.js') }}"></script> 
 
   </body>
 

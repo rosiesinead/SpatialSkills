@@ -6,11 +6,13 @@
 //numRight is used to store the number of correct answered Questions for the Exercise
 //numWrong is used to store the number of incorrect answered Questions for the Exercise
 
-function Exercise(name) {
+function Exercise(name, num) {
     this.name = name;
-    this.num;
+    this.num = num;
     this.questions = [];
     this.currentQuestion = 1;
     this.numRight = 0;
     this.numWrong = 0;
+    this.questionType;
+    this.answerType; 
 }

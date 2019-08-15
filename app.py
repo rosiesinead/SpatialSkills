@@ -23,7 +23,8 @@ login_manager.init_app(app)
 class Exercises(db.Model):
     exercise_number = db.Column(db.Integer, primary_key=True)
     question_number = db.Column(db.Integer, primary_key=True)
-    exercise_data = db.Column(db.String(10000))
+    question_data = db.Column(db.String(10000))
+    question_answers = db.Column(db.String(1000000))
 
 #create database model for users table
 class Users(db.Model,UserMixin ):
@@ -86,6 +87,7 @@ def homepage():
 @login_required
 def admin():
     if current_user.role == 'admin':
+        #return render_template("spatialskills/Ex1_ADMIN_DrawOrthographic.html")
         return render_template("spatialskills/Admin_Homepage.html")
     else:
         return redirect(url_for('homepage'))
@@ -97,33 +99,79 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+#---------------------------------------------------------------------------
+#--EXERCISES----------------------------------------------------------------
+#---------------------------------------------------------------------------
 
 #add a new question to database
 @app.route('/newquestion', methods=['POST'])
 @login_required
-def newquestion():
+def newquestion(): 
     #receive data and convert to dictionary
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
     #get exercise number and exercise data from dictionary and store in variables
-    ex_num = dataToDict["ex_num"]
-    ex_data = dataToDict["ex_data"]
+    exerciseNumber = dataToDict["exerciseNumber"]
+    questionData = dataToDict["questionData"]
+    questionAnswers = dataToDict["questionAnswers"]
     #get highest question number in database for that exercise and increment it
-    qu_num = db.session.query(func.max(Exercises.question_number)).filter_by(exercise_number=ex_num).scalar() + 1
+    questionNumber = db.session.query(func.max(Exercises.question_number)).filter_by(exercise_number=exerciseNumber).scalar() + 1
     #create new exercise
-    new_ex = Exercises(exercise_number=ex_num, question_number=qu_num,exercise_data =ex_data)
+    newExercise = Exercises(exercise_number=exerciseNumber, question_number=questionNumber,question_data=questionData, question_answers=questionAnswers)
     #commit to database
-    db.session.add(new_ex)
+    db.session.add(newExercise)
     db.session.commit()
     return ""
 
-#send exercise data from database
+#edit a question
+@app.route('/editquestion', methods=['POST'])
+@login_required
+def editquestion(): 
+    #receive data and convert to dictionary
+    data = json.dumps(request.form)
+    dataToDict = json.loads(data)
+    #data from dictionary and store in variables
+    exerciseNumber = dataToDict["exerciseNumber"]
+    questionNumber = dataToDict["questionNumber"]
+    questionData = dataToDict["questionData"]
+    questionAnswers = dataToDict["questionAnswers"]
+    #Get question from database and update
+    getQuestion = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
+    getQuestion.question_data = questionData
+    getQuestion.question_answers = questionAnswers       
+    db.session.commit()
+    return ""
+    
+#delete a question from the database
+@app.route('/deletequestion', methods=['POST'])
+@login_required
+def deletequestion(): 
+    #receive data and convert to dictionary
+    data = json.dumps(request.form)
+    dataToDict = json.loads(data)
+    #data from dictionary and store in variables
+    exerciseNumber = dataToDict["exerciseNumber"]
+    questionNumber = dataToDict["questionNumber"]
+    deleteQu = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
+    db.session.delete(deleteQu)
+    #get exercises from database and update question numbers of those after deleted recod
+    for i in db.session.query(Exercises).filter_by(exercise_number=exerciseNumber).all():
+        if i.question_number > int(questionNumber):
+            i.question_number = i.question_number - 1
+    db.session.commit()
+    return redirect(url_for('admin'))
+
+#get exercise data from database
 @app.route('/getexercises', methods=['GET'])
 @login_required
 def getexercises():
     dataframe = pd.read_sql_table('exercises', 'sqlite:///ssdatabase.db')
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)
+
+#---------------------------------------------------------------------------
+#--USER PROGRESS------------------------------------------------------------
+#---------------------------------------------------------------------------
 
 #get user progress from database
 @app.route('/getprogress', methods=['GET'])
@@ -162,6 +210,9 @@ def writeprogress():
         db.session.execute(Progress.__table__.insert(), dataToDict)
         db.session.commit()
     return ""
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -3,6 +3,8 @@
 //set up a question object to contain answerCanvas and QuestionCanvas
     //questionEx1 = new Question();
 
+exerciseNumber = 1;
+
 function setupQuestionEx1(exercise){
     
     //for each isometric question canvas (only 1 at the moment)
@@ -36,9 +38,9 @@ function setupQuestionEx1(exercise){
         //set up labels for feedback, only required for this exercise
         setUpFeedback();
     }
+
     setUpQuestionNumber(exercise);
-    setUpPreviousNextButtonsEx1(exercise);
-    
+    setUpPreviousNextButtonsEx1(exercise); 
     
 }
 
@@ -174,3 +176,9 @@ function drawDashedLine(canvasObject, pressedButton, secondButton) {
     $(pressedButton).addClass('ui-btn-active');
     $(secondButton).removeClass('ui-btn-active');
 }
+
+    
+    
+
+
+

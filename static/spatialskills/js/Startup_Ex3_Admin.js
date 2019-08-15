@@ -8,7 +8,7 @@
     var currentQuestions = [];
     currentQuestions.push(question);
 
-function startup() {
+function startupEx3() {
     
     //set up button to write question object to JSON
     var writeToJSONButton = document.getElementById("writeToJSONButton");

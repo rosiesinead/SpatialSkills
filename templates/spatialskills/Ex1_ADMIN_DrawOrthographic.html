@@ -11,7 +11,7 @@
       canvas { border: 1px solid black; }  
     </style>
   </head>
-  <body onload="startup();">
+  <body onload="startupEx1();">
       <div>
           <canvas class="orthographic" id="orthographicTopEx1" width="120" height="100">
             Your browser does not support the canvas element.
@@ -73,7 +73,7 @@
         <div>
       
           <p id="answer"></p>
-            <button id="writeToJSONButton">Write to JSON</button>
+            <button id="writeToDBButton">Create New Question</button>
           <br>
       </div> 
       
@@ -98,6 +98,7 @@
     <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/OrthographicAnswers.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex1_Admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/WriteQuestionsToDatabase.js') }}"></script>
   </body>
     
      
