@@ -35,7 +35,7 @@ function setUpAdminExercises(){
        
     }
 
-    
+    //use query for this instead...
 
     exercises[0].answerType = 'orthographic';
     exercises[0].questionType = 'isometric'

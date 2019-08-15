@@ -165,6 +165,7 @@ def deletequestion():
 @app.route('/getexercises', methods=['GET'])
 @login_required
 def getexercises():
+    #change this so that we write a query that returns what we need (types)
     dataframe = pd.read_sql_table('exercises', 'sqlite:///ssdatabase.db')
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)

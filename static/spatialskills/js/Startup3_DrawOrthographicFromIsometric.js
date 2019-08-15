@@ -1,46 +1,99 @@
 ////////////
 //need a question variable to be available to all functions
 //set up a question object to contain answerCanvas and QuestionCanvas
-    //questionEx1 = new Question();
+    //question = new Question();
 
-exerciseNumber = 1;
 
-function setupQuestionEx1(exercise){
+function setupQuestions(exercise){
     
-    //for each isometric question canvas (only 1 at the moment)
-    for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
-        //draw dots on the isometric canvas
-        drawDots(exercise.questions[exercise.currentQuestion - 1].questionCanvas[i]);
-    
-        //draw the question on the isometric canvas
-        drawLines(exercise.questions[exercise.currentQuestion - 1].questionCanvas[i], exercise.questions[exercise.currentQuestion - 1].questionCanvas[i].correctAnswer);
-    }
-    
-    //for each orthographic answer canvas (top, front and side)
-    for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].answerCanvas.length; i++){
-        //disable touch
-        disableTouchOrth(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
+        var iso = 'isometric'
+        var ort = 'orthographic'
         
-        //draw dots on the orthographic canvas
-        drawDotsOrth(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
         
-        //draw the currentLinesDrawn on the canvas
-        drawLinesOrth(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i], exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].linesCurrentlyDrawn);
-        
-        //set up the buttons for each orthographic canvas
-        setUpButtonsOrth(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
-        
-        //set up touch for the orthographic canvas
-        enableTouchOrth(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
-        
-        //clear any p tags with feedback
-        clearPTags(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
-        //set up labels for feedback, only required for this exercise
-        setUpFeedback();
-    }
+        if(exercise.questionType == iso){
+                                //for each isometric question canvas (only 1 at the moment)
+            for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
+                //draw dots on the isometric canvas
+                drawDots(exercise.questions[exercise.currentQuestion - 1].questionCanvas[i]);
+            
+                //draw the question on the isometric canvas
+                drawLines(exercise.questions[exercise.currentQuestion - 1].questionCanvas[i], exercise.questions[exercise.currentQuestion - 1].questionCanvas[i].correctAnswer);
+            }
+
+        }else if(exercise.questionType == ort){
+
+                //for each orthographic question canvas (top, front and side)
+            for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
+                //draw dots on the isometric canvas
+                drawDotsOrth(exercise.questions[exercise.currentQuestion - 1].questionCanvas[i]);
+            
+                //draw the question on the isometric canvas
+                drawLinesOrth(exercise.questions[exercise.currentQuestion - 1].questionCanvas[i], exercise.questions[exercise.currentQuestion - 1].questionCanvas[i].correctAnswer);
+            }
+        }
+
+        if(exercise.answerType == ort){
+
+        //for each orthographic answer canvas (top, front and side)
+            for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].answerCanvas.length; i++){
+                //disable touch
+                disableTouchOrth(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
+                
+                //draw dots on the orthographic canvas
+                drawDotsOrth(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
+                
+                //draw the currentLinesDrawn on the canvas
+                drawLinesOrth(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i], exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].linesCurrentlyDrawn);
+                
+                //set up the buttons for each orthographic canvas
+                setUpButtonsOrth(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
+                
+                //set up touch for the orthographic canvas
+                enableTouchOrth(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
+                
+                //clear any p tags with feedback
+                clearPTags(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
+                //set up labels for feedback, only required for this exercise
+            }
+        }else if(exercise.answerType == iso){
+
+                //for each isometric answer canvas (top, front and side)
+            for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].answerCanvas.length; i++){
+                //disable touch
+                disableTouch(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
+                
+                //draw dots on the orthographic canvas
+                drawDots(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
+                
+                //draw the lines currently drawn on the canvas
+                drawLines(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i], exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].linesCurrentlyDrawn);
+               
+                //set up the buttons for each orthographic canvas
+                setUpButtonsIsometric(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
+                
+                //set up touch for the orthographic canvas
+                enableTouch(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
+                
+                //clear any p tags with feedback
+                clearPTags(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
+            }
+        }
+
+        //for each rotation canvas (only one at the moment)
+        for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].rotationCanvas.length; i++){
+            if(exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i].alphabeticRotations.length>0){
+                drawAlphabeticRotations(exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i]);
+            }
+            if(exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i].numericRotations.length>0){
+            //draw rotation instructions for the question on the rotations canvas
+            drawNumericRotations(exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i]);
+            }
+        }
+
 
     setUpQuestionNumber(exercise);
-    setUpPreviousNextButtonsEx1(exercise); 
+    setUpPreviousNextButtons(exercise);
+    setUpFeedback();
     
 }
 
@@ -86,14 +139,14 @@ function provideFeedback(){
     document.getElementById('orthographicSideEx1CheckAnswerButton').click();
 }
 
-function setUpPreviousNextButtonsEx1(exercise){
+function setUpPreviousNextButtons(exercise){
     var previousButton = document.getElementById(exercise.name + "PreviousButton");
     var nextButton = document.getElementById(exercise.name + "NextButton");
     
     //if exercise.currentQuestion is greater than 1, show and set up previous button
     if(exercise.currentQuestion > 1){
         previousButton.style.visibility = "visible";
-        previousButton.onclick = function () {loadPreviousEx1(exercise)};
+        previousButton.onclick = function () {loadPrevious(exercise)};
     }
     else {
         previousButton.style.visibility = "hidden";
@@ -102,23 +155,23 @@ function setUpPreviousNextButtonsEx1(exercise){
     //if exerciseCurrentQuestion is less than exercis.currentQuestion, show and set up next button
     if(exercise.currentQuestion < exercise.questions.length){
         nextButton.style.visibility = "visible";
-        nextButton.onclick = function () {loadNextEx1(exercise)};
+        nextButton.onclick = function () {loadNext(exercise)};
     }
     else {
         nextButton.style.visibility = "hidden";
     }
 }
 
-function loadPreviousEx1(exercise) {
+function loadPrevious(exercise) {
     //decrement currentQuestion by 1
     exercise.currentQuestion--;
-    setupQuestionEx1(exercise);
+    setupQuestions(exercise);
 }
 
-function loadNextEx1(exercise) {
+function loadNext(exercise) {
     //increment currentQuestion by 1
     exercise.currentQuestion++;
-    setupQuestionEx1(exercise);
+    setupQuestions(exercise);
 }
 
 function setUpButtonsIsometric(canvasObject) { //perhaps set up as question is a better name for function
@@ -178,7 +231,3 @@ function drawDashedLine(canvasObject, pressedButton, secondButton) {
 }
 
     
-    
-
-
-
