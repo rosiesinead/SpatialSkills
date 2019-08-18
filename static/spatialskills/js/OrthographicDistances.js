@@ -146,27 +146,34 @@ function addPointOrth(x, y, canvasObject){
                 canvasObject.tempLine[0].type = "dashed";
             }
 
-            //if there are any lines currently drawn,loop through linesCurrentlyDrawn and check if any match the templine, if yes then remove 
             var lineExists = false;
-            if(canvasObject.linesCurrentlyDrawn.length>0){
-                for(var i=0;i<canvasObject.linesCurrentlyDrawn.length;i++){
-                    var temp = JSON.stringify(canvasObject.tempLine[0]);
-                    var line = JSON.stringify(canvasObject.linesCurrentlyDrawn[i]);
-                    var revLine = JSON.stringify(reverseLine(canvasObject.linesCurrentlyDrawn[i]));
-                    if(temp == line|| temp == revLine){
-                        canvasObject.linesCurrentlyDrawn.splice(i,1)
-                        lineExists = true;
-                    }           
+            var brokenTempLine = breakUpAllLinesOrth(canvasObject.tempLine)
 
-                }
+            if(canvasObject.linesCurrentlyDrawn.length>0){
+                for(var i=0;i<brokenTempLine.length;i++){
+                    for(var j=0;j<canvasObject.linesCurrentlyDrawn.length;j++){
+                            var temp = JSON.stringify(brokenTempLine[i]);
+                            var reverseTemp = JSON.stringify(reverseLine(brokenTempLine[i]));
+                            var line = JSON.stringify(canvasObject.linesCurrentlyDrawn[j]);                
+                            if(line == temp || line == reverseTemp){
+                                canvasObject.linesCurrentlyDrawn.splice(j,1)
+                                lineExists = true;
+                            }
+                    } 
+                }          
             }
 
             if(!lineExists){
-                //add tempLine to the currently drawn lines array
-                canvasObject.linesCurrentlyDrawn.push(canvasObject.tempLine[0]);
-                //add the new line to All Lines drawn as well
-                canvasObject.linesAllDrawn.push(canvasObject.tempLine[0]);
+                for(var i=0;i<brokenTempLine.length;i++){
+                    //add tempLine to the currently drawn lines array
+                    canvasObject.linesCurrentlyDrawn.push(brokenTempLine[i]);
+                    //add the new line to All Lines drawn as well
+                    canvasObject.linesAllDrawn.push(canvasObject.tempLine[0]);
+
+                }
+
             }
+
             //let's add a new line into tempLine, using the x2 and y2 coordinates as the x1 and y1 of the new temp line
             canvasObject.tempLine[0] = new Line(dotCoordinateArray[0], dotCoordinateArray[1], 0, 0);
             drawLinesOrth(canvasObject, canvasObject.linesCurrentlyDrawn);

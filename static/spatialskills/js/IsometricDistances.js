@@ -344,7 +344,6 @@ function addPoint(x, y, canvasObject) {
 
             }
             
-            lineExists = false;
             //let's add a new line into tempLine, using the x2 and y2 coordinates as the x1 and y1 of the new temp line
             canvasObject.tempLine[0] = new Line(dotCoordinateArray[0], dotCoordinateArray[1], 0, 0);
             drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
@@ -422,6 +421,8 @@ function undoLine(canvasObject) {
 //function to clear the canvas
 function clearLines(canvasObject) {
     drawDots(canvasObject);
+    //leave text on canvas when all lines are clear. This is a design decision by Rosie to avoid having to create buttons for adding text.
+    drawText(canvasObject);
 
     //clear any touch points
     canvasObject.tempLine.pop();

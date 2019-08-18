@@ -31,6 +31,8 @@ function setUpExercises(){
         var current = receivedEx[i]
         var exercise = exercises[current.exercise_number-1]
         exercise.questions.push(JSON.parse(current.question_data))
+        exercise.answerType = current.answer_type
+        exercise.questionType = current.question_type
     }
 
     var receivedProg;
@@ -41,8 +43,6 @@ function setUpExercises(){
         dataType: 'json',
         success: function(res) {
             receivedProg = JSON.parse(res)
-           //console.log(receivedProg)
-            //alert(res);
         }
     });
 
@@ -54,20 +54,6 @@ function setUpExercises(){
     }
 
     //use query for this instead...
-
-    exercises[0].answerType = 'orthographic';
-    exercises[0].questionType = 'isometric'
-    exercises[1].answerType = 'isometric'
-    exercises[1].questionType = 'orthographic'
-    exercises[2].answerType = 'isometric'
-    exercises[2].questionType = 'isometric'
-    exercises[3].answerType = 'isometric'
-    exercises[3].questionType = 'isometric'
-    exercises[4].answerType = 'isometric'
-    exercises[4].questionType = 'isometric'
-    exercises[5].answerType = 'isometric'
-    exercises[5].questionType = 'isometric'
-
 
     for(var i=0;i<totalExercises;i++){
         setupQuestions(exercises[i])

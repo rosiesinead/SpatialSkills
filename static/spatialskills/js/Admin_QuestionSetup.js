@@ -188,11 +188,14 @@
         solidButton.onclick = function() {drawSolidLine(canvasObject, solidButton, dashedButton)};
         dashedButton.onclick = function() {drawDashedLine(canvasObject, dashedButton, solidButton)};
         
-        var answer = canvasObject.canvasId + "Answer";
+            
+        var frontLeftButton = document.getElementById(canvasObject.canvasId + "FrontLeftButton");
+        var frontRightButton = document.getElementById(canvasObject.canvasId + "FrontRightButton");
+        frontLeftButton.onclick = function (){enableDrawText(canvasObject, textFront, textSlopeDownToTheRightAngle, frontLeftButton, frontRightButton)};
+        frontRightButton.onclick = function (){enableDrawText(canvasObject, textFront, textSlopeUpToRightAngle, frontRightButton, frontLeftButton)};
         
-        // var checkAnswerButton = document.getElementById(canvasObject.canvasId + "CheckAnswerButton");
-        // checkAnswerButton.onclick = function () {checkAnswer(canvasObject, answer)};
-        
+        var undoFrontButton = document.getElementById(canvasObject.canvasId + "UndoFrontButton");
+        undoFrontButton.onclick = function (){undoText(canvasObject)};
     }
     
     function setUpButtonsOrth(canvasObject) { //perhaps set up as answer is a better name for function
@@ -233,7 +236,19 @@
         $(secondButton).removeClass('ui-btn-active');
     }
     
-    // for admin pages 
+    function enableDrawText(canvasObject, text, rotation, pressedButton, secondButton) {
+        var canvasElement = document.getElementById(canvasObject.canvasId);
+        enableTouchText(canvasElement, text, rotation);
+        pressedButton.style.borderStyle = "inset";
+        secondButton.style.borderStyle = "";  
+    }
+    
+    function disableDrawText() {
+        var buttonElements = document.getElementsByClassName("textButtons");
+            for(var i = 0; i < buttonElements.length; i++){
+                buttonElements[i].style.borderStyle = "";  
+            }
+    }
     
     function setUpSaveButton(exercise){
     

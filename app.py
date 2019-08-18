@@ -26,6 +26,12 @@ class Exercises(db.Model):
     question_data = db.Column(db.String(10000))
     question_answers = db.Column(db.String(1000000))
 
+#create database model for exercise types
+class Types(db.Model):
+    exercise = db.Column(db.Integer, primary_key=True)
+    answer_type = db.Column(db.String(30))
+    question_type = db.Column(db.String(30))
+
 #create database model for users table
 class Users(db.Model,UserMixin ):
     id = db.Column(db.Integer, primary_key=True)
@@ -87,7 +93,7 @@ def homepage():
 @login_required
 def admin():
     if current_user.role == 'admin':
-        #return render_template("spatialskills/Ex1_ADMIN_DrawOrthographic.html")
+       # return render_template("spatialskills/Ex5_ADMIN_RotationsMultiple.html")
         return render_template("spatialskills/Admin_Homepage.html")
     else:
         return redirect(url_for('homepage'))
@@ -177,7 +183,9 @@ def deletequestion():
 @login_required
 def getexercises():
     #change this so that we write a query that returns what we need (types)
-    dataframe = pd.read_sql_table('exercises', 'sqlite:///ssdatabase.db')
+    #dataframe = pd.read_sql_table('exercises', 'sqlite:///ssdatabase.db')
+    dataframe = pd.read_sql_query("SELECT * from exercises AS e, types AS t where e.exercise_number=t.exercise", 'sqlite:///ssdatabase.db')
+    print(dataframe)
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)
 

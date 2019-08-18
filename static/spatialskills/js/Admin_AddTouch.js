@@ -6,6 +6,10 @@
 
 //The code below also makes use of the originalevent as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo as we need the original event when making use of the JQuery bind structure
 
+/////NEED SOME REFERENCE TO TOUCHES//////////////
+//keep track of touches in progress
+var ongoingTouches = [];
+
 //////ISOMETRIC TOUCH FUNCTIONS/////////////////
 
 function enableTouch(canvas) {
@@ -16,29 +20,8 @@ function enableTouch(canvas) {
       
          
             //find the corresponding canvasObject for the touched canvas
-            var currentCanvasObject;
-            //check if touch is on an answer canvas
-            //loop through all exercises and their currentQuestion objects
-            var onAnswer = false
-            for (var i = 0; i < exercises.length; i++){
-                for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas.length; j++){
-                    if(exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j].canvasId == canvas.id){
-                        currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j];
-                        onAnswer = true;
-                    }
-                }
-            }
-            if(!onAnswer){
-                for (var i = 0; i < exercises.length; i++){
-                    for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas.length; j++){
-                        if(exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j].canvasId == canvas.id){
-                            currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j];
+            var currentCanvasObject = getCurrentCanvas(canvas.id);
 
-                        }
-                    }
-                }
-
-            }
             //find the x and y offsets of the canvas from top left of screen
             var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
@@ -60,6 +43,35 @@ function disableTouch(canvas) {
 }
 
 
+//loop through exercises to find current canvas
+//first check answer canvases and then question canvases
+function getCurrentCanvas(canvasid){
+    var currentCanvasObject;
+
+    for (var i = 0; i < exercises.length; i++){
+        for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas.length; j++){
+            if(exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j].canvasId == canvasid){
+                currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j];
+     
+            }
+        }
+    }
+
+    if(currentCanvasObject==undefined){
+        for (var i = 0; i < exercises.length; i++){
+            for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas.length; j++){
+                if(exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j].canvasId == canvasid){
+                    currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j];
+
+                }
+            }
+        }
+
+    }
+
+    return currentCanvasObject;
+}
+
 //////ORTHOGRAPHIC TOUCH FUNCTIONS/////////////////
 
 function enableTouchOrth(canvas) {
@@ -70,34 +82,10 @@ function enableTouchOrth(canvas) {
       
          
                 //find the corresponding canvasObject for the touched canvas
-                var currentCanvasObject;
-                //check if touch is on an answer canvas
-                //loop through all exercises and their currentQuestion objects
-                
-                var onAnswer = false
-                for (var i = 0; i < exercises.length; i++){
-                    for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas.length; j++){
-                        if(exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j].canvasId == canvas.id){
-                            currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j];
-                            onAnswer = true
-                        }
-                    }
-                }
-
-                if(!onAnswer){
-                    for (var i = 0; i < exercises.length; i++){
-                        for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas.length; j++){
-                            if(exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j].canvasId == canvas.id){
-                                currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j];
-
-                            }
-                        }
-                    }
-
-                }
-
-
-                //find the x and y offsets of the canvas from top left of screen
+                var currentCanvasObject = getCurrentCanvas(canvas.id);
+               
+    
+               //find the x and y offsets of the canvas from top left of screen
                 var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
                 var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
                 //pass to logic to help determine whether to add touch, and possibly a line
@@ -189,21 +177,21 @@ function handleStartText(evt, text, rotation) {
     //get the id of the touched canvas
     var targetId = evt.targetTouches[0].target.id;
     //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject;
+    var currentCanvasObject = getCurrentCanvas(targetId)
     //check if touch is on an answer canvas
-    for (var i = 0; i < question.answerCanvas.length; i++ ){
-        if(question.answerCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.answerCanvas[i];
-        }
-    }
-    //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    if (currentCanvasObject == undefined){
-        for (var i = 0; i < question.questionCanvas.length; i++ ){
-            if(question.questionCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.questionCanvas[i];
-            }
-        }
-    }
+    // for (var i = 0; i < question.answerCanvas.length; i++ ){
+    //     if(question.answerCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.answerCanvas[i];
+    //     }
+    // }
+    // //necessary to check if touch is actually on a question canvas (only for ADMIN)
+    // if (currentCanvasObject == undefined){
+    //     for (var i = 0; i < question.questionCanvas.length; i++ ){
+    //         if(question.questionCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.questionCanvas[i];
+    //         }
+    //     }
+    // }
     //track ongoing touches
     var touches = evt.changedTouches;   
     for (var i = 0; i < touches.length; i++) {
@@ -226,21 +214,21 @@ function handleStartAxes(evt, axis, axisLabel) {
     //get the id of the touched canvas
     var targetId = evt.targetTouches[0].target.id;
     //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject;
+    var currentCanvasObject = getCurrentCanvas(targetId)
     //check if touch is on an answer canvas
-    for (var i = 0; i < question.answerCanvas.length; i++ ){
-        if(question.answerCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.answerCanvas[i];
-        }
-    }
-    //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    if (currentCanvasObject == undefined){
-        for (var i = 0; i < question.questionCanvas.length; i++ ){
-            if(question.questionCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.questionCanvas[i];
-            }
-        }
-    }
+    // for (var i = 0; i < question.answerCanvas.length; i++ ){
+    //     if(question.answerCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.answerCanvas[i];
+    //     }
+    // }
+    // //necessary to check if touch is actually on a question canvas (only for ADMIN)
+    // if (currentCanvasObject == undefined){
+    //     for (var i = 0; i < question.questionCanvas.length; i++ ){
+    //         if(question.questionCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.questionCanvas[i];
+    //         }
+    //     }
+    // }
     //track ongoing touches
     var touches = evt.changedTouches;   
     for (var i = 0; i < touches.length; i++) {
@@ -263,21 +251,21 @@ function handleStartTrails(evt, axis) {
     //get the id of the touched canvas
     var targetId = evt.targetTouches[0].target.id;
     //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject;
+    var currentCanvasObject = getCurrentCanvas(targetId)
     //check if touch is on an answer canvas
-    for (var i = 0; i < question.answerCanvas.length; i++ ){
-        if(question.answerCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.answerCanvas[i];
-        }
-    }
-    //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    if (currentCanvasObject == undefined){
-        for (var i = 0; i < question.questionCanvas.length; i++ ){
-            if(question.questionCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.questionCanvas[i];
-            }
-        }
-    }
+    // for (var i = 0; i < question.answerCanvas.length; i++ ){
+    //     if(question.answerCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.answerCanvas[i];
+    //     }
+    // }
+    // //necessary to check if touch is actually on a question canvas (only for ADMIN)
+    // if (currentCanvasObject == undefined){
+    //     for (var i = 0; i < question.questionCanvas.length; i++ ){
+    //         if(question.questionCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.questionCanvas[i];
+    //         }
+    //     }
+    // }
     //track ongoing touches
     var touches = evt.changedTouches;   
     for (var i = 0; i < touches.length; i++) {
@@ -301,21 +289,21 @@ function handleStartMirror(evt, mirrorCanvasObject) {
     //get the id of the touched canvas
     var targetId = evt.targetTouches[0].target.id;
     //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject;
+    var currentCanvasObject = getCurrentCanvas(targetId)
     //check if touch is on an answer canvas
-    for (var i = 0; i < question.answerCanvas.length; i++ ){
-        if(question.answerCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.answerCanvas[i];
-        }
-    }
-    //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    if (currentCanvasObject == undefined){
-        for (var i = 0; i < question.questionCanvas.length; i++ ){
-            if(question.questionCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.questionCanvas[i];
-            }
-        }
-    }
+    // for (var i = 0; i < question.answerCanvas.length; i++ ){
+    //     if(question.answerCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.answerCanvas[i];
+    //     }
+    // }
+    // //necessary to check if touch is actually on a question canvas (only for ADMIN)
+    // if (currentCanvasObject == undefined){
+    //     for (var i = 0; i < question.questionCanvas.length; i++ ){
+    //         if(question.questionCanvas[i].canvasId == targetId){
+    //         currentCanvasObject = question.questionCanvas[i];
+    //         }
+    //     }
+    // }
     //track ongoing touches
     var touches = evt.changedTouches;   
     for (var i = 0; i < touches.length; i++) {
