@@ -130,6 +130,7 @@ def editquestion():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
+    print(dataToDict)
     #data from dictionary and store in variables
     exerciseNumber = dataToDict["exerciseNumber"]
     questionNumber = dataToDict["questionNumber"]
@@ -137,9 +138,19 @@ def editquestion():
     questionAnswers = dataToDict["questionAnswers"]
     #Get question from database and update
     getQuestion = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
-    getQuestion.question_data = questionData
-    getQuestion.question_answers = questionAnswers       
-    db.session.commit()
+    if getQuestion:
+        getQuestion.question_data = questionData
+        getQuestion.question_answers = questionAnswers       
+        print("already exists")
+        db.session.commit()
+    else:
+        print("add new")
+        newExercise = Exercises(exercise_number=exerciseNumber, question_number=questionNumber,question_data=questionData, question_answers=questionAnswers)
+    #commit to database
+        db.session.add(newExercise)
+        db.session.commit()
+        #db.session.execute(Exercises.__table__.insert(), dataToDict)
+        #db.session.commit()
     return ""
     
 #delete a question from the database

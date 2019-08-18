@@ -11,7 +11,7 @@ function setupQuestions(exercise){
         
         
         if(exercise.questionType == iso){
-                                //for each isometric question canvas (only 1 at the moment)
+                //for each isometric question canvas (only 1 at the moment)
             for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
                 //draw dots on the isometric canvas
                 drawDots(exercise.questions[exercise.currentQuestion - 1].questionCanvas[i]);
@@ -50,7 +50,7 @@ function setupQuestions(exercise){
                 
                 //set up touch for the orthographic canvas
                 enableTouchOrth(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
-                
+                console.log("testing touch passed")
                 //clear any p tags with feedback
                 clearPTags(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
                 //set up labels for feedback, only required for this exercise

@@ -13,7 +13,6 @@
 
 function startupEx1() {
 
-     
     // //set up button to write question object to JSON
     var writeToDBButton = document.getElementById("writeToDBButton");
     writeToDBButton.onclick = function() {
@@ -34,6 +33,7 @@ function startupEx1() {
         question.questionCanvas.push(canvasObj);
         var canvasElement = document.getElementById(question.questionCanvas[i].canvasId); 
         enableTouch(canvasElement);
+        
     } 
     
     //create a new CanvasObject for each orthographic canvas and add to the Question object's answerCanvas array

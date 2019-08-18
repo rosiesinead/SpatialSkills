@@ -1,124 +1,124 @@
-//touch functionality used by the admin html pages, with separate touch for Isometric and Orthographic grids
-//the functions below have been created with help from the Mozilla Developer Network Canvas Totorials https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial
+//touch functionality used by the main app, with separate touch for Isometric and Orthographic grids
+//the function below have been created with help from the Mozilla Developer Network Canvas Totorials https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial
+//However, with use of jquery and bind events, the addition and removal of touch is much simpler than with JavaScript. 
 
-//The functions below are using native JavaScript to handle touch events and disable them but this would probably be easier with JQuery as shown and described in AddTouch.js
-//As a result of using native JavaScript with anonymous functions, a method suggested by user Sudipta Kumar Maiti on stackoverflow was used to help remove event listeners: https://stackoverflow.com/questions/33786630/removeeventlistener-and-anonymous-function-with-arguments
+//The code below uses the JQuery bind structure posted by Levarne Sobotker on stackoverflow: https://stackoverflow.com/questions/7069458/prevent-touchstart-when-swiping as this ensures that scrolling can be enabled, rather than a touch, if the user attempts to scroll.
 
-//The functions below as they are, are indebted to the tutorials mentioned aboved from the Mozilla Developer Network with some of the later functions from this website stored at the bottom of this page even though they are not currently used as they could be modified and made use of at a later date.
-
-/////NEED SOME REFERENCE TO TOUCHES//////////////
-//keep track of touches in progress
-var ongoingTouches = [];
-
+//The code below also makes use of the originalevent as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo as we need the original event when making use of the JQuery bind structure
 
 //////ISOMETRIC TOUCH FUNCTIONS/////////////////
 
 function enableTouch(canvas) {
     //this enables touch for the canvas object
-    canvas.addEventListener("touchstart", handleStart, false);
-    canvas.addEventListener("touchend", handleEnd, false);
-    canvas.addEventListener("touchcancel", handleCancel, false);
-    canvas.addEventListener("touchmove", handleMove, false);
+    //Based upon JQuery bind structure posted by Levarne Sobotker on stackoverflow: https://stackoverflow.com/questions/7069458/prevent-touchstart-when-swiping
+    $('#' + canvas.id).on('vmouseup', function(e){
+        if(touchmoved != true){
+      
+         
+            //find the corresponding canvasObject for the touched canvas
+            var currentCanvasObject;
+            //check if touch is on an answer canvas
+            //loop through all exercises and their currentQuestion objects
+            var onAnswer = false
+            for (var i = 0; i < exercises.length; i++){
+                for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas.length; j++){
+                    if(exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j].canvasId == canvas.id){
+                        currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j];
+                        onAnswer = true;
+                    }
+                }
+            }
+            if(!onAnswer){
+                for (var i = 0; i < exercises.length; i++){
+                    for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas.length; j++){
+                        if(exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j].canvasId == canvas.id){
+                            currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j];
 
+                        }
+                    }
+                }
+
+            }
+            //find the x and y offsets of the canvas from top left of screen
+            var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+            var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+            //pass to logic to help determine whether to add touch, and possibly a line
+            addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
+        }
+    }).on('vmousemove', function(e){
+        touchmoved = true;
+        
+    }).on('vmousedown', function(e){
+        touchmoved = false; 
+        touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+    });
 }
     
 function disableTouch(canvas) {
     //this disables touch for the canvas object
-    canvas.removeEventListener("touchstart", handleStart, false);
-    canvas.removeEventListener("touchend", handleEnd, false);
-    canvas.removeEventListener("touchcancel", handleCancel, false);
-    canvas.removeEventListener("touchmove", handleMove, false);
+    $('#' + canvas.id).unbind('vmouseup');
 }
 
-//function to handleStart during an exercise or question
-//touch will only take place on answerCanvas
-function handleStart(evt) { 
-    //prevent mouseclick being processed too
-    evt.preventDefault(); 
-    //get the id of the touched canvas
-    var targetId = evt.targetTouches[0].target.id;
-    //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject;
-    //check if touch is on an answer canvas
-    for (var i = 0; i < question.answerCanvas.length; i++ ){
-        if(question.answerCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.answerCanvas[i];
-        }
-    }
-    //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    if (currentCanvasObject == undefined){
-        for (var i = 0; i < question.questionCanvas.length; i++ ){
-            if(question.questionCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.questionCanvas[i];
-            }
-        }
-    }
-    //track ongoing touches
-    var touches = evt.changedTouches;   
-    for (var i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        //find the x and y offsets of the canvas from top left of screen
-        var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
-        var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
-        //pass to logic to help determine whether to add touch, and possibly a line
-        addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, currentCanvasObject);
-    }
-}
 
 //////ORTHOGRAPHIC TOUCH FUNCTIONS/////////////////
 
 function enableTouchOrth(canvas) {
     //this enables touch for the canvas object
-    canvas.addEventListener("touchstart", handleStartOrth, false);
-    canvas.addEventListener("touchend", handleEnd, false);
-    canvas.addEventListener("touchcancel", handleCancel, false);
-    canvas.addEventListener("touchmove", handleMove, false);
+    //Based upon JQuery bind structure posted by Levarne Sobotker on stackoverflow: https://stackoverflow.com/questions/7069458/prevent-touchstart-when-swiping
+        $('#' + canvas.id).on('vmouseup', function(e){
+            if(touchmoved != true){
+      
+         
+                //find the corresponding canvasObject for the touched canvas
+                var currentCanvasObject;
+                //check if touch is on an answer canvas
+                //loop through all exercises and their currentQuestion objects
+                
+                var onAnswer = false
+                for (var i = 0; i < exercises.length; i++){
+                    for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas.length; j++){
+                        if(exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j].canvasId == canvas.id){
+                            currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].answerCanvas[j];
+                            onAnswer = true
+                        }
+                    }
+                }
+
+                if(!onAnswer){
+                    for (var i = 0; i < exercises.length; i++){
+                        for (var j = 0; j < exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas.length; j++){
+                            if(exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j].canvasId == canvas.id){
+                                currentCanvasObject = exercises[i].questions[exercises[i].currentQuestion-1].questionCanvas[j];
+
+                            }
+                        }
+                    }
+
+                }
+
+
+                //find the x and y offsets of the canvas from top left of screen
+                var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+                var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+                //pass to logic to help determine whether to add touch, and possibly a line
+                addPointOrth(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
+            }
+        }).on('vmousemove', function(e){
+            touchmoved = true;
+        
+        }).on('vmousedown', function(e){
+            touchmoved = false; 
+            touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+        });
 }
     
 function disableTouchOrth(canvas) {
     //this disables touch for the canvas object
-    canvas.removeEventListener("touchstart", handleStartOrth, false);
-    canvas.removeEventListener("touchend", handleEnd, false);
-    canvas.removeEventListener("touchcancel", handleCancel, false);
-    canvas.removeEventListener("touchmove", handleMove, false);
+    $('#' + canvas.id).unbind('vmouseup');
 }
 
-//function to handleStart during an exercise or question
-//touch will only take place on answerCanvas
-function handleStartOrth(evt) { 
-    //prevent mouseclick being processed too
-    evt.preventDefault(); 
-    //get the id of the touched canvas
-    var targetId = evt.targetTouches[0].target.id;
-    //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject;
-    //check if touch is on an answer canvas
-    for (var i = 0; i < question.answerCanvas.length; i++ ){
-        if(question.answerCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.answerCanvas[i];
-        }
-    }
-    //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    if (currentCanvasObject == undefined){
-        for (var i = 0; i < question.questionCanvas.length; i++ ){
-            if(question.questionCanvas[i].canvasId == targetId){
-            currentCanvasObject = question.questionCanvas[i];
-            }
-        }
-    }
-    //track ongoing touches
-    var touches = evt.changedTouches;   
-    for (var i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        //find the x and y offsets of the canvas from top left of screen
-        var xOffSet = $("#" + currentCanvasObject.canvasId).position().left;
-        var yOffSet = $("#" + currentCanvasObject.canvasId).position().top;
-        //pass to logic to help determine whether to add touch, and possibly a line
-        addPointOrth(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, currentCanvasObject);
-    }
-}
-
-
+///////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
 //////OTHER TOUCH FUNCTIONS//////////////////////
 
 //variable to help remove eventlisteners with anonymous functions as described by by user Sudipta Kumar Maiti on stackoverflow: https://stackoverflow.com/questions/33786630/removeeventlistener-and-anonymous-function-with-arguments

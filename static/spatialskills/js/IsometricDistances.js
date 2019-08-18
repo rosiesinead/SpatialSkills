@@ -96,6 +96,7 @@ var trailYRotation = 180;
 //set zAxis rotation
 var trailZRotation = 60;
 
+
 ///////////ISOMETRIC GRID HELPER FUNCTIONS//////////////////////////////
 
 //function to work out the length of one side of a triangle
@@ -415,6 +416,7 @@ function clearLines(canvasObject) {
 
     //clear any touch points
     canvasObject.tempLine.pop();
+    
     //remove all lines from the lines currently drawn, but add them to linesAllDrawn to keep a record of the lines cleared
     for (var i = 0; i < canvasObject.linesCurrentlyDrawn; i++){
         canvasObject.linesAllDrawn.push(canvasObject.linesCurrentlyDrawn[i]);
