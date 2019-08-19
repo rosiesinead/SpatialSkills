@@ -136,7 +136,6 @@ def editquestion():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
-    print(dataToDict)
     #data from dictionary and store in variables
     exerciseNumber = dataToDict["exerciseNumber"]
     questionNumber = dataToDict["questionNumber"]
@@ -152,11 +151,11 @@ def editquestion():
     else:
         print("add new")
         newExercise = Exercises(exercise_number=exerciseNumber, question_number=questionNumber,question_data=questionData, question_answers=questionAnswers)
-    #commit to database
+        #commit to database
         db.session.add(newExercise)
         db.session.commit()
-        #db.session.execute(Exercises.__table__.insert(), dataToDict)
-        #db.session.commit()
+        db.session.execute(Exercises.__table__.insert(), dataToDict)
+        db.session.commit()
     return ""
     
 #delete a question from the database

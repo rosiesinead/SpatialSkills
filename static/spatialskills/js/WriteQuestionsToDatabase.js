@@ -34,13 +34,15 @@
 
 function writeQuestionToDb(question,exerciseNumber,questionNumber){
 
-    //update answer with any changes to question canvas
+    // //update answer with any changes to question canvas
     updateCorrectAnswer(question.questionCanvas)
-    //update answer with any changes to answer canvas
+    // //update answer with any changes to answer canvas
     updateCorrectAnswer(question.answerCanvas)
    
     // make a copy to save as answers
     var questionAnswers = JSON.parse(JSON.stringify(question));
+
+   // var questionAnswers = getAnswers(question)
   
 
     //clear lines on answer canvas so ready for user
@@ -67,9 +69,11 @@ function writeQuestionToDb(question,exerciseNumber,questionNumber){
 
 }
 
-function updateCorrectAnswer(canvas){
 
-    //add lines currently drawn to correct on the question canvas
+ //add lines currently drawn to correct on the question canvas
+ //to be used when editing/creating a question
+
+function updateCorrectAnswer(canvas){
 
    // var questionUpdates = JSON.parse(JSON.stringify(question));
 
@@ -93,13 +97,12 @@ function getAnswers(question){
 
     //add the correct answer onto the answer canvas so that it will be visible to admin
     for (var i = 0; i < questionAnswers.answerCanvas.length; i++){
-        questionAnswers.answerCanvas[i].linesCurrentlyDrawn = []
-        for(var j=0; j<questionAnswers.answerCanvas[i].correctAnswer.length;j++){ 
-            questionAnswers.answerCanvas[i].linesCurrentlyDrawn.push(questionAnswers.answerCanvas[i].correctAnswer[j])    
-        }
-        
-    } 
-
+        writeCorrectAnswerToLinesCurrentlyDrawn(questionAnswers.answerCanvas[i])
+    }
+    //add the correct answer onto the question canvas so that it can be edited
+    for (var i = 0; i < questionAnswers.questionCanvas.length; i++){
+        writeCorrectAnswerToLinesCurrentlyDrawn(questionAnswers.questionCanvas[i])
+    }
     return questionAnswers;
 
 }
@@ -123,22 +126,51 @@ function deleteAQuestion(exerciseNumber,questionNumber){
 
 }
 
+//first break up the correct answer and put it back
+//get the answers and copy them on the canvases
+//save this as the answers
+//then remove correct answer from answer canvas 
+// function breakUp(exercise){
+//     console.log(exercise.num)
+//     for(var i=0;i<exercise.questions.length;i++){
+//         breakLinesForDB(exercise.questions[i].answerCanvas,exercise.answerType)
+//         breakLinesForDB(exercise.questions[i].questionCanvas,exercise.questionType)
+//         writeQuestionToDb(exercise.questions[i],exercise.num,i+1)
+   
+//     }
+
+    
+// }
 
 //come back to this.... need to add the question correct answer to the question lines array
-function updateQuestions(){
 
-    for(var i=0;exercises.length;i++){
-        for(var j=0; exercises[i].questions.length;i++){
-            for(var k=0;exercises[i].questions[j].questionCanvas.length;k++){
-                for(var l=0;exercises[i].questions[j].questionCanvas[k].correctAnswer.length;l++){
-                    exercises[i].questions[j].questionCanvas[k].linesCurrentlyDrawn.push(exercises[i].questions[j].questionCanvas[k].correctAnswer[l]);
-                }
-                
+//this basically breaks up the correct answer and copies in back into correct answer and then also into linesCurrentlyDRawn
+// function breakLinesForDB(canvasArray,type){
+    
+// //loop through each canvas and break up correct answer and then put it back again
+//     for(var i=0;i<canvasArray.length;i++){ 
+        
 
-            }
-        }
+//         if(type =="isometric"){
+//             var breakCorrect = breakUpAllLines(canvasArray[i].correctAnswer);
+
+//         }else if(type=="orthographic"){
+//             var breakCorrect = breakUpAllLinesOrth(canvasArray[i].correctAnswer);
+
+//         }      
+//         //clear the correct answer and add the broken correct answer
+//         canvasArray[i].correctAnswer = []
+//         for(var j=0;j<breakCorrect.length;j++){
+//             canvasArray[i].correctAnswer.push(breakCorrect[j]);
+//         }
+//     }             
+// }
+
+function writeCorrectAnswerToLinesCurrentlyDrawn(canvasObject){
+    //first clear linesCurrentlyDrawn
+    canvasObject.linesCurrentlyDrawn = []
+    for(var j=0;j<canvasObject.correctAnswer.length;j++){
+        //add correct answer to linesCurrentlyDrawn
+        canvasObject.linesCurrentlyDrawn.push(canvasObject.correctAnswer[j]);
     }
 }
-
-
-

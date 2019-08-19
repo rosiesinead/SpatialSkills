@@ -421,8 +421,6 @@ function undoLine(canvasObject) {
 //function to clear the canvas
 function clearLines(canvasObject) {
     drawDots(canvasObject);
-    //leave text on canvas when all lines are clear. This is a design decision by Rosie to avoid having to create buttons for adding text.
-    drawText(canvasObject);
 
     //clear any touch points
     canvasObject.tempLine.pop();

@@ -652,6 +652,15 @@
 
                                 <button id="isometricPreImageEx5SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx5DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
                                 <button id="isometricPreImageEx5DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
+                                    <div>
+                                        <button id="isometricPreImageEx5xAxis" data-inline="true" class="axisButtons">Draw X-axis</button>
+                                        <button id="isometricPreImageEx5yAxis" data-inline="true" class="axisButtons">Draw Y-axis</button>
+                                        <button id="isometricPreImageEx5zAxis" data-inline="true" class="axisButtons">Draw Z-axis</button>
+                                    </div>
+                                    <div>
+                                            <button id="isometricPreImageEx5UndoAxisButton"data-inline="true">Undo Axis</button>
+                                            <button id="isometricPreImageEx5ClearAxesButton"data-inline="true">Clear Axes</button>
+                                    </div>
                                
                             </div>
                         </div>
@@ -684,19 +693,18 @@
                          <div>
                              <div style="display:inline;position:relative">
                                  <canvas id="rotationsEx5" width="300" height="100">Your browser does not support the canvas element.</canvas>
-                             </div>
-                            
-                                    <div>
-                                        <button id="isometricPreImageEx5xAxis" data-inline="true" class="axisButtons">Draw X-axis</button>
-                                        <button id="isometricPreImageEx5yAxis" data-inline="true" class="axisButtons">Draw Y-axis</button>
-                                        <button id="isometricPreImageEx5zAxis" data-inline="true" class="axisButtons">Draw Z-axis</button>
+                                 <div>
+                                        <button id="posX">--&gt;X</button>
+                                        <button id="posY">--&gt;Y</button>
+                                        <button id="posZ">--&gt;Z</button>
+                                        <button id="rotationsEx5UndoButton">Undo Rotation</button>
+                                        <button id="rotationsEx5ClearButton">Clear Rotations</button>
+                                      </div>
+                                      <div>
+                                        <button id="negX">&lt;--X</button>
+                                        <button id="negY">&lt;--Y</button>
+                                        <button id="negZ">&lt;--Z</button>
                                     </div>
-                                    <div>
-                                            <button id="isometricPreImageEx5UndoAxisButton"data-inline="true">Undo Axis</button>
-                                            <button id="isometricPreImageEx5ClearAxesButton"data-inline="true">Clear Axes</button>
-                                    </div>
-                      
-                         </div> 
                          <div> 
                                 <button id="Ex5SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
                                 <button id="Ex5DeleteButton" data-inline="true" style="background-color: #f5e2bf" >Delete Question</button>

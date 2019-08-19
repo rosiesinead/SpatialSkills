@@ -191,11 +191,22 @@
             
         var frontLeftButton = document.getElementById(canvasObject.canvasId + "FrontLeftButton");
         var frontRightButton = document.getElementById(canvasObject.canvasId + "FrontRightButton");
-        frontLeftButton.onclick = function (){enableDrawText(canvasObject, textFront, textSlopeDownToTheRightAngle, frontLeftButton, frontRightButton)};
-        frontRightButton.onclick = function (){enableDrawText(canvasObject, textFront, textSlopeUpToRightAngle, frontRightButton, frontLeftButton)};
+        
+        if(frontLeftButton!=null){
+            frontLeftButton.onclick = function (){enableDrawText(canvasObject, textFront, textSlopeDownToTheRightAngle, frontLeftButton, frontRightButton)};
+
+        }
+        if(frontRightButton!=null){
+            frontRightButton.onclick = function (){enableDrawText(canvasObject, textFront, textSlopeUpToRightAngle, frontRightButton, frontLeftButton)};
+
+        }
+       
         
         var undoFrontButton = document.getElementById(canvasObject.canvasId + "UndoFrontButton");
-        undoFrontButton.onclick = function (){undoText(canvasObject)};
+        if(undoFrontButton!=null){
+            undoFrontButton.onclick = function (){undoText(canvasObject)};
+        }
+        
     }
     
     function setUpButtonsOrth(canvasObject) { //perhaps set up as answer is a better name for function
@@ -254,12 +265,11 @@
     
         var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
         saveQuestionButton.onclick = function() {
-            if(confirm("Are you sure you want to save changes?"))
-            console.log(exercise.num)
-            console.log(exercise.currentQuestion)
+            if(confirm("Are you sure you want to save changes?")){
             writeQuestionToDb(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
-       
+           //breakUp(exercise)
         }
+    }
     
     function setUpDeleteButton(exercise){
     

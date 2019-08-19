@@ -6,9 +6,6 @@
 
 //The code below also makes use of the originalevent as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo as we need the original event when making use of the JQuery bind structure
 
-/////NEED SOME REFERENCE TO TOUCHES//////////////
-//keep track of touches in progress
-var ongoingTouches = [];
 
 //////ISOMETRIC TOUCH FUNCTIONS/////////////////
 
@@ -113,145 +110,232 @@ function disableTouchOrth(canvas) {
 var myAnonymous = null
 
 function enableTouchText(canvas, text, rotation) {
-    //we have to disable drawing lines on the canvas while we add text (only isometric)
     disableTouch(canvas);
-    //this enables touch for the canvas object and sets it to handle placing text with touch
-    canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartText(evt, text,rotation);}, false);
+
+    $('#' + canvas.id).on('vmouseup', function(e){
+        if(touchmoved != true){
+       
+            //find the corresponding canvasObject for the touched canvas
+            var currentCanvasObject = getCurrentCanvas(canvas.id);
+
+            //find the x and y offsets of the canvas from top left of screen
+            var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+            var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+
+           //this enables touch for the canvas object and sets it to handle placing text with touch
+            addGridText(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, text, rotation);
+        }
+    }).on('vmousemove', function(e){
+        touchmoved = true;
+        
+    }).on('vmousedown', function(e){
+        touchmoved = false; 
+        touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+    });
 }
+
     
-function disableTouchText(canvas, text, rotation) {
-    //this disables touch for the canvas object in terms of placing text
-    canvas.removeEventListener("touchstart", myAnonymous);
-    //deselect the adding text buttons
-    disableDrawText();
-    //we have to then enable the drawing of lines again (only isometric)
-    enableTouch(canvas);
-}
+// function disableTouchText(canvas, text, rotation) {
+//     //this disables touch for the canvas object in terms of placing text
+//     canvas.removeEventListener("touchstart", myAnonymous);
+//     //deselect the adding text buttons
+//     disableDrawText();
+//     //we have to then enable the drawing of lines again (only isometric)
+//     enableTouch(canvas);
+// }
 
 function enableTouchAxes(canvas, axis, axisLabel) {
     //we have to disable drawing lines on the canvas while we add axis (only isometric)
     disableTouch(canvas);
+    $('#' + canvas.id).on('vmouseup', function(e){
+        if(touchmoved != true){
+       
+            //find the corresponding canvasObject for the touched canvas
+            var currentCanvasObject = getCurrentCanvas(canvas.id);
+
+            //find the x and y offsets of the canvas from top left of screen
+            var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+            var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+
+           //this enables touch for the canvas object and sets it to handle placing text with touch
+           addGridAxis(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis, axisLabel);
+        }
+    }).on('vmousemove', function(e){
+        touchmoved = true;
+        
+    }).on('vmousedown', function(e){
+        touchmoved = false; 
+        touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+    });
+
     //this enables touch for the canvas object and sets it to handle placing axis with touch
-    canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartAxes(evt, axis, axisLabel);}, false);
+   // canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartAxes(evt, axis, axisLabel);}, false);
 }
     
-function disableTouchAxes(canvas, axis, axisLabel) {
-    //this disables touch for the canvas object in terms of placing axes
-    canvas.removeEventListener("touchstart", myAnonymous);
-    //deselect the adding axes buttons
-    disableDrawAxes();
-    //we have to then enable the drawing of lines again (only isometric)
-    enableTouch(canvas);
-}
+// function disableTouchAxes(canvas, axis, axisLabel) {
+//     //this disables touch for the canvas object in terms of placing axes
+//     canvas.removeEventListener("touchstart", myAnonymous);
+//     //deselect the adding axes buttons
+//     disableDrawAxes();
+//     //we have to then enable the drawing of lines again (only isometric)
+//     enableTouch(canvas);
+// }
 
 function enableTouchTrails(canvas, axis) {
     //we have to disable drawing lines on the canvas while we add trail (only isometric)
     disableTouch(canvas);
-    //this enables touch for the canvas object and sets it to handle placing trail with touch
-    canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartTrails(evt, axis);}, false);
+    $('#' + canvas.id).on('vmouseup', function(e){
+        if(touchmoved != true){
+       
+            //find the corresponding canvasObject for the touched canvas
+            var currentCanvasObject = getCurrentCanvas(canvas.id);
+
+            //find the x and y offsets of the canvas from top left of screen
+            var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+            var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+
+           //this enables touch for the canvas object and sets it to handle placing text with touch
+           addGridTrails(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis);
+        }
+    }).on('vmousemove', function(e){
+        touchmoved = true;
+        
+    }).on('vmousedown', function(e){
+        touchmoved = false; 
+        touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+    });
+    // //this enables touch for the canvas object and sets it to handle placing trail with touch
+    // canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartTrails(evt, axis);}, false);
 }
     
-function disableTouchTrails(canvas, axis) {
-    //this disables touch for the canvas object in terms of placing trails
-    canvas.removeEventListener("touchstart", myAnonymous);
-    //deselect the adding trail buttons
-    disableDrawTrails();
-    //we have to then enable the drawing of lines again (only isometric)
-    enableTouch(canvas);
-}
+// function disableTouchTrails(canvas, axis) {
+//     //this disables touch for the canvas object in terms of placing trails
+//     canvas.removeEventListener("touchstart", myAnonymous);
+//     //deselect the adding trail buttons
+//     disableDrawTrails();
+//     //we have to then enable the drawing of lines again (only isometric)
+//     enableTouch(canvas);
+// }
 
 function enableTouchMirror(canvas, mirrorCanvasObject) {
-    //this enables touch for the canvas object and sets it to handle touch and mirrors on other canvas
-    canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartMirror(evt, mirrorCanvasObject);}, false);
+
+    disableTouch(canvas);
+    $('#' + canvas.id).on('vmouseup', function(e){
+        if(touchmoved != true){
+       
+            //find the corresponding canvasObject for the touched canvas
+            var currentCanvasObject = getCurrentCanvas(canvas.id);
+
+            //find the x and y offsets of the canvas from top left of screen
+            var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+            var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+
+               //pass to logic to help determine whether to add touch, and possibly a line
+    addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, currentCanvasObject);
+    //add the same touches to the mirror canvas to help with admin
+    addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, mirrorCanvasObject);
+        }
+    }).on('vmousemove', function(e){
+        touchmoved = true;
+        
+    }).on('vmousedown', function(e){
+        touchmoved = false; 
+        touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+    });
+
+
 }
+//     //this enables touch for the canvas object and sets it to handle touch and mirrors on other canvas
+//     canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartMirror(evt, mirrorCanvasObject);}, false);
+// }
     
-function disableTouchMirror(canvas, axis) {
-    //this disables touch for the canvas object in terms of placing trails
-    canvas.removeEventListener("touchstart", myAnonymous);
-}
+// function disableTouchMirror(canvas, axis) {
+//     //this disables touch for the canvas object in terms of placing trails
+//     canvas.removeEventListener("touchstart", myAnonymous);
+// }
 
 //function to handleStartText - i.e. when placing some text on the canvas
-function handleStartText(evt, text, rotation) { 
-    //prevent mouseclick being processed too
-    evt.preventDefault(); 
-    //get the id of the touched canvas
-    var targetId = evt.targetTouches[0].target.id;
-    //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject = getCurrentCanvas(targetId)
-    //check if touch is on an answer canvas
-    // for (var i = 0; i < question.answerCanvas.length; i++ ){
-    //     if(question.answerCanvas[i].canvasId == targetId){
-    //         currentCanvasObject = question.answerCanvas[i];
-    //     }
-    // }
-    // //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    // if (currentCanvasObject == undefined){
-    //     for (var i = 0; i < question.questionCanvas.length; i++ ){
-    //         if(question.questionCanvas[i].canvasId == targetId){
-    //         currentCanvasObject = question.questionCanvas[i];
-    //         }
-    //     }
-    // }
-    //track ongoing touches
-    var touches = evt.changedTouches;   
-    for (var i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        //find the x and y offsets of the canvas from top left of screen
-        var xOffSet = $("#" + currentCanvasObject.canvasId).position().left;
-        var yOffSet = $("#" + currentCanvasObject.canvasId).position().top;
-        //pass to logic to help determine whether to add touch, and possibly a line
-        addGridText(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, text, rotation);
-    }
-    //remove the event listener when first touch has completed
-    var canvasElement = document.getElementById(targetId);
-    disableTouchText(canvasElement, text, rotation);
-}
+// function handleStartText(evt, text, rotation) { 
+//     //prevent mouseclick being processed too
+//     evt.preventDefault(); 
+//     //get the id of the touched canvas
+//     var targetId = evt.targetTouches[0].target.id;
+//     //find the corresponding canvasObject for the touched canvas
+//     var currentCanvasObject = getCurrentCanvas(targetId)
+//     //check if touch is on an answer canvas
+//     // for (var i = 0; i < question.answerCanvas.length; i++ ){
+//     //     if(question.answerCanvas[i].canvasId == targetId){
+//     //         currentCanvasObject = question.answerCanvas[i];
+//     //     }
+//     // }
+//     // //necessary to check if touch is actually on a question canvas (only for ADMIN)
+//     // if (currentCanvasObject == undefined){
+//     //     for (var i = 0; i < question.questionCanvas.length; i++ ){
+//     //         if(question.questionCanvas[i].canvasId == targetId){
+//     //         currentCanvasObject = question.questionCanvas[i];
+//     //         }
+//     //     }
+//     // }
+//     //track ongoing touches
+//     var touches = evt.changedTouches;   
+//     for (var i = 0; i < touches.length; i++) {
+//         ongoingTouches.push(copyTouch(touches[i]));
+//         //find the x and y offsets of the canvas from top left of screen
+//         var xOffSet = $("#" + currentCanvasObject.canvasId).position().left;
+//         var yOffSet = $("#" + currentCanvasObject.canvasId).position().top;
+//         //pass to logic to help determine whether to add touch, and possibly a line
+//         addGridText(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, text, rotation);
+//     }
+//     //remove the event listener when first touch has completed
+//     var canvasElement = document.getElementById(targetId);
+//     disableTouchText(canvasElement, text, rotation);
+// }
 
-//function to handleStartText - i.e. when placing some text on the canvas
-function handleStartAxes(evt, axis, axisLabel) { 
-    //prevent mouseclick being processed too
-    evt.preventDefault(); 
-    //get the id of the touched canvas
-    var targetId = evt.targetTouches[0].target.id;
-    //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject = getCurrentCanvas(targetId)
-    //check if touch is on an answer canvas
-    // for (var i = 0; i < question.answerCanvas.length; i++ ){
-    //     if(question.answerCanvas[i].canvasId == targetId){
-    //         currentCanvasObject = question.answerCanvas[i];
-    //     }
-    // }
-    // //necessary to check if touch is actually on a question canvas (only for ADMIN)
-    // if (currentCanvasObject == undefined){
-    //     for (var i = 0; i < question.questionCanvas.length; i++ ){
-    //         if(question.questionCanvas[i].canvasId == targetId){
-    //         currentCanvasObject = question.questionCanvas[i];
-    //         }
-    //     }
-    // }
-    //track ongoing touches
-    var touches = evt.changedTouches;   
-    for (var i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        //find the x and y offsets of the canvas from top left of screen
-        var xOffSet = $("#" + currentCanvasObject.canvasId).position().left;
-        var yOffSet = $("#" + currentCanvasObject.canvasId).position().top;
-        //pass to logic to help determine whether to add touch, and possibly a line
-        addGridAxis(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis, axisLabel);
-    }
-    //remove the event listener when first touch has completed
-    var canvasElement = document.getElementById(targetId);
-    disableTouchAxes(canvasElement, axis, axisLabel);
-}
+// //function to handleStartText - i.e. when placing some text on the canvas
+// function handleStartAxes(evt, axis, axisLabel) { 
+//     //prevent mouseclick being processed too
+//     evt.preventDefault(); 
+//     //get the id of the touched canvas
+//     var targetId = evt.targetTouches[0].target.id;
+//     //find the corresponding canvasObject for the touched canvas
+//     var currentCanvasObject = getCurrentCanvas(targetId)
+//     //check if touch is on an answer canvas
+//     // for (var i = 0; i < question.answerCanvas.length; i++ ){
+//     //     if(question.answerCanvas[i].canvasId == targetId){
+//     //         currentCanvasObject = question.answerCanvas[i];
+//     //     }
+//     // }
+//     // //necessary to check if touch is actually on a question canvas (only for ADMIN)
+//     // if (currentCanvasObject == undefined){
+//     //     for (var i = 0; i < question.questionCanvas.length; i++ ){
+//     //         if(question.questionCanvas[i].canvasId == targetId){
+//     //         currentCanvasObject = question.questionCanvas[i];
+//     //         }
+//     //     }
+//     // }
+//     //track ongoing touches
+//     var touches = evt.changedTouches;   
+//     for (var i = 0; i < touches.length; i++) {
+//         ongoingTouches.push(copyTouch(touches[i]));
+//         //find the x and y offsets of the canvas from top left of screen
+//         var xOffSet = $("#" + currentCanvasObject.canvasId).position().left;
+//         var yOffSet = $("#" + currentCanvasObject.canvasId).position().top;
+//         //pass to logic to help determine whether to add touch, and possibly a line
+//         addGridAxis(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis, axisLabel);
+//     }
+//     //remove the event listener when first touch has completed
+//     var canvasElement = document.getElementById(targetId);
+//     disableTouchAxes(canvasElement, axis, axisLabel);
+// }
 
 //function to handleStartTrails - i.e. when placing trails on the canvas
-function handleStartTrails(evt, axis) { 
-    //prevent mouseclick being processed too
-    evt.preventDefault(); 
-    //get the id of the touched canvas
-    var targetId = evt.targetTouches[0].target.id;
-    //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject = getCurrentCanvas(targetId)
+// function handleStartTrails(evt, axis) { 
+//     //prevent mouseclick being processed too
+//     evt.preventDefault(); 
+//     //get the id of the touched canvas
+//     var targetId = evt.targetTouches[0].target.id;
+//     //find the corresponding canvasObject for the touched canvas
+//     var currentCanvasObject = getCurrentCanvas(targetId)
     //check if touch is on an answer canvas
     // for (var i = 0; i < question.answerCanvas.length; i++ ){
     //     if(question.answerCanvas[i].canvasId == targetId){
@@ -267,30 +351,30 @@ function handleStartTrails(evt, axis) {
     //     }
     // }
     //track ongoing touches
-    var touches = evt.changedTouches;   
-    for (var i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        //find the x and y offsets of the canvas from top left of screen
-        var xOffSet = $("#" + currentCanvasObject.canvasId).position().left;
-        var yOffSet = $("#" + currentCanvasObject.canvasId).position().top;
-        //pass to logic to help determine whether to add touch, and possibly a line
-        addGridTrails(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis);
-    }
-    //remove the event listener when first touch has completed
-    var canvasElement = document.getElementById(targetId);
-    disableTouchTrails(canvasElement, axis);
-}
+//     var touches = evt.changedTouches;   
+//     for (var i = 0; i < touches.length; i++) {
+//         ongoingTouches.push(copyTouch(touches[i]));
+//         //find the x and y offsets of the canvas from top left of screen
+//         var xOffSet = $("#" + currentCanvasObject.canvasId).position().left;
+//         var yOffSet = $("#" + currentCanvasObject.canvasId).position().top;
+//         //pass to logic to help determine whether to add touch, and possibly a line
+//         addGridTrails(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis);
+//     }
+//     //remove the event listener when first touch has completed
+//     var canvasElement = document.getElementById(targetId);
+//     disableTouchTrails(canvasElement, axis);
+// }
 
-//function to handleStart during a mirror admin
-//touch will only take place on question and mirror Canvas
-function handleStartMirror(evt, mirrorCanvasObject) { 
-    //prevent mouseclick being processed too
-    evt.preventDefault(); 
-    //get the id of the touched canvas
-    var targetId = evt.targetTouches[0].target.id;
-    //find the corresponding canvasObject for the touched canvas
-    var currentCanvasObject = getCurrentCanvas(targetId)
-    //check if touch is on an answer canvas
+// //function to handleStart during a mirror admin
+// //touch will only take place on question and mirror Canvas
+// function handleStartMirror(evt, mirrorCanvasObject) { 
+//     //prevent mouseclick being processed too
+//     evt.preventDefault(); 
+//     //get the id of the touched canvas
+//     var targetId = evt.targetTouches[0].target.id;
+//     //find the corresponding canvasObject for the touched canvas
+//     var currentCanvasObject = getCurrentCanvas(targetId)
+//     //check if touch is on an answer canvas
     // for (var i = 0; i < question.answerCanvas.length; i++ ){
     //     if(question.answerCanvas[i].canvasId == targetId){
     //         currentCanvasObject = question.answerCanvas[i];
@@ -302,21 +386,21 @@ function handleStartMirror(evt, mirrorCanvasObject) {
     //         if(question.questionCanvas[i].canvasId == targetId){
     //         currentCanvasObject = question.questionCanvas[i];
     //         }
-    //     }
+    //     }?
     // }
     //track ongoing touches
-    var touches = evt.changedTouches;   
-    for (var i = 0; i < touches.length; i++) {
-        ongoingTouches.push(copyTouch(touches[i]));
-        //find the x and y offsets of the canvas from top left of screen
-        var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
-        var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
-        //pass to logic to help determine whether to add touch, and possibly a line
-        addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, currentCanvasObject);
-        //add the same touches to the mirror canvas to help with admin
-        addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, mirrorCanvasObject);
-    }
-}
+//     var touches = evt.changedTouches;   
+//     for (var i = 0; i < touches.length; i++) {
+//         ongoingTouches.push(copyTouch(touches[i]));
+//         //find the x and y offsets of the canvas from top left of screen
+//         var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+//         var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+//         //pass to logic to help determine whether to add touch, and possibly a line
+//         addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, currentCanvasObject);
+//         //add the same touches to the mirror canvas to help with admin
+//         addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, mirrorCanvasObject);
+//     }
+// }
 
 ////////The following functions are directly from the Mozilla Developer Network Tutorial https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/////////////////
 
