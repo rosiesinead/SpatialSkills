@@ -136,6 +136,7 @@ def editquestion():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
+    print(dataToDict)
     #data from dictionary and store in variables
     exerciseNumber = dataToDict["exerciseNumber"]
     questionNumber = dataToDict["questionNumber"]
