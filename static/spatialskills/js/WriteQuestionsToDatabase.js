@@ -120,7 +120,7 @@ function deleteAQuestion(exerciseNumber,questionNumber){
         data: send,
         dataType: "json",
         success: function(resultData){
-        alert("Save Complete");
+        alert("Delete Complete");
         }
   });
 

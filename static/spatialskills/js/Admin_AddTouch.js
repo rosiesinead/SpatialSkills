@@ -158,7 +158,7 @@ function enableTouchAxes(canvas, axis, axisLabel) {
             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
 
            //this enables touch for the canvas object and sets it to handle placing text with touch
-           addGridAxis(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis, axisLabel);
+           addGridAxis(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, axis, axisLabel);
         }
     }).on('vmousemove', function(e){
         touchmoved = true;
@@ -195,7 +195,7 @@ function enableTouchTrails(canvas, axis) {
             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
 
            //this enables touch for the canvas object and sets it to handle placing text with touch
-           addGridTrails(currentCanvasObject, touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, axis);
+           addGridTrails(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, axis);
         }
     }).on('vmousemove', function(e){
         touchmoved = true;
@@ -231,9 +231,9 @@ function enableTouchMirror(canvas, mirrorCanvasObject) {
             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
 
                //pass to logic to help determine whether to add touch, and possibly a line
-    addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, currentCanvasObject);
+    addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
     //add the same touches to the mirror canvas to help with admin
-    addPoint(touches[i].pageX - xOffSet, touches[i].pageY - yOffSet, mirrorCanvasObject);
+    addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, mirrorCanvasObject);
         }
     }).on('vmousemove', function(e){
         touchmoved = true;

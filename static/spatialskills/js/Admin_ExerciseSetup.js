@@ -37,6 +37,7 @@ function setUpAdminExercises(){
     }
 
     for(var i=0;i<totalExercises;i++){
+        console.log(i+1)
         adminSetupQuestions(exercises[i])
     }
 

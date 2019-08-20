@@ -15,7 +15,7 @@ function setUpExercises(){
         success: function(res) {
             receivedEx = JSON.parse(res)
             //console.log(res)
-            //alert(res);
+           // alert(res);
         }
     });
 
