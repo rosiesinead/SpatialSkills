@@ -47,7 +47,7 @@
     <link href="{{ url_for('static', filename='spatialskills/css/mirror.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='spatialskills/css/customStyles.css') }}" rel="stylesheet">
 
-    <title>Spatial Skills - Admin</title>
+    <title id="role" title="admin">Spatial Skills - Admin</title>
 
     <script src="{{ url_for('static', filename='spatialskills/js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/vendor/jquerymobile/jquery.mobile-1.4.5.min.js') }}"></script>
@@ -105,7 +105,7 @@
 
     </style>
   </head>
-   <body onload="setUpAdminExercises();">
+   <body onload="adminStartup();">
 
      <!-- Start of home page: #home -->
      <div data-role="page" id="home" class="ui-responsive-panel">
@@ -889,7 +889,7 @@
     <script src="{{ url_for('static', filename='spatialskills/js/IsometricDistances.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/OrthographicDistances.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/GridText.js') }}"></script>
-    <!-- <script src="{{ url_for('static', filename='spatialskills/js/AddTouch.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='spatialskills/js/HomePageLoad.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Messages.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/OrthographicAnswers.js') }}"></script>
@@ -902,7 +902,7 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricRotationArrowsMultipleAxes.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricReflection.js') }}"></script> -->
     <script src="{{ url_for('static', filename='spatialskills/js/Admin_AddTouch.js') }}"></script>
-    <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex1_Admin.js') }}"></script>  -->
+    <script src="{{ url_for('static', filename='spatialskills/js/Admin_Startup.js') }}"></script> 
     <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex2_Admin.js') }}"></script> 
     <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex3_Admin.js') }}"></script> 
     <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex4_Admin.js') }}"></script> 

@@ -168,10 +168,12 @@ def deletequestion():
     exerciseNumber = dataToDict["exerciseNumber"]
     questionNumber = dataToDict["questionNumber"]
     deleteQu = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
+    print(deleteQu)
     db.session.delete(deleteQu)
     #get exercises from database and update question numbers of those after deleted recod
     for i in db.session.query(Exercises).filter_by(exercise_number=exerciseNumber).all():
         if i.question_number > int(questionNumber):
+            print("questions after")
             i.question_number = i.question_number - 1
     db.session.commit()
     return redirect(url_for('admin'))
@@ -180,8 +182,6 @@ def deletequestion():
 @app.route('/getexercises', methods=['GET'])
 @login_required
 def getexercises():
-    #change this so that we write a query that returns what we need (types)
-    #dataframe = pd.read_sql_table('exercises', 'sqlite:///ssdatabase.db')
     dataframe = pd.read_sql_query("SELECT * from exercises AS e, types AS t where e.exercise_number=t.exercise", 'sqlite:///ssdatabase.db')
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)

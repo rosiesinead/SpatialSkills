@@ -1,0 +1,4 @@
+function adminStartup(){
+    setUpAdminExercises();
+    homePageLoad();
+}

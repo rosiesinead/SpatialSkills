@@ -47,7 +47,7 @@
     <link href="{{ url_for('static', filename='spatialskills/css/mirror.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='spatialskills/css/customStyles.css') }}" rel="stylesheet">
 
-    <title>Spatial Skills</title>
+    <title id="role" title="user">Spatial Skills</title>
 
     <script src="{{ url_for('static', filename='spatialskills/js/vendor/jquery.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/vendor/jquerymobile/jquery.mobile-1.4.5.min.js') }}"></script>
@@ -112,13 +112,13 @@
 
        <div data-role="header">
               <a href="#nav-panel-home" data-icon="bars" data-theme="b" data-iconpos="notext">Menu</a>
-        <h1>Welcome {{user}}</h1>
+        <h1>Home</h1>
              <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-info ui-btn-icon-notext ui-btn-b ui-btn-inline" data-role="button" onclick="logout()">Logout</a>
        </div><!-- /header -->
 
        <div role="main" class="ui-content">
               <div>
-                          <h2>Progress</h2>
+                          <h2>Welcome {{user}}</h2>
 
                           <table>
                             <tr>
@@ -165,12 +165,7 @@
                               <td id="tdAttemptedEx6"></td>
                               <td id="tdCorrectEx6"></td>
                             </tr>
-                            <tr id="rowEx7">
-                                <td id="tdNameEx7"><a href="#ex" data-transition="none">Exercise 7 - Multiple Choice</a></td>
-                                <td id="tdQuestionsEx7"></td>
-                                <td id="tdAttemptedEx7"></td>
-                                <td id="tdCorrectEx7"></td>
-                              </tr>
+                          
                           </table>
              </div>
       </div>
@@ -185,7 +180,7 @@
                   <li><a href="#ex4" data-transition="none">Exercise 4 - Rotation Arrow Codes</a></li>
                   <li><a href="#ex5" data-transition="none">Exercise 5 - Rotation Multiple Axes</a></li>
                   <li><a href="#ex6" data-transition="none">Exercise 6 - Reflection</a></li>
-                  <li><a href="#ex7" data-transition="none">Exercise 7 - Multiple Choice</a></li>
+                 
                     </ul>
                   </div>
 
@@ -318,7 +313,7 @@
                     <li><a href="#ex4" data-transition="none">Exercise 4 - Rotation Arrow Codes</a></li>
                     <li><a href="#ex5" data-transition="none">Exercise 5 - Rotation Multiple Axes</a></li>
                     <li><a href="#ex6" data-transition="none">Exercise 6 - Reflection</a></li>
-                    <li><a href="#ex7" data-transition="none">Exercise 7 - Multiple Choice</a></li>
+                   
                     </ul>
                     </div>
 
@@ -411,7 +406,7 @@
                     <li><a href="#ex4" data-transition="none">Exercise 4 - Rotation Arrow Codes</a></li>
                     <li><a href="#ex5" data-transition="none">Exercise 5 - Rotation Multiple Axes</a></li>
                     <li><a href="#ex6" data-transition="none">Exercise 6 - Reflection</a></li>
-                    <li><a href="#ex7" data-transition="none">Exercise 7 - Multiple Choice</a></li>
+                   
                     </ul>
                     </div>
 
@@ -477,7 +472,7 @@
                     <li><a href="#ex4" data-transition="none">Exercise 4 - Rotation Arrow Codes</a></li>
                     <li><a href="#ex5" data-transition="none">Exercise 5 - Rotation Multiple Axes</a></li>
                     <li><a href="#ex6" data-transition="none">Exercise 6 - Reflection</a></li>
-                    <li><a href="#ex7" data-transition="none">Exercise 7 - Multiple Choice</a></li>
+                   
                     </ul>
                     </div>
 
@@ -542,7 +537,7 @@
                     <li><a href="#ex4" data-transition="none" class="ui-btn ui-shadow ui-corner-all ui-btn-active">Exercise 4 - Rotation Arrow Codes</a></li>
                     <li><a href="#ex5" data-transition="none">Exercise 5 - Rotation Multiple Axes</a></li>
                     <li><a href="#ex6" data-transition="none">Exercise 6 - Reflection</a></li>
-                    <li><a href="#ex7" data-transition="none">Exercise 7 - Multiple Choice</a></li>
+                   
                     </ul>
                     </div>
 
@@ -610,7 +605,7 @@
                     <li><a href="#ex4" data-transition="none">Exercise 4 - Rotation Arrow Codes</a></li>
                     <li><a href="#ex5" data-transition="none" class="ui-btn ui-shadow ui-corner-all ui-btn-active">Exercise 5 - Rotation Multiple Axes</a></li>
                     <li><a href="#ex6" data-transition="none">Exercise 6 - Reflection</a></li>
-                    <li><a href="#ex7" data-transition="none">Exercise 7 - Multiple Choice</a></li>
+                    
                 </ul>
            </div>
 
@@ -673,7 +668,7 @@
                     <li><a href="#ex4" data-transition="none">Exercise 4 - Rotation Arrow Codes</a></li>
                     <li><a href="#ex5" data-transition="none">Exercise 5 - Rotation Multiple Axes</a></li>
                     <li><a href="#ex6" data-transition="none" class="ui-btn ui-shadow ui-corner-all ui-btn-active">Exercise 6 - Reflection</a></li>
-                    <li><a href="#ex7" data-transition="none">Exercise 7 - Multiple Choice</a></li>
+                  
                 </ul>
            </div>
 
