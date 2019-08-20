@@ -2,20 +2,24 @@
 //need a question variable to be available to all functions
 //set up a question object to contain answerCanvas and QuestionCanvas
     question = new Question();
+    exerciseNumber = 1;
 
 //set up a dummy currentQuestions variable to deal with changes made for Single Page Application in the handleStart methods
 //we will just add the single question above as we are only creating that one full question
     var currentQuestions = [];
     currentQuestions.push(question);
 
+    
 
+function startupEx1() {
 
-function startup() {
+    // //set up button to write question object to JSON
+    var writeToDBButton = document.getElementById("writeToDBButton");
+    writeToDBButton.onclick = function() {
+        if(confirm("Please confirm new question is complete and ready to save.")){
+            saveNewQuestion(question,exerciseNumber)};
+        }
 
-     
-    //set up button to write question object to JSON
-    var writeToJSONButton = document.getElementById("writeToJSONButton");
-    writeToJSONButton.onclick = function() {writeToJSON(question)};
         
     var isometricCanvasIds = ["isometricEx1"];
     var orthCanvasIds = ["orthographicTopEx1", "orthographicFrontEx1", "orthographicSideEx1"];
@@ -29,6 +33,7 @@ function startup() {
         question.questionCanvas.push(canvasObj);
         var canvasElement = document.getElementById(question.questionCanvas[i].canvasId); 
         enableTouch(canvasElement);
+        
     } 
     
     //create a new CanvasObject for each orthographic canvas and add to the Question object's answerCanvas array
@@ -40,7 +45,8 @@ function startup() {
         question.answerCanvas.push(canvasObj);
         var canvasElement = document.getElementById(question.answerCanvas[i].canvasId); 
         enableTouchOrth(canvasElement);
-    }    
+    }  
+
 }
 
 function setUpButtonsIsometric(canvasObject) { //perhaps set up as question is a better name for function
@@ -82,8 +88,8 @@ function setUpButtonsOrth(canvasObject) { //perhaps set up as answer is a better
     
     var orthographicAnswer = canvasObject.canvasId + "Answer";
     
-    //var orthographicCheckAnswerButton = document.getElementById(canvasObject.canvasId + "CheckAnswerButton");
-    //orthographicCheckAnswerButton.onclick = function () {checkAnswerOrth(canvasObject, orthographicAnswer)};
+    //var OrthographicCheckAnswerButton = document.getElementById(canvasObject.canvasId + "CheckAnswerButton");
+    //OrthographicCheckAnswerButton.onclick = function () {checkAnswerOrth(canvasObject, orthographicAnswer)};
     
 }
 
@@ -115,48 +121,4 @@ function disableDrawText() {
 }
 
 
-function writeToJSON(question){
-    //Create a copy of the Question object so that we can modify this before outputting to JSON format
-    
-    var tempQuestion = JSON.parse(JSON.stringify(question));
-    
-    for (var i = 0; i < question.answerCanvas.length; i++){
-        tempQuestion.answerCanvas[i].correctAnswer = tempQuestion.answerCanvas[i].linesCurrentlyDrawn;
-        tempQuestion.answerCanvas[i].linesCurrentlyDrawn = [];
-        tempQuestion.answerCanvas[i].tempLine = [];
-        tempQuestion.answerCanvas[i].linesAllDrawn = []; 
-        tempQuestion.answerCanvas[i].dashed = false; 
-    }
-    for (var i = 0; i < question.questionCanvas.length; i++){
-        tempQuestion.questionCanvas[i].correctAnswer = tempQuestion.questionCanvas[i].linesCurrentlyDrawn;
-        tempQuestion.questionCanvas[i].linesCurrentlyDrawn = [];
-        tempQuestion.questionCanvas[i].tempLine = [];
-        tempQuestion.questionCanvas[i].linesAllDrawn = []; 
-        tempQuestion.questionCanvas[i].dashed = false; 
-    }
-    
-    //write the Question object out to the textarea in JSON format
-    document.getElementById("question").value = JSON.stringify(tempQuestion);
 
-    var withAnswers = tempQuestion
-
-    for (var i = 0; i < question.answerCanvas.length; i++){
-        withAnswers.answerCanvas[i].linesCurrentlyDrawn = tempQuestion.answerCanvas.correctAnswer;
-        withAnswers.answerCanvas[i].linesAllDrawn = tempQuestion.answerCanvas.correctAnswer;
-
-    }
-    
-
-    var exercise_obj = {ex_num:1,ex_data:JSON.stringify(tempQuestion),answers:JSON.stringify(withAnswers)}
-
-    var saveData = $.ajax({
-        type: "POST",
-        url: "/newquestion",
-        data: exercise_obj,
-        dataType: "json",
-        success: function(resultData){
-        alert("Save Complete");
-        }
-  });
-  
-}

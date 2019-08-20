@@ -1,7 +1,7 @@
 //set up each Exercise and add to the exercises array
 
 var exercises = [];
-//var ex1, ex2, ex3, ex4, ex5, ex6;
+var totalExercises = 6;
 
 function setUpExercises(){
 
@@ -15,13 +15,13 @@ function setUpExercises(){
         success: function(res) {
             receivedEx = JSON.parse(res)
             //console.log(res)
-            //alert(res);
+           // alert(res);
         }
     });
 
     //create array of exercise objects
     for(var i=0;i<6;i++){
-        exercises.push(new Exercise("Ex"+(i+1)));
+        exercises.push(new Exercise("Ex"+(i+1),i+1));
         }
 
     //loop through database data, set current exercise to current.
@@ -30,7 +30,9 @@ function setUpExercises(){
     for (var i = 0; i < receivedEx.length; i++){
         var current = receivedEx[i]
         var exercise = exercises[current.exercise_number-1]
-        exercise.questions.push(JSON.parse(current.exercise_data))
+        exercise.questions.push(JSON.parse(current.question_data))
+        exercise.answerType = current.answer_type
+        exercise.questionType = current.question_type
     }
 
     var receivedProg;
@@ -41,8 +43,6 @@ function setUpExercises(){
         dataType: 'json',
         success: function(res) {
             receivedProg = JSON.parse(res)
-           //console.log(receivedProg)
-            //alert(res);
         }
     });
 
@@ -53,13 +53,11 @@ function setUpExercises(){
             exercises[current.exercise_number-1].questions[current.question_number-1].answerCanvas[current.answer_canvas-1]=answer_data;
     }
 
-    //this is not ideal...
-    setupQuestionEx1(exercises[0])
-    setupQuestionEx2(exercises[1])
-    setupQuestionEx3(exercises[2])
-    setupQuestionEx4(exercises[3])
-    setupQuestionEx5(exercises[4])
-    setupQuestionEx6(exercises[5])    
+    //use query for this instead...
+
+    for(var i=0;i<totalExercises;i++){
+        setupQuestions(exercises[i])
+    }
 
 }
 

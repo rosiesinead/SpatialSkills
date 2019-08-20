@@ -96,6 +96,7 @@ var trailYRotation = 180;
 //set zAxis rotation
 var trailZRotation = 60;
 
+
 ///////////ISOMETRIC GRID HELPER FUNCTIONS//////////////////////////////
 
 //function to work out the length of one side of a triangle
@@ -311,30 +312,38 @@ function addPoint(x, y, canvasObject) {
             if (canvasObject.dashed == true){
                 canvasObject.tempLine[0].type = "dashed";
             }
-
-            //if there are any lines currently drawn,loop through linesCurrentlyDrawn and check if any match the templine, if yes then remove 
+            //if there are any lines currently drawn,loop through linesCurrentlyDrawn and check if any match the templine, if yes then remove
+            //break up the templine and check each piece separately
             var lineExists = false;
+            var brokenTempLine = breakUpAllLines(canvasObject.tempLine)
+
             if(canvasObject.linesCurrentlyDrawn.length>0){
-                for(var i=0;i<canvasObject.linesCurrentlyDrawn.length;i++){
-                    var temp = JSON.stringify(canvasObject.tempLine[0]);
-                    var line = JSON.stringify(canvasObject.linesCurrentlyDrawn[i]);
-                    var revLine = JSON.stringify(reverseLine(canvasObject.linesCurrentlyDrawn[i]));
-                    if(temp == line|| temp == revLine){
-                        canvasObject.linesCurrentlyDrawn.splice(i,1)
-                        lineExists = true;
+                for(var i=0;i<brokenTempLine.length;i++){
+                    for(var j=0;j<canvasObject.linesCurrentlyDrawn.length;j++){
+                            var temp = JSON.stringify(brokenTempLine[i]);
+                            var reverseTemp = JSON.stringify(reverseLine(brokenTempLine[i]));
+                            var line = JSON.stringify(canvasObject.linesCurrentlyDrawn[j]);                
+                            if(line == temp || line == reverseTemp){
+                                canvasObject.linesCurrentlyDrawn.splice(j,1)
+                                lineExists = true;
+                            }
+ 
                     } 
                 }          
 
             }
 
             if(!lineExists){
-                //add tempLine to the currently drawn lines array
-                canvasObject.linesCurrentlyDrawn.push(canvasObject.tempLine[0]);
-                //add the new line to All Lines drawn as well
-                canvasObject.linesAllDrawn.push(canvasObject.tempLine[0]);
+                for(var i=0;i<brokenTempLine.length;i++){
+                    //add tempLine to the currently drawn lines array
+                    canvasObject.linesCurrentlyDrawn.push(brokenTempLine[i]);
+                    //add the new line to All Lines drawn as well
+                    canvasObject.linesAllDrawn.push(canvasObject.tempLine[0]);
+
+                }
+
             }
             
-            lineExists = false;
             //let's add a new line into tempLine, using the x2 and y2 coordinates as the x1 and y1 of the new temp line
             canvasObject.tempLine[0] = new Line(dotCoordinateArray[0], dotCoordinateArray[1], 0, 0);
             drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
@@ -415,6 +424,7 @@ function clearLines(canvasObject) {
 
     //clear any touch points
     canvasObject.tempLine.pop();
+    
     //remove all lines from the lines currently drawn, but add them to linesAllDrawn to keep a record of the lines cleared
     for (var i = 0; i < canvasObject.linesCurrentlyDrawn; i++){
         canvasObject.linesAllDrawn.push(canvasObject.linesCurrentlyDrawn[i]);

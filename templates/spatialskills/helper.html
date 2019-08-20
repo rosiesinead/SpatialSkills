@@ -460,7 +460,21 @@
                             </div>
 
                             
-                       
+                        <div>
+                            <button id="isometricPreImageEx3xAxis" class="axisButtons">Draw Blank X-axis</button>
+                            <button id="isometricPreImageEx3yAxis" class="axisButtons">Draw Blank Y-axis</button>
+                            <button id="isometricPreImageEx3zAxis" class="axisButtons">Draw Blank Z-axis</button>
+                            <button id="isometricPreImageEx3UndoAxisButton">Undo Axis</button>
+                            <button id="isometricPreImageEx3ClearAxesButton">Clear Axes</button>
+                        </div>
+                        
+                        <div>
+                            <button id="isometricPreImageEx3xTrail" class="trailButtons">Draw X-axis Trail</button>
+                            <button id="isometricPreImageEx3yTrail" class="trailButtons">Draw Y-axis Trail</button>
+                            <button id="isometricPreImageEx3zTrail" class="trailButtons">Draw Z-axis Trail</button>
+                            <button id="isometricPreImageEx3UndoTrailButton">Undo Axis</button>
+                            <button id="isometricPreImageEx3ClearTrailsButton">Clear Axes</button>
+                        </div>
                         </div>
                         <div class="ui-nodisc-icon" style="display:inline;position:relative;">
                                     <button id="isometricPreImageEx3ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
@@ -489,41 +503,23 @@
 
                         
                     </div>
-
-                    <div style="display:flex;flex-direction:row;">
-                            <button id="isometricPreImageEx3xAxis" class="axisButtons">X-axis</button>
-                            <button id="isometricPreImageEx3yAxis" class="axisButtons">Y-axis</button>
-                            <button id="isometricPreImageEx3zAxis" class="axisButtons">Z-axis</button>
-                            <button id="isometricPreImageEx3UndoAxisButton">Undo Axis</button>
-                            <button id="isometricPreImageEx3ClearAxesButton">Clear Axes</button>
-                        </div>
-                        
-                        <div style="display:flex;flex-direction:row;">
-                            <button id="isometricPreImageEx3xTrail" class="trailButtons">X-axis Trail</button>
-                            <button id="isometricPreImageEx3yTrail" class="trailButtons">Y-axis Trail</button>
-                            <button id="isometricPreImageEx3zTrail" class="trailButtons">Z-axis Trail</button>
-                            <button id="isometricPreImageEx3UndoTrailButton">Undo Trails</button>
-                            <button id="isometricPreImageEx3ClearTrailsButton">Clear Trails</button>
-                        </div>
  
                          <div>
                              <div style="display:inline;position:relative">
                                  <canvas id="rotationsEx3" width="300" height="100">Your browser does not support the canvas element.</canvas>
                              </div>
 
-                             <div style="display:flex;flex-direction:row;">
+                             <div>
                                 <button id="pos90">+90</button>
                                 <button id="pos180">+180</button>
                                 <button id="pos270">+270</button>
+                                <button id="rotationsEx3UndoButton">Undo Rotation</button>
+                                <button id="rotationsEx3ClearButton">Clear Rotations</button>
+                              </div>
+                              <div>
                                 <button id="neg90">-90</button>
                                 <button id="neg180">-180</button>
                                 <button id="neg270">-270</button>
-                                
-                              </div>
-                              <div style="display:flex;flex-direction:row;">
-                                <button id="rotationsEx3UndoButton">Undo Rotation</button>
-                                <button id="rotationsEx3ClearButton">Clear Rotations</button>
-                                
                               </div>
                               
                              
@@ -568,7 +564,7 @@
 	       </div><!-- /header -->
 
            <div role="main" class="ui-content">
-               
+
                 <div style="display:flex;flex-direction:row;">
                         <div>
                     
@@ -583,8 +579,13 @@
                                
                             </div>
 
-                            
-                       
+                            <div>
+                                <button id="isometricPreImageEx4xAxis" class="axisButtons">Draw X-axis</button>
+                                <button id="isometricPreImageEx4yAxis" class="axisButtons">Draw Y-axis</button>
+                                <button id="isometricPreImageEx4zAxis" class="axisButtons">Draw Z-axis</button>
+                                <button id="isometricPreImageEx4UndoAxisButton">Undo Axis</button>
+                                <button id="isometricPreImageEx4ClearAxesButton">Clear Axes</button>
+                            </div>
                         </div>
                         <div class="ui-nodisc-icon" style="display:inline;position:relative;">
                                     <button id="isometricPreImageEx4ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
@@ -610,41 +611,24 @@
                             <button id="isometricEx4ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000">Clear</button>
                             
                         </div>
-
-                        
                     </div>
-
-                    <div style="display:flex;flex-direction:row;">
-                            <button id="isometricPreImageEx4xAxis" class="axisButtons">X-axis</button>
-                            <button id="isometricPreImageEx4yAxis" class="axisButtons">Y-axis</button>
-                            <button id="isometricPreImageEx4zAxis" class="axisButtons">Z-axis</button>
-                            <button id="isometricPreImageEx4UndoAxisButton">Undo Axis</button>
-                            <button id="isometricPreImageEx4ClearAxesButton">Clear Axes</button>
-                        </div>
-                        
  
                          <div>
                              <div style="display:inline;position:relative">
                                  <canvas id="rotationsEx4" width="300" height="100">Your browser does not support the canvas element.</canvas>
                              </div>
-
-                             <div style="display:flex;flex-direction:row;">
-                                    <button id="posX">--&gt;X</button>
-                                    <button id="posY">--&gt;Y</button>
-                                    <button id="posZ">--&gt;Z</button>
-                                    <button id="negX">&lt;--X</button>
-                                    <button id="negY">&lt;--Y</button>
-                                    <button id="negZ">&lt;--Z</button>
-                                
-                              </div>
-                              <div style="display:flex;flex-direction:row;">
+                             <div>
+                                <button id="posX">--&gt;X</button>
+                                <button id="posY">--&gt;Y</button>
+                                <button id="posZ">--&gt;Z</button>
                                 <button id="rotationsEx4UndoButton">Undo Rotation</button>
                                 <button id="rotationsEx4ClearButton">Clear Rotations</button>
-                                
                               </div>
-                              
-                             
-                  
+                              <div>
+                                <button id="negX">&lt;--X</button>
+                                <button id="negY">&lt;--Y</button>
+                                <button id="negZ">&lt;--Z</button>
+                              </div>
                      </div> 
                      <div> 
                             <button id="Ex4SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
@@ -652,8 +636,6 @@
                             <button id="Ex4AddButton" data-inline="true" style="background-color: #e6d7f5" >Create a New Question</button>
                     </div>
                      </div>
-
-
 	       
 
                     <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex4" class="mymenu">
@@ -691,90 +673,78 @@
 	       </div><!-- /header -->
 
            <div role="main" class="ui-content">
-               
-                <div style="display:flex;flex-direction:row;">
+
+            <div style="display:flex;flex-direction:row;">
+                    <div>
+                
+                        <canvas id="isometricPreImageEx5" width="300" height="300">Your browser does not support the canvas element.</canvas>
+
+
+                        <div class="ui-nodisc-icon">
+                            <button id="isometricPreImageEx5UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
+
+                            <button id="isometricPreImageEx5SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx5DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
+                            <button id="isometricPreImageEx5DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
+                           
+                        </div>
+
                         <div>
-                    
-                            <canvas id="isometricPreImageEx5" width="300" height="300">Your browser does not support the canvas element.</canvas>
-
-
-                            <div class="ui-nodisc-icon">
-                                <button id="isometricPreImageEx5UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
-
-                                <button id="isometricPreImageEx5SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx5DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
-                                <button id="isometricPreImageEx5DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
-                               
-                            </div>
-
-                            
-                       
-                        </div>
-                        <div class="ui-nodisc-icon" style="display:inline;position:relative;">
-                                    <button id="isometricPreImageEx5ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
-                                </div>
-                        <div>
-                        
-                            <canvas id="isometricEx5" width="260" height="300">Your browser does not support the canvas element.</canvas>
-                            <div class="ui-nodisc-icon">
-                                <button id="isometricEx5UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
-
-                                <button id="isometricEx5SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricEx5DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
-                                <button id="isometricEx5DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
-                                <button id="Ex5PreviousButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-b ui-btn-inline" >Previous</button>
-                                <button id="Ex5NextButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-b ui-btn-inline">Next</button>
-                                <div style="display:inline;">
-                                    <p style="display:inline;" id="questionNumberEx5"></p>
-                                </div>
-                               
-            
-                            </div>
-                        </div>
-                        <div class="ui-nodisc-icon" style="display:inline;position:relative;">
-                            <button id="isometricEx5ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000">Clear</button>
-                            
-                        </div>
-
-                        
-                    </div>
-
-                    <div style="display:flex;flex-direction:row;">
-                            <button id="isometricPreImageEx5xAxis" class="axisButtons">X-axis</button>
-                            <button id="isometricPreImageEx5yAxis" class="axisButtons">Y-axis</button>
-                            <button id="isometricPreImageEx5zAxis" class="axisButtons">Z-axis</button>
+                            <button id="isometricPreImageEx5xAxis" class="axisButtons">Draw X-axis</button>
+                            <button id="isometricPreImageEx5yAxis" class="axisButtons">Draw Y-axis</button>
+                            <button id="isometricPreImageEx5zAxis" class="axisButtons">Draw Z-axis</button>
                             <button id="isometricPreImageEx5UndoAxisButton">Undo Axis</button>
                             <button id="isometricPreImageEx5ClearAxesButton">Clear Axes</button>
                         </div>
-                        
- 
-                         <div>
-                             <div style="display:inline;position:relative">
-                                 <canvas id="rotationsEx5" width="300" height="100">Your browser does not support the canvas element.</canvas>
-                             </div>
-
-                             <div style="display:flex;flex-direction:row;">
-                                    <button id="posX">--&gt;X</button>
-                                    <button id="posY">--&gt;Y</button>
-                                    <button id="posZ">--&gt;Z</button>
-                                    <button id="negX">&lt;--X</button>
-                                    <button id="negY">&lt;--Y</button>
-                                    <button id="negZ">&lt;--Z</button>
-                                
-                              </div>
-                              <div style="display:flex;flex-direction:row;">
-                                <button id="rotationsEx5UndoButton">Undo Rotation</button>
-                                <button id="rotationsEx5ClearButton">Clear Rotations</button>
-                                
-                              </div>
-                              
-                             
-                  
-                     </div> 
-                     <div> 
-                            <button id="Ex5SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
-                            <button id="Ex5DeleteButton" data-inline="true" style="background-color: #f5e2bf" >Delete Question</button>
-                            <button id="Ex5AddButton" data-inline="true" style="background-color: #e6d7f5" >Create a New Question</button>
                     </div>
-                     </div>
+                    <div class="ui-nodisc-icon" style="display:inline;position:relative;">
+                                <button id="isometricPreImageEx5ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
+                            </div>
+                    <div>
+                    
+                        <canvas id="isometricEx5" width="260" height="300">Your browser does not support the canvas element.</canvas>
+                        <div class="ui-nodisc-icon">
+                            <button id="isometricEx5UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
+
+                            <button id="isometricEx5SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricEx5DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
+                            <button id="isometricEx5DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
+                            <button id="Ex5PreviousButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-b ui-btn-inline" >Previous</button>
+                            <button id="Ex5NextButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-b ui-btn-inline">Next</button>
+                            <div style="display:inline;">
+                                <p style="display:inline;" id="questionNumberEx5"></p>
+                            </div>
+                           
+        
+                        </div>
+                    </div>
+                    <div class="ui-nodisc-icon" style="display:inline;position:relative;">
+                        <button id="isometricEx5ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000">Clear</button>
+                        
+                    </div>
+                </div>
+
+                     <div>
+                         <div style="display:inline;position:relative">
+                             <canvas id="rotationsEx5" width="300" height="100">Your browser does not support the canvas element.</canvas>
+                         </div>
+                         <div>
+                            <button id="posX">--&gt;X</button>
+                            <button id="posY">--&gt;Y</button>
+                            <button id="posZ">--&gt;Z</button>
+                            <button id="rotationsEx5UndoButton">Undo Rotation</button>
+                            <button id="rotationsEx5ClearButton">Clear Rotations</button>
+                          </div>
+                          <div>
+                            <button id="negX">&lt;--X</button>
+                            <button id="negY">&lt;--Y</button>
+                            <button id="negZ">&lt;--Z</button>
+                          </div>
+                 </div> 
+                 <div> 
+                        <button id="Ex5SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
+                        <button id="Ex5DeleteButton" data-inline="true" style="background-color: #f5e2bf" >Delete Question</button>
+                        <button id="Ex5AddButton" data-inline="true" style="background-color: #e6d7f5" >Create a New Question</button>
+                </div>
+                 </div>
            <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex5" class="mymenu">
                 <ul data-role="listview">
                     <li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
@@ -803,59 +773,59 @@
 		      <h1>Exercise 6</h1>
                 <a href="#popupEx6" data-rel="popup" data-position-to="window" class="ui-btn ui-shadow ui-corner-all ui-icon-info ui-btn-icon-notext ui-btn-b ui-btn-inline" style="padding:0;">Popup</a>
                 <!--<a href="#" onclick="logout()">Logout</a>-->
-           </div><!-- /header -->
-           
+	       </div><!-- /header -->
+
            <div role="main" class="ui-content">
 
-                <div style="display:flex;flex-direction:row;">
-                        <div>
+            <div style="display:flex;flex-direction:row;">
+                    <div>
+                
+                        <canvas id="isometricPreImageEx6" width="300" height="300">Your browser does not support the canvas element.</canvas>
+
+
+                        <div class="ui-nodisc-icon">
+                            <button id="isometricPreImageEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
+
+                            <button id="isometricPreImageEx6SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx6DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
+                            <button id="isometricPreImageEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
+                            <div>
+                             
+                                <button id="isometricPreImageEx6UndoAxisButton">Undo Axis</button>
+                                <button id="isometricPreImageEx6ClearAxesButton">Clear Axes</button>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="ui-nodisc-icon" style="display:inline;position:relative;">
+                                <button id="isometricPreImageEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
+                            </div>
+                    <div>
                     
-                            <canvas id="isometricPreImageEx6" width="300" height="300">Your browser does not support the canvas element.</canvas>
-    
-    
-                            <div class="ui-nodisc-icon">
-                                <button id="isometricPreImageEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
-    
-                                <button id="isometricPreImageEx6SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx6DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
-                                <button id="isometricPreImageEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
-                               
+                        <canvas id="isometricEx6" width="260" height="300">Your browser does not support the canvas element.</canvas>
+                        <div class="ui-nodisc-icon">
+                            <button id="isometricEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
+
+                            <button id="isometricEx6SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricEx6DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
+                            <button id="isometricEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
+                            <button id="Ex6PreviousButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-b ui-btn-inline" >Previous</button>
+                            <button id="Ex6NextButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-b ui-btn-inline">Next</button>
+                            <div style="display:inline;">
+                                <p style="display:inline;" id="questionNumberEx6"></p>
                             </div>
-    
-                          
-                        </div>
-                        <div class="ui-nodisc-icon" style="display:inline;position:relative;">
-                                    <button id="isometricPreImageEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
-                                </div>
-                        <div>
-                        
-                            <canvas id="isometricEx6" width="260" height="300">Your browser does not support the canvas element.</canvas>
-                            <div class="ui-nodisc-icon">
-                                <button id="isometricEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
-    
-                                <button id="isometricEx6SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricEx6DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
-                                <button id="isometricEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
-                                <button id="Ex6PreviousButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-b ui-btn-inline" >Previous</button>
-                                <button id="Ex6NextButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-b ui-btn-inline">Next</button>
-                                <div style="display:inline;">
-                                    <p style="display:inline;" id="questionNumberEx6"></p>
-                                </div>
-                               
-            
-                            </div>
-                        </div>
-                        <div class="ui-nodisc-icon" style="display:inline;position:relative;">
-                            <button id="isometricEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000">Clear</button>
-                            
+                           
+        
                         </div>
                     </div>
-    
+                    <div class="ui-nodisc-icon" style="display:inline;position:relative;">
+                        <button id="isometricEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000">Clear</button>
                         
-                     <div> 
-                            <button id="Ex6SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
-                            <button id="Ex6DeleteButton" data-inline="true" style="background-color: #f5e2bf" >Delete Question</button>
-                            <button id="Ex6AddButton" data-inline="true" style="background-color: #e6d7f5" >Create a New Question</button>
                     </div>
-                     </div>
+                    <div> 
+                        <button id="Ex6SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
+                        <button id="Ex6DeleteButton" data-inline="true" style="background-color: #f5e2bf" >Delete Question</button>
+                        <button id="Ex6AddButton" data-inline="true" style="background-color: #e6d7f5" >Create a New Question</button>
+                </div>
+                </div>
 
 
             <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex6" class="mymenu">
@@ -907,13 +877,6 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex6_Admin.js') }}"></script>  
  -->
  <script src="{{ url_for('static', filename='spatialskills/js/WriteQuestionsToDatabase.js') }}"></script> 
-
-    <script src="{{ url_for('static', filename='spatialskills/js/RotationCanvas.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/NumericRotation.js') }}"></script>
-   
-    <script src="{{ url_for('static', filename='spatialskills/js/Axis.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/AxisTrail.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/AlphabeticRotation.js') }}"></script>
 
   </body>
 

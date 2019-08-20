@@ -19,6 +19,7 @@ function enableTouch(canvas) {
     canvas.addEventListener("touchend", handleEnd, false);
     canvas.addEventListener("touchcancel", handleCancel, false);
     canvas.addEventListener("touchmove", handleMove, false);
+
 }
     
 function disableTouch(canvas) {

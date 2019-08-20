@@ -15,7 +15,7 @@
     var mirrorCanvasObject = new CanvasObject(preImageMirrorCanvasId);
     drawDots(mirrorCanvasObject);
 
-function startup() {
+function startupEx6() {
     
     //set up button to write question object to JSON
     var writeToJSONButton = document.getElementById("writeToJSONButton");
