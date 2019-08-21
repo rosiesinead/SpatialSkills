@@ -320,14 +320,15 @@
 
         }
 
-        
-    function setUp4or5(exercise){
-        setUpRotationCanvasAlpha(exercise)
-        for(var i =0;i<exercise.questions.length;i++){
-            for(var j=0;j<exercise.questions[i].rotationCanvas.length;j++){
-                setUpButtonsAlphabetic(exercise.questions[i].rotationCanvas[j]);
-             
-            }
+        function setUp4or5(exercise){
+            setUpRotationCanvasAlpha(exercise)
+            for(var i =0;i<exercise.questions.length;i++){
+                for(var j=0;j<exercise.questions[i].rotationCanvas.length;j++){
+                    setUpButtonsAlphabetic(exercise.questions[i].rotationCanvas[j]);
+                 
+                }
+
+
             for(var j=0;j<exercise.questions[i].questionCanvas.length;j++){
                 setUpButtonsAxes(exercise.questions[i].questionCanvas[j]);                     
             }
