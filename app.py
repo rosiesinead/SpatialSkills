@@ -111,25 +111,25 @@ def logout():
 #--EXERCISES----------------------------------------------------------------
 #---------------------------------------------------------------------------
 
-#add a new question to database
-@app.route('/newquestion', methods=['POST'])
-@login_required
-def newquestion(): 
-    #receive data and convert to dictionary
-    data = json.dumps(request.form)
-    dataToDict = json.loads(data)
-    #get exercise number and exercise data from dictionary and store in variables
-    exerciseNumber = dataToDict["exerciseNumber"]
-    questionData = dataToDict["questionData"]
-    questionAnswers = dataToDict["questionAnswers"]
-    #get highest question number in database for that exercise and increment it
-    questionNumber = db.session.query(func.max(Exercises.question_number)).filter_by(exercise_number=exerciseNumber).scalar() + 1
-    #create new exercise
-    newExercise = Exercises(exercise_number=exerciseNumber, question_number=questionNumber,question_data=questionData, question_answers=questionAnswers)
-    #commit to database
-    db.session.add(newExercise)
-    db.session.commit()
-    return ""
+# #add a new question to database
+# @app.route('/newquestion', methods=['POST'])
+# @login_required
+# def newquestion(): 
+#     #receive data and convert to dictionary
+#     data = json.dumps(request.form)
+#     dataToDict = json.loads(data)
+#     #get exercise number and exercise data from dictionary and store in variables
+#     exerciseNumber = dataToDict["exerciseNumber"]
+#     questionData = dataToDict["questionData"]
+#     questionAnswers = dataToDict["questionAnswers"]
+#     #get highest question number in database for that exercise and increment it
+#     questionNumber = db.session.query(func.max(Exercises.question_number)).filter_by(exercise_number=exerciseNumber).scalar() + 1
+#     #create new exercise
+#     newExercise = Exercises(exercise_number=exerciseNumber, question_number=questionNumber,question_data=questionData, question_answers=questionAnswers)
+#     #commit to database
+#     db.session.add(newExercise)
+#     db.session.commit()
+#     return ""
 
 #edit a question
 @app.route('/savequestion', methods=['POST'])
@@ -177,8 +177,7 @@ def deletequestion():
             if i.question_number > int(questionNumber):
                 i.question_number = i.question_number - 1
                 db.session.commit()
-    return ""
-    #return {"redirect":true,"redirect_url":"/admin"}
+    return json.dumps({"redirect":True,"redirect_url":"/admin"}), 200, {'ContentType':'application/json'}
     
 #get exercise data from database
 @app.route('/getexercises', methods=['GET'])
