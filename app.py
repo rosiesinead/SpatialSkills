@@ -63,6 +63,8 @@ def index():
 #login process
 @app.route('/login', methods=['POST'])
 def login():
+    print("login")
+    print(current_user)
     #get username from login form
     username = request.form['username']
     #create user variable and query the table by username
