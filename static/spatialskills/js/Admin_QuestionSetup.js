@@ -473,14 +473,6 @@
         var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
         saveQuestionButton.onclick = function() {
             if(confirm("Are you sure you want to save changes?")){
-                console.log("ex num")
-                console.log(exercise.num)
-                console.log("qu num")
-                console.log(exercise.currentQuestion)
-                console.log("question!")
-                //console.log(exercise.questions[exercise.currentQuestion-1])
-               // var question = JSON.parse(JSON.stringify(exercise.questions[exercise.currentQuestion - 1]))
-               // console.log(question)
                 saveAQuestion(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
            
         }
@@ -491,10 +483,6 @@
         var deleteQuestionButton = document.getElementById(exercise.name + "DeleteButton");
         deleteQuestionButton.onclick = function(){
             if(confirm('Are you sure your want to delete this question?')){
-                console.log("ex num")
-                console.log(exercise.num)
-                console.log("qu num")
-                console.log(exercise.currentQuestion)
                 deleteFromDatabase(exercise.num,exercise.currentQuestion)
             }
         }
