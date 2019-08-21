@@ -107,13 +107,17 @@
   </head>
    <body onload="startupAll();">
 
+
+    
+
      <!-- Start of home page: #home -->
      <div data-role="page" id="home" class="ui-responsive-panel">
 
        <div data-role="header">
               <a href="#nav-panel-home" data-icon="bars" data-theme="b" data-iconpos="notext">Menu</a>
         <h1>Home</h1>
-             <a href="#" class="ui-btn ui-shadow ui-corner-all ui-icon-info ui-btn-icon-notext ui-btn-b ui-btn-inline" data-role="button" onclick="logout()">Logout</a>
+    
+        <a href="logout" class="button">Logout</a>
        </div><!-- /header -->
 
        <div role="main" class="ui-content">
@@ -170,8 +174,11 @@
              </div>
       </div>
 
+      
+
                   <div data-role="panel" data-display="push" data-theme="b" data-position="left" data-position-fixed="true" id="nav-panel-home" class="mymenu">
                   <ul data-role="listview">
+
                         <li data-icon="delete"><a href="#" data-rel="close">Close menu</a></li>
                   <li><a href="#home" class="ui-btn ui-shadow ui-corner-all ui-btn-active" data-transition="none">Home</a></li>
                   <li><a href="#ex1" data-transition="none" >Exercise 1 - Top, Front and Side</a></li>
@@ -184,7 +191,7 @@
                     </ul>
                   </div>
 
-
+                  
 
       </div>
 

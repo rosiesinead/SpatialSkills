@@ -124,7 +124,11 @@ function enableTouchText(canvas, text, rotation) {
 
            //this enables touch for the canvas object and sets it to handle placing text with touch
             addGridText(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, text, rotation);
+            disableTouch(canvas)
+            disableDrawText();
+        
         }
+        
     }).on('vmousemove', function(e){
         touchmoved = true;
         
@@ -159,6 +163,9 @@ function enableTouchAxes(canvas, axis, axisLabel) {
 
            //this enables touch for the canvas object and sets it to handle placing text with touch
            addGridAxis(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, axis, axisLabel);
+           disableTouch(canvas)
+           disableDrawAxes();
+        
         }
     }).on('vmousemove', function(e){
         touchmoved = true;
@@ -196,6 +203,12 @@ function enableTouchTrails(canvas, axis) {
 
            //this enables touch for the canvas object and sets it to handle placing text with touch
            addGridTrails(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, axis);
+        //    var canvasElement = document.getElementById(canvasId);
+        //    disableTouchTrails(canvasElement, axis);
+            disableTouch(canvas)
+            disableDrawTrails();
+           // comsole.log("test")
+        
         }
     }).on('vmousemove', function(e){
         touchmoved = true;
@@ -208,14 +221,14 @@ function enableTouchTrails(canvas, axis) {
     // canvas.addEventListener("touchstart", function(evt){myAnonymous = arguments.callee; handleStartTrails(evt, axis);}, false);
 }
     
-// function disableTouchTrails(canvas, axis) {
-//     //this disables touch for the canvas object in terms of placing trails
-//     canvas.removeEventListener("touchstart", myAnonymous);
-//     //deselect the adding trail buttons
-//     disableDrawTrails();
-//     //we have to then enable the drawing of lines again (only isometric)
-//     enableTouch(canvas);
-// }
+function disableTouchTrails(canvas, axis) {
+    //this disables touch for the canvas object in terms of placing trails
+    canvas.removeEventListener("touchstart", myAnonymous);
+    //deselect the adding trail buttons
+    disableDrawTrails();
+    //we have to then enable the drawing of lines again (only isometric)
+    enableTouch(canvas);
+}
 
 function enableTouchMirror(canvas, mirrorCanvasObject) {
 
@@ -234,7 +247,10 @@ function enableTouchMirror(canvas, mirrorCanvasObject) {
     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
     //add the same touches to the mirror canvas to help with admin
     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, mirrorCanvasObject);
-        }
+    disableTouch(canvas)
+    disableTouch(mirrorCanvasObject)
+
+}
     }).on('vmousemove', function(e){
         touchmoved = true;
         
