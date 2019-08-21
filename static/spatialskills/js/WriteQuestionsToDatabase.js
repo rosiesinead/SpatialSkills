@@ -1,82 +1,103 @@
 
-//removed original code for write a question
+function saveAQuestion(question,exerciseNumber,questionNumber){
 
-function writeQuestionToDb(question,exerciseNumber,questionNumber){
+    var questionData = JSON.parse(JSON.stringify(question));
 
-    // //update answer with any changes to question canvas
-    updateCorrectAnswer(question.questionCanvas)
-    // //update answer with any changes to answer canvas
-    updateCorrectAnswer(question.answerCanvas)
-   
-    // make a copy to save as answers
-    var questionAnswers = JSON.parse(JSON.stringify(question));
-
-    //var questionAnswers = getAnswers(question)
-
-    //clear lines on answer canvas so ready for user
-    for(var i=0;i<question.answerCanvas.length;i++){
-        question.answerCanvas[i].linesAllDrawn = []
-        question.answerCanvas[i].linesCurrentlyDrawn = []
+    //add the correct answer onto the answer canvas so that it will be visible to admin
+    for (var i = 0; i < questionData.answerCanvas.length; i++){
+        questionData.answerCanvas[i].correctAnswer = [];
+        questionData.answerCanvas[i].linesAllDrawn = [];
+        questionData.answerCanvas[i].tempLine = [];
+        linesOnToCorrect(questionData.answerCanvas[i])
+        //console.log(question.answerCanvas[i])
+    }
+        
+    //add the correct answer onto the question canvas so that it can be edited
+    for (var i = 0; i < questionData.questionCanvas.length; i++){
+        questionData.questionCanvas[i].correctAnswer = [];
+        questionData.questionCanvas[i].linesAllDrawn = [];
+        questionData.questionCanvas[i].tempLine = [];
+        linesOnToCorrect(questionData.questionCanvas[i])
+        console.log(questionData.questionCanvas[i])
     }
 
-    var save = {exerciseNumber:exerciseNumber,questionNumber:questionNumber,questionData:JSON.stringify(question),questionAnswers:JSON.stringify(questionAnswers)}
+    console.log("loo2p")
 
-    // console.log(save)
+    //make a copy of ther question which contains
+    var questionAnswers = JSON.parse(JSON.stringify(questionData));
+    console.log(questionData)
+    console.log(questionAnswers)
+
+
+    //clear lines on answer canvas so ready for user
+    for(var i=0;i<questionData.answerCanvas.length;i++){
+        questionData.answerCanvas[i].linesAllDrawn = []
+        questionData.answerCanvas[i].linesCurrentlyDrawn = []
+        
+    }
+
+    console.log(questionData)
+    console.log(questionAnswers)
+    //console.log(exerciseNumber)
+    //console.log(questionNumber)
+    saveToDatabase(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers))
+}
+
+//removed original code for write a question
+
+//1.clear the correct answer and copy lines currently drawn into the correct answer on both answer and question canvases
+//2.make a copy to save as the question answers
+//3.remove lines drawn from the answer canvas to save as the question
+// function prepareForSave(question){
+
+    //update the question with the new answers
+//     function getAnswers(question){
+//         console.log("get!!")
+   
+
+
+
+//     return question;
+
+
+
+// }
+
+ //add lines currently drawn to correct on the question canvas
+ //to be used when editing/creating a question
+
+// //puts the answer on the answer canvas
+// function makeAnswers(question){
+
+
+function linesOnToCorrect(canvas){
+    for (var i = 0; i < canvas.linesCurrentlyDrawn.length; i++){
+        //loop through the new lines drawn and add them to correct answer       
+            canvas.correctAnswer.push(canvas.linesCurrentlyDrawn[i])     
+    }
+
+} 
+
+
+function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers){ 
+  
+    var save = {exerciseNumber:exerciseNumber,questionNumber:questionNumber,questionData:questionData,questionAnswers:questionAnswers}
+
+     console.log(save)
 
     $.ajax({
         type: "POST",
-        url: "/editquestion",
+        url: "/savequestion",
         data: save,
         dataType: "json",
         success: function(resultData){
         alert("Save Complete");
         }
   });
-
-
-
-}
-
- //add lines currently drawn to correct on the question canvas
- //to be used when editing/creating a question
-
-function updateCorrectAnswer(canvas){
-
-   // var questionUpdates = JSON.parse(JSON.stringify(question));
-
-    for (var i = 0; i < canvas.length; i++){
-        //clear correct answer so we can update it with current lines
-        canvas[i].correctAnswer = []
-        //loop through the new lines drawn and add them to correct answer
-        for(var j=0; j<canvas[i].linesCurrentlyDrawn.length;j++){             
-            canvas[i].correctAnswer.push(canvas[i].linesCurrentlyDrawn[j])     
-        }
-    }
-
-} 
-
-//puts the answer on the answer canvas
-function getAnswers(question){
-
-    //make a copy of the question
-    var questionAnswers = JSON.parse(JSON.stringify(question));
-
-    //add the correct answer onto the answer canvas so that it will be visible to admin
-    for (var i = 0; i < questionAnswers.answerCanvas.length; i++){
-        writeCorrectAnswerToLinesCurrentlyDrawn(questionAnswers.answerCanvas[i])
-    }
-    //add the correct answer onto the question canvas so that it can be edited
-    for (var i = 0; i < questionAnswers.questionCanvas.length; i++){
-        writeCorrectAnswerToLinesCurrentlyDrawn(questionAnswers.questionCanvas[i])
-    }
-    return questionAnswers;
-
 }
 
 
-
-
-function deleteAQuestion(exerciseNumber,questionNumber){
+function deleteFromDatabase(exerciseNumber,questionNumber){
 
     var send = {exerciseNumber:exerciseNumber,questionNumber:questionNumber}
 
@@ -85,13 +106,22 @@ function deleteAQuestion(exerciseNumber,questionNumber){
         url: "/deletequestion",
         data: send,
         dataType: "json",
-        success: function(resultData){
+        success: function(data){
         alert("Delete Complete");
         }
+   
   });
 
 }
 
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
 // first break up the correct answer and put it back
 // get the answers and copy them on the canvases
 // save this as the answers
@@ -132,7 +162,29 @@ function breakLinesForDB(canvasArray,type){
     }             
 }
 
-function writeCorrectAnswerToLinesCurrentlyDrawn(canvasObject){
+
+
+
+//puts the answer on the answer canvas
+function getAnswers(question){
+
+    //make a copy of the question
+    var questionAnswers = JSON.parse(JSON.stringify(question));
+
+    //add the correct answer onto the answer canvas so that it will be visible to admin
+    for (var i = 0; i < questionAnswers.answerCanvas.length; i++){
+        correctOnToLines(questionAnswers.answerCanvas[i])
+    }
+    //add the correct answer onto the question canvas so that it can be edited
+    for (var i = 0; i < questionAnswers.questionCanvas.length; i++){
+        correctOnToLines(questionAnswers.questionCanvas[i])
+    }
+    return questionAnswers;
+
+}
+
+
+function correctOnToLines(canvasObject){
     //first clear linesCurrentlyDrawn
     canvasObject.linesCurrentlyDrawn = []
     for(var j=0;j<canvasObject.correctAnswer.length;j++){
@@ -140,3 +192,5 @@ function writeCorrectAnswerToLinesCurrentlyDrawn(canvasObject){
         canvasObject.linesCurrentlyDrawn.push(canvasObject.correctAnswer[j]);
     }
 }
+
+

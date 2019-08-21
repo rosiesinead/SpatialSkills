@@ -6,11 +6,6 @@
     function adminSetupQuestions(exercise){
 
         setUp(exercise);
-        setUpQuestionNumber(exercise);
-        setUpPreviousNextButtons(exercise);
-        setUpSaveButton(exercise);
-        setUpDeleteButton(exercise);
-        setUpNewQuestionButton(exercise); 
 
         switch(exercise.num){
             case 1:
@@ -30,12 +25,13 @@
             case 6:
                 break;
         }
-
-
+        setUpQuestionNumber(exercise);
+        setUpPreviousNextButtons(exercise);
+        setUpSaveButton(exercise);
+        setUpDeleteButton(exercise);
+        setUpNewQuestionButton(exercise); 
         
     }
-
-
 
 
     ///////////////////needed for all exercises///////////////////
@@ -464,17 +460,29 @@
         var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
         saveQuestionButton.onclick = function() {
             if(confirm("Are you sure you want to save changes?")){
-                writeQuestionToDb(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
+                console.log("ex num")
+                console.log(exercise.num)
+                console.log("qu num")
+                console.log(exercise.currentQuestion)
+                console.log("question!")
+                //console.log(exercise.questions[exercise.currentQuestion-1])
+               // var question = JSON.parse(JSON.stringify(exercise.questions[exercise.currentQuestion - 1]))
+               // console.log(question)
+                saveAQuestion(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
            
         }
     }
     
     function setUpDeleteButton(exercise){
     
-        var editQuestionButton = document.getElementById(exercise.name + "DeleteButton");
-        editQuestionButton.onclick = function(){
+        var deleteQuestionButton = document.getElementById(exercise.name + "DeleteButton");
+        deleteQuestionButton.onclick = function(){
             if(confirm('Are you sure your want to delete this question?')){
-                (deleteAQuestion(exercise.num,exercise.currentQuestion))
+                console.log("ex num")
+                console.log(exercise.num)
+                console.log("qu num")
+                console.log(exercise.currentQuestion)
+                deleteFromDatabase(exercise.num,exercise.currentQuestion)
             }
         }
     }
@@ -491,7 +499,7 @@
 
     function setUpNewQuestion(exercise){
         //make a copy of current question
-        var newQ = JSON.parse(JSON.stringify(exercise.questions[exercise.currentQuestion - 1]))
+        var newQ = JSON.parse(JSON.stringify(exercise.questions[exercise.currentQuestion-1]))
       
         //clear all the attributes so its blank and ready to use
         clearCanvasAttributes(newQ.answerCanvas);
