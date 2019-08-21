@@ -97,14 +97,14 @@ def homepage():
 @login_required
 def admin():
     if current_user.role == 'admin':
-        #return render_template("spatialskills/Ex6_ADMIN_Reflection.html")
+       # return render_template("spatialskills/Ex3_ADMIN_RotationsDegrees.html")
         return render_template("spatialskills/Admin_Homepage.html")
     else:
         return redirect(url_for('homepage'))
 
 #logout and return to login page
 @app.route('/logout')
-@login_required
+#@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
