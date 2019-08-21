@@ -418,6 +418,14 @@ function undoLine(canvasObject) {
     }
 }
 
+function clear(canvasObject){
+    clearLines(canvasObject);
+    clearAxes(canvasObject);
+    clearTrails(canvasObject);
+    clearText(canvasObject);
+
+}
+
 //function to clear the canvas
 function clearLines(canvasObject) {
     drawDots(canvasObject);
@@ -431,6 +439,14 @@ function clearLines(canvasObject) {
         canvasObject.linesAllDrawn[canvasObject.linesAllDrawn.length - 1].type = "clear";
     }
     canvasObject.linesCurrentlyDrawn.length = 0;
+}
+
+function clearText(canvasObject) {
+    drawDots(canvasObject);
+    //clear any touch points
+    canvasObject.tempLine.pop();    
+    //remove all lines from the lines currently drawn, but add them to linesAllDrawn to keep a record of the lines cleared
+    canvasObject.gridText = [];
 }
 
 ////////////////ADDITIONAL ISOMETRIC FUNCTIONS//////////////////////

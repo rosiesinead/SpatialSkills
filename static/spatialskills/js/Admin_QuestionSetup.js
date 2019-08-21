@@ -212,7 +212,7 @@
         
         //configure isometric button onlick events
         document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoLine(canvasObject)};
-        document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clearLines(canvasObject)};
+        document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clear(canvasObject)};
               
         var solidButton = document.getElementById(canvasObject.canvasId + "SolidButton");
         var dashedButton = document.getElementById(canvasObject.canvasId + "DashedButton");
@@ -464,8 +464,8 @@
         var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
         saveQuestionButton.onclick = function() {
             if(confirm("Are you sure you want to save changes?")){
-            writeQuestionToDb(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
-           //breakUp(exercise)
+                writeQuestionToDb(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
+           
         }
     }
     
@@ -483,7 +483,8 @@
         var createNewQuestionButton = document.getElementById(exercise.name + "AddButton");
         createNewQuestionButton.onclick = function(){
             if(confirm('Create a new question?')){
-                (setUpNewQuestion(exercise))
+                (setUpNewQuestion(exercise));
+                //breakUp(exercise);
             }
         }
     }

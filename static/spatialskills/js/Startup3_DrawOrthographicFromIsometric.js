@@ -50,7 +50,6 @@ function setupQuestions(exercise){
                 
                 //set up touch for the orthographic canvas
                 enableTouchOrth(document.getElementById(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i].canvasId));
-                console.log("testing touch passed")
                 //clear any p tags with feedback
                 clearPTags(exercise.questions[exercise.currentQuestion - 1].answerCanvas[i]);
                 //set up labels for feedback, only required for this exercise
