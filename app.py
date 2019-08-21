@@ -130,16 +130,18 @@ def newquestion():
     return ""
 
 #edit a question
-@app.route('/editquestion', methods=['POST'])
+@app.route('/savequestion', methods=['POST'])
 @login_required
-def editquestion(): 
+def editquestion():
+    print("ajax call is made") 
     #receive data and convert to dictionary
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
-    print(dataToDict)
     #data from dictionary and store in variables
     exerciseNumber = dataToDict["exerciseNumber"]
+    print(exerciseNumber)
     questionNumber = dataToDict["questionNumber"]
+    print(questionNumber)
     questionData = dataToDict["questionData"]
     questionAnswers = dataToDict["questionAnswers"]
     #Get question from database and update
@@ -155,7 +157,7 @@ def editquestion():
         db.session.commit()
         db.session.execute(Exercises.__table__.insert(), dataToDict)
         db.session.commit()
-    return ""
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     
 #delete a question from the database
 @app.route('/deletequestion', methods=['POST'])
@@ -168,15 +170,16 @@ def deletequestion():
     exerciseNumber = dataToDict["exerciseNumber"]
     questionNumber = dataToDict["questionNumber"]
     deleteQu = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
-    print(deleteQu)
-    db.session.delete(deleteQu)
-    #get exercises from database and update question numbers of those after deleted recod
-    for i in db.session.query(Exercises).filter_by(exercise_number=exerciseNumber).all():
-        if i.question_number > int(questionNumber):
-            print("questions after")
-            i.question_number = i.question_number - 1
-    db.session.commit()
-    return redirect(url_for('admin'))
+    if deleteQu:
+        db.session.delete(deleteQu)
+        db.session.commit()
+        print("deleted")
+        #get exercises from database and update question numbers of those after deleted recod
+        for i in db.session.query(Exercises).filter_by(exercise_number=exerciseNumber).all():
+            if i.question_number > int(questionNumber):
+                i.question_number = i.question_number - 1
+                db.session.commit()
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
 #get exercise data from database
 @app.route('/getexercises', methods=['GET'])
