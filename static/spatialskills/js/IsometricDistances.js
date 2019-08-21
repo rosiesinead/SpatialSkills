@@ -717,6 +717,7 @@ function drawAxes(canvasObject){
 
 //function to undo the last axis drawn
 function undoAxis(canvasObject) {
+    console.log(canvasObject)
     canvasObject.axes.pop();
     drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);        
 }

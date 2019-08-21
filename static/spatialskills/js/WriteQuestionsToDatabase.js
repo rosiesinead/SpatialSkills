@@ -18,15 +18,12 @@ function saveAQuestion(question,exerciseNumber,questionNumber){
         questionData.questionCanvas[i].linesAllDrawn = [];
         questionData.questionCanvas[i].tempLine = [];
         linesOnToCorrect(questionData.questionCanvas[i])
-        console.log(questionData.questionCanvas[i])
+
     }
 
-    console.log("loo2p")
 
     //make a copy of ther question which contains
     var questionAnswers = JSON.parse(JSON.stringify(questionData));
-    console.log(questionData)
-    console.log(questionAnswers)
 
 
     //clear lines on answer canvas so ready for user
@@ -36,10 +33,7 @@ function saveAQuestion(question,exerciseNumber,questionNumber){
         
     }
 
-    console.log(questionData)
-    console.log(questionAnswers)
-    //console.log(exerciseNumber)
-    //console.log(questionNumber)
+
     saveToDatabase(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers))
 }
 

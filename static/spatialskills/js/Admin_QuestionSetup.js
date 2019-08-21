@@ -279,37 +279,46 @@
 ///////////////////NEEDED FOR EXERCISE 4 AND 5///////////////////
 
 
-    function setUpButtonsAlphabetic(canvasObject) { //perhaps set up as question is a better name for function
+    function setUpButtonsAlphabetic(exercise) { //perhaps set up as question is a better name for function
     
+        for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].rotationCanvas.length; i++){
         //configure isometric button onlick events
-        document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoAlphabeticRotation(canvasObject)};
-        document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clearAlphabeticRotations(canvasObject)};
-        
-        var posXButton = document.getElementById("posX");
-        var posYButton = document.getElementById("posY");
-        var posZButton = document.getElementById("posZ");
-        var negXButton = document.getElementById("negX");
-        var negYButton = document.getElementById("negY");
-        var negZButton = document.getElementById("negZ");
-        posXButton.onclick = function() {addAlphabeticRotation(canvasObject, "positive", "X")};
-        posYButton.onclick = function() {addAlphabeticRotation(canvasObject, "positive", "Y")};
-        posZButton.onclick = function() {addAlphabeticRotation(canvasObject, "positive", "Z")};
-        negXButton.onclick = function() {addAlphabeticRotation(canvasObject, "negative", "X")};
-        negYButton.onclick = function() {addAlphabeticRotation(canvasObject, "negative", "Y")};
-        negZButton.onclick = function() {addAlphabeticRotation(canvasObject, "negative", "Z")};    
+            var canvasObject = exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i];
+
+            document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoAlphabeticRotation(canvasObject)};
+            document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clearAlphabeticRotations(canvasObject)};
+            
+            var posXButton = document.getElementById(exercise.name + "posX");
+            var posYButton = document.getElementById(exercise.name + "posY");
+            var posZButton = document.getElementById(exercise.name + "posZ");
+            var negXButton = document.getElementById(exercise.name + "negX");
+            var negYButton = document.getElementById(exercise.name + "negY");
+            var negZButton = document.getElementById(exercise.name + "negZ");
+            posXButton.onclick = function() {addAlphabeticRotation(canvasObject, "positive", "X")};
+            posYButton.onclick = function() {addAlphabeticRotation(canvasObject, "positive", "Y")};
+            posZButton.onclick = function() {addAlphabeticRotation(canvasObject, "positive", "Z")};
+            negXButton.onclick = function() {addAlphabeticRotation(canvasObject, "negative", "X")};
+            negYButton.onclick = function() {addAlphabeticRotation(canvasObject, "negative", "Y")};
+            negZButton.onclick = function() {addAlphabeticRotation(canvasObject, "negative", "Z")};    
+        }
     }
 
-    function setUpButtonsAxes(canvasObject){
+    function setUpButtonsAxes(exercise){
+
+        for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
     
-        document.getElementById(canvasObject.canvasId + "UndoAxisButton").onclick = function() {undoAxis(canvasObject)};
-        document.getElementById(canvasObject.canvasId + "ClearAxesButton").onclick = function() {clearAxes(canvasObject)};
-        
-        var xAxisButton = document.getElementById(canvasObject.canvasId + "xAxis");
-        var yAxisButton = document.getElementById(canvasObject.canvasId + "yAxis");
-        var zAxisButton = document.getElementById(canvasObject.canvasId + "zAxis");
-        xAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringX, axisLabelX, xAxisButton, yAxisButton, zAxisButton)};
-        yAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringY, axisLabelY, yAxisButton, xAxisButton, zAxisButton)};
-        zAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringZ, axisLabelZ, zAxisButton, xAxisButton, yAxisButton)};
+            var canvasObject = exercise.questions[exercise.currentQuestion - 1].questionCanvas[i];
+            
+            document.getElementById(canvasObject.canvasId + "UndoAxisButton").onclick = function() {undoAxis(canvasObject)};
+            document.getElementById(canvasObject.canvasId + "ClearAxesButton").onclick = function() {clearAxes(canvasObject)};
+            
+            var xAxisButton = document.getElementById(canvasObject.canvasId + "xAxis");
+            var yAxisButton = document.getElementById(canvasObject.canvasId + "yAxis");
+            var zAxisButton = document.getElementById(canvasObject.canvasId + "zAxis");
+            xAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringX, axisLabelX, xAxisButton, yAxisButton, zAxisButton)};
+            yAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringY, axisLabelY, yAxisButton, xAxisButton, zAxisButton)};
+            zAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringZ, axisLabelZ, zAxisButton, xAxisButton, yAxisButton)};
+        }
     }
 
     function setUpRotationCanvasAlpha(exercise){
@@ -322,66 +331,76 @@
 
         function setUp4or5(exercise){
             setUpRotationCanvasAlpha(exercise)
-            for(var i =0;i<exercise.questions.length;i++){
-                for(var j=0;j<exercise.questions[i].rotationCanvas.length;j++){
-                    setUpButtonsAlphabetic(exercise.questions[i].rotationCanvas[j]);
-                 
-                }
-
-
-            for(var j=0;j<exercise.questions[i].questionCanvas.length;j++){
-                setUpButtonsAxes(exercise.questions[i].questionCanvas[j]);                     
-            }
+            setUpButtonsAlphabetic(exercise);
+            setUpButtonsAxes(exercise);
+   
         }
-    }
+
 //////////////////////////////////////////////////////////////////
 
 ///////////////////NEEDED FOR EXERCISE 3///////////////////
 
-    function setUpButtonsNumeric(canvasObject) { //perhaps set up as question is a better name for function
+    function setUpButtonsNumeric(exercise) { //perhaps set up as question is a better name for function
     
-        //configure isometric button onlick events
-        document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoNumericRotation(canvasObject)};
-        document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clearNumericRotations(canvasObject)};
         
-        var pos90Button = document.getElementById("pos90");
-        var pos180Button = document.getElementById("pos180");
-        var pos270Button = document.getElementById("pos270");
-        var neg90Button = document.getElementById("neg90");
-        var neg180Button = document.getElementById("neg180");
-        var neg270Button = document.getElementById("neg270");
-        pos90Button.onclick = function() {addNumericRotation(canvasObject, "+90")};
-        pos180Button.onclick = function() {addNumericRotation(canvasObject, "+180")};
-        pos270Button.onclick = function() {addNumericRotation(canvasObject, "+270")};
-        neg90Button.onclick = function() {addNumericRotation(canvasObject, "-90")};
-        neg180Button.onclick = function() {addNumericRotation(canvasObject, "-180")};
-        neg270Button.onclick = function() {addNumericRotation(canvasObject, "-270")};    
+        for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].rotationCanvas.length; i++){
+            //configure isometric button onlick events
+            var canvasObject = exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i];
+
+            //configure isometric button onlick events
+            document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoNumericRotation(canvasObject)};
+            document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clearNumericRotations(canvasObject)};
+            
+            var pos90Button = document.getElementById("pos90");
+            var pos180Button = document.getElementById("pos180");
+            var pos270Button = document.getElementById("pos270");
+            var neg90Button = document.getElementById("neg90");
+            var neg180Button = document.getElementById("neg180");
+            var neg270Button = document.getElementById("neg270");
+            pos90Button.onclick = function() {addNumericRotation(canvasObject, "+90")};
+            pos180Button.onclick = function() {addNumericRotation(canvasObject, "+180")};
+            pos270Button.onclick = function() {addNumericRotation(canvasObject, "+270")};
+            neg90Button.onclick = function() {addNumericRotation(canvasObject, "-90")};
+            neg180Button.onclick = function() {addNumericRotation(canvasObject, "-180")};
+            neg270Button.onclick = function() {addNumericRotation(canvasObject, "-270")};    
+   
+        }
     }
 
-    function setUpButtonsBlankAxes(canvasObject){
-    
-        document.getElementById(canvasObject.canvasId + "UndoAxisButton").onclick = function() {undoAxis(canvasObject)};
-        document.getElementById(canvasObject.canvasId + "ClearAxesButton").onclick = function() {clearAxes(canvasObject)};
+    function setUpButtonsBlankAxes(exercise){
         
-        var xAxisButton = document.getElementById(canvasObject.canvasId + "xAxis");
-        var yAxisButton = document.getElementById(canvasObject.canvasId + "yAxis");
-        var zAxisButton = document.getElementById(canvasObject.canvasId + "zAxis");
-        xAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringX, axisLabelBlank, xAxisButton, yAxisButton, zAxisButton)};
-        yAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringY, axisLabelBlank, yAxisButton, xAxisButton, zAxisButton)};
-        zAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringZ, axisLabelBlank, zAxisButton, xAxisButton, yAxisButton)};
+        for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
+    
+            var canvasObject = exercise.questions[exercise.currentQuestion - 1].questionCanvas[i];   
+        
+            document.getElementById(canvasObject.canvasId + "UndoAxisButton").onclick = function() {undoAxis(canvasObject)};
+            document.getElementById(canvasObject.canvasId + "ClearAxesButton").onclick = function() {clearAxes(canvasObject)};
+            
+            var xAxisButton = document.getElementById(canvasObject.canvasId + "xAxis");
+            var yAxisButton = document.getElementById(canvasObject.canvasId + "yAxis");
+            var zAxisButton = document.getElementById(canvasObject.canvasId + "zAxis");
+            xAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringX, axisLabelBlank, xAxisButton, yAxisButton, zAxisButton)};
+            yAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringY, axisLabelBlank, yAxisButton, xAxisButton, zAxisButton)};
+            zAxisButton.onclick = function() {enableDrawAxes(canvasObject, axisStringZ, axisLabelBlank, zAxisButton, xAxisButton, yAxisButton)};
+        }
     }
     
-    function setUpButtonsAxisTrails(canvasObject){
+    function setUpButtonsAxisTrails(exercise){
         
-        document.getElementById(canvasObject.canvasId + "UndoTrailButton").onclick = function() {undoTrail(canvasObject)};
-        document.getElementById(canvasObject.canvasId + "ClearTrailsButton").onclick = function() {clearTrails(canvasObject)};
-        
-        var xTrailButton = document.getElementById(canvasObject.canvasId + "xTrail");
-        var yTrailButton = document.getElementById(canvasObject.canvasId + "yTrail");
-        var zTrailButton = document.getElementById(canvasObject.canvasId + "zTrail");
-        xTrailButton.onclick = function() {enableDrawTrails(canvasObject, trailStringX, xTrailButton, yTrailButton, zTrailButton)};
-        yTrailButton.onclick = function() {enableDrawTrails(canvasObject, trailStringY, yTrailButton, xTrailButton, zTrailButton)};
-        zTrailButton.onclick = function() {enableDrawTrails(canvasObject, trailStringZ, zTrailButton, xTrailButton, yTrailButton)};
+        for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
+    
+            var canvasObject = exercise.questions[exercise.currentQuestion - 1].questionCanvas[i];
+
+            document.getElementById(canvasObject.canvasId + "UndoTrailButton").onclick = function() {undoTrail(canvasObject)};
+            document.getElementById(canvasObject.canvasId + "ClearTrailsButton").onclick = function() {clearTrails(canvasObject)};
+            
+            var xTrailButton = document.getElementById(canvasObject.canvasId + "xTrail");
+            var yTrailButton = document.getElementById(canvasObject.canvasId + "yTrail");
+            var zTrailButton = document.getElementById(canvasObject.canvasId + "zTrail");
+            xTrailButton.onclick = function() {enableDrawTrails(canvasObject, trailStringX, xTrailButton, yTrailButton, zTrailButton)};
+            yTrailButton.onclick = function() {enableDrawTrails(canvasObject, trailStringY, yTrailButton, xTrailButton, zTrailButton)};
+            zTrailButton.onclick = function() {enableDrawTrails(canvasObject, trailStringZ, zTrailButton, xTrailButton, yTrailButton)};
+        }
     }
 
     function enableDrawTrails(canvasObject, axis, pressedButton, secondButton, thirdButton) {
@@ -408,17 +427,10 @@
         }
 
         function setUp3(exercise){
-            setUpRotationCanvasNum(exercise)
-            for(var i =0;i<exercise.questions.length;i++){
-                for(var j=0;j<exercise.questions[i].rotationCanvas.length;j++){
-                    setUpButtonsNumeric(exercise.questions[i].rotationCanvas[j]);
-                 
-                }
-                for(var j=0;j<exercise.questions[i].questionCanvas.length;j++){
-                    setUpButtonsBlankAxes(exercise.questions[i].questionCanvas[j]);
-                    setUpButtonsAxisTrails(exercise.questions[i].questionCanvas[j]);
-                }
-            }
+                setUpButtonsNumeric(exercise);
+                setUpButtonsBlankAxes(exercise);
+                setUpButtonsAxisTrails(exercise);
+
         }
 
 
@@ -461,14 +473,6 @@
         var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
         saveQuestionButton.onclick = function() {
             if(confirm("Are you sure you want to save changes?")){
-                console.log("ex num")
-                console.log(exercise.num)
-                console.log("qu num")
-                console.log(exercise.currentQuestion)
-                console.log("question!")
-                //console.log(exercise.questions[exercise.currentQuestion-1])
-               // var question = JSON.parse(JSON.stringify(exercise.questions[exercise.currentQuestion - 1]))
-               // console.log(question)
                 saveAQuestion(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
            
         }
@@ -479,10 +483,6 @@
         var deleteQuestionButton = document.getElementById(exercise.name + "DeleteButton");
         deleteQuestionButton.onclick = function(){
             if(confirm('Are you sure your want to delete this question?')){
-                console.log("ex num")
-                console.log(exercise.num)
-                console.log("qu num")
-                console.log(exercise.currentQuestion)
                 deleteFromDatabase(exercise.num,exercise.currentQuestion)
             }
         }
