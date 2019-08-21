@@ -21,8 +21,9 @@ login_manager.init_app(app)
 
 #create database model for exercises table
 class Exercises(db.Model):
-    exercise_number = db.Column(db.Integer, primary_key=True)
-    question_number = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    exercise_number = db.Column(db.Integer)
+    question_number = db.Column(db.Integer)
     question_data = db.Column(db.String(10000))
     question_answers = db.Column(db.String(1000000))
 
@@ -40,9 +41,10 @@ class Users(db.Model,UserMixin ):
 
 #create database model for progress table
 class Progress(db.Model,UserMixin ):
-    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'), primary_key=True)
-    exercise_number = db.Column(db.Integer, primary_key=True)
-    question_number = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, primary_key=True)
+    exercise_id =db.Column(db.Integer, primary_key=True)
+    # exercise_number = db.Column(db.Integer, primary_key=True)
+    # question_number = db.Column(db.Integer, primary_key=True)
     answer_canvas = db.Column(db.Integer, primary_key=True)
     complete = db.Column(db.Integer, default=0)
     answer_data = db.Column(db.String(1000000))
@@ -133,15 +135,12 @@ def newquestion():
 @app.route('/savequestion', methods=['POST'])
 @login_required
 def editquestion():
-    print("ajax call is made") 
     #receive data and convert to dictionary
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
     #data from dictionary and store in variables
     exerciseNumber = dataToDict["exerciseNumber"]
-    print(exerciseNumber)
     questionNumber = dataToDict["questionNumber"]
-    print(questionNumber)
     questionData = dataToDict["questionData"]
     questionAnswers = dataToDict["questionAnswers"]
     #Get question from database and update
@@ -155,8 +154,8 @@ def editquestion():
         #commit to database
         db.session.add(newExercise)
         db.session.commit()
-        db.session.execute(Exercises.__table__.insert(), dataToDict)
-        db.session.commit()
+        # db.session.execute(Exercises.__table__.insert(), dataToDict)
+        # db.session.commit()
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     
 #delete a question from the database
@@ -173,14 +172,14 @@ def deletequestion():
     if deleteQu:
         db.session.delete(deleteQu)
         db.session.commit()
-        print("deleted")
         #get exercises from database and update question numbers of those after deleted recod
         for i in db.session.query(Exercises).filter_by(exercise_number=exerciseNumber).all():
             if i.question_number > int(questionNumber):
                 i.question_number = i.question_number - 1
                 db.session.commit()
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-
+    return ""
+    #return {"redirect":true,"redirect_url":"/admin"}
+    
 #get exercise data from database
 @app.route('/getexercises', methods=['GET'])
 @login_required
@@ -197,7 +196,7 @@ def getexercises():
 @app.route('/getprogress', methods=['GET'])
 @login_required
 def getprogress():
-    dataframe = pd.read_sql_query("select * from progress where user_id =?", 'sqlite:///ssdatabase.db',params=[current_user.id])
+    dataframe = pd.read_sql_query("SELECT * from progress as P, exercises as E where P.exercise_id= E.id and P.user_id =?", 'sqlite:///ssdatabase.db',params=[current_user.id])
     senddata = dataframe.to_json(orient='records')
     return json.dumps(senddata)
 
@@ -215,7 +214,8 @@ def writeprogress():
     complete = dataToDict["complete"]
     answer_data = dataToDict["answer_data"]
     #check if prog already exists in database
-    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_number=exercise_number,question_number=question_number,answer_canvas=answer_canvas).first()
+    exId = Exercises.query.with_entities(Exercises.id).filter_by(exercise_number=exercise_number,question_number=question_number).scalar()
+    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_id=exId,answer_canvas=answer_canvas).first()
     #if it does, check whether it has been completed already and if so don't change anything
     #otherwise update complete and answer_data columns
     if checkProg:
@@ -223,11 +223,13 @@ def writeprogress():
             return ""
         else:
             checkProg.complete = complete            
-            check_stat.answer_data=answer_data
+            checkProg.answer_data=answer_data
             db.session.commit()
     #if stat doesn't already exist then add it
     else:
-        db.session.execute(Progress.__table__.insert(), dataToDict)
+        newProgress = Progress(user_id=current_user.id,exercise_id=exId,answer_canvas=answer_canvas,complete=complete,answer_data=answer_data)
+        #commit to database
+        db.session.add(newProgress)
         db.session.commit()
     return ""
 

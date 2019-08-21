@@ -92,6 +92,7 @@ function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswe
         dataType: "json",
         success: function(resultData){
         alert("Save Complete");
+        
         }
   });
 }
@@ -106,8 +107,12 @@ function deleteFromDatabase(exerciseNumber,questionNumber){
         url: "/deletequestion",
         data: send,
         dataType: "json",
-        success: function(data){
-        alert("Delete Complete");
+        success: function(response){
+            console.log(response)
+            alert("Delete Complete");
+            if (response.redirect !== undefined && response.redirect) {
+                window.location.href = response.redirect_url;
+            }
         }
    
   });
