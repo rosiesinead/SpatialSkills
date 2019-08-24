@@ -105,7 +105,7 @@
 
     </style>
   </head>
-   <body onload="startupAll();">
+   <body onload=" startupAll();">
 
      <!-- Start of home page: #home -->
      <div data-role="page" id="home" class="ui-responsive-panel">
@@ -878,8 +878,8 @@
         </div>
 
     <script src="{{ url_for('static', filename='spatialskills/js/Exercise.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Admin_ExerciseSetup.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/DBExercise.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/ExercisesSetup.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/DatabaseExercise.js') }}"></script> 
     <script src="{{ url_for('static', filename='spatialskills/js/Question.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/CanvasObject.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Line.js') }}"></script>
@@ -891,7 +891,7 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Messages.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/OrthographicAnswers.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup2_All.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_All.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Admin_QuestionSetup.js') }}"></script>
     <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawOrthographicFromIsometric.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawIsometricFromOrthographic.js') }}"></script>
@@ -901,13 +901,9 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricReflection.js') }}"></script> -->
     <script src="{{ url_for('static', filename='spatialskills/js/Admin_AddTouch.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Admin_Startup.js') }}"></script> 
-    <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex2_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex3_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex4_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex5_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex6_Admin.js') }}"></script>  
- -->
- <script src="{{ url_for('static', filename='spatialskills/js/WriteQuestionsToDatabase.js') }}"></script> 
+
+
+ <script src="{{ url_for('static', filename='spatialskills/js/Admin_EditQuestions.js') }}"></script> 
 
     <script src="{{ url_for('static', filename='spatialskills/js/RotationCanvas.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/NumericRotation.js') }}"></script>
@@ -915,7 +911,6 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Axis.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/AxisTrail.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/AlphabeticRotation.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/QuestionSetup.js') }}"></script>
 
   </body>
 

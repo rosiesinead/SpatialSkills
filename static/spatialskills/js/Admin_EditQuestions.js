@@ -5,6 +5,8 @@ function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswe
   
     var save = new DatabaseExercise(exerciseNumber,questionNumber,questionData,questionAnswers);
 
+    console.log(save)
+    
     $.ajax({
         type: "POST",
         url: "/savequestion",

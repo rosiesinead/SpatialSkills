@@ -1,7 +1,7 @@
 
-function DatabaseExercise(exerciseNumber,questionNumber,questionData,answerData){
+function DatabaseExercise(exerciseNumber,questionNumber,questionData,questionAnswers){
     this.exerciseNumber=exerciseNumber;
     this.questionNumber=questionNumber;
     this.questionData=questionData;
-    this.answerData=answerData;
+    this.questionAnswers=questionAnswers;
 }
