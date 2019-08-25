@@ -212,14 +212,15 @@ def writeprogress():
     canvasNumber = dataToDict["canvasNumber"]
     complete = dataToDict["complete"]
     canvasData = dataToDict["canvasData"]
-    #check if prog already exists in database
+    #get the exercise id
     exId = Exercises.query.with_entities(Exercises.id).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).scalar()
-    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_id=exId,canvas_data=canvasData).first()
+    #check if prog already exists in database
+    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_id=exId,canvas_number=canvasNumber).first()
     #if it does, check whether it has been completed already and if so don't change anything
     #otherwise update complete and answer_data columns
     if checkProg:
         if checkProg.complete==1:
-            return ""
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
         else:
             checkProg.complete = complete            
             checkProg.canvas_data=canvasData
@@ -230,7 +231,7 @@ def writeprogress():
         #commit to database
         db.session.add(newProgress)
         db.session.commit()
-    return ""
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
 
 

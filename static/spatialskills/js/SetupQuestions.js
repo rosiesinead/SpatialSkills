@@ -1,56 +1,72 @@
-////////////
-//need a question variable to be available to all functions
-//set up a question object to contain answerCanvas and QuestionCanvas
-    //question = new Question();
+    
+    var role;
+    var iso = 'isometric';
+    var ort = 'orthographic';
+    
+    function setupQuestions(role, exercise){
+        this.role = role;
+        setup1(exercise);
 
-    function adminSetupQuestions(exercise){
+    }
 
-        setUp(exercise);
+    function setup1 (exercise){
 
-        switch(exercise.num){
-            case 1:
-                setUpFrontButtons(exercise)
-                break;
-            case 2:
-                break;
-            case 3:
-                setUp3(exercise)
-                break;
-            case 4:
-                setUp4or5(exercise)
-                break;
-            case 5:
-                setUp4or5(exercise)
-                break;
-            case 6:
-                break;
-        }
-        setUpQuestionNumber(exercise);
-        setUpPreviousNextButtons(exercise);
-        setUpSaveButton(exercise);
-        setUpDeleteButton(exercise);
-        setUpNewQuestionButton(exercise); 
+        setup2(exercise);
         
+        //set up specific admin functions
+        if(role=='admin'){
+            switch(exercise.num){
+                case 1:
+                    setUpFrontButtons(exercise)
+                    break;
+                case 3:
+                    setupExercise3(exercise)
+                    break;
+                case 4:
+                    setupExercise4or5(exercise)
+                    break;
+                case 5:
+                    setupExercise4or5(exercise)
+                    break;
+            }
+
+
+        }
     }
 
 
-    ///////////////////needed for all exercises///////////////////
-    function setUp(exercise){
+/////////////////////////////////////////////////////////////////////////////////
+//FUNCTIONS REQUIRED FOR ALL EXERCISES//////////////////////////////////////////
+
+    
+    //set up canvases and buttons
+    function setup2(exercise){
         var currentQuestion = exercise.questions[exercise.currentQuestion-1]
         var questionCanvas = currentQuestion.questionCanvas;
         var answerCanvas = currentQuestion.answerCanvas;
+        setUpQuestionNumber(exercise);
+        setUpPreviousNextButtons(exercise);
+        setUpRotationCanvasNum(exercise);
+        setUpRotationCanvasAlpha(exercise);
         setupCanvas(exercise.questionType,questionCanvas);
         setupCanvas(exercise.answerType,answerCanvas);
-    }    
+        setupTouchCanvas(exercise.questionType,answerCanvas);
+        if(role=='admin'){
+            setupTouchCanvas(exercise.questionType,questionCanvas);
+            setUpSaveButton(exercise);
+            setUpDeleteButton(exercise);
+            setUpNewQuestionButton(exercise); 
+        }
+        else if(role=='user'){
+            setUpFeedback();
+
+        }
+    }   
     
     function setUpQuestionNumber(exercise){
         var qNumPTag = document.getElementById("questionNumber" + exercise.name);
         qNumPTag.innerHTML = exercise.currentQuestion + " of " + exercise.questions.length;
     }
-    
-    // function clearPTags(canvasObj){
-    //     document.getElementById(canvasObj.canvasId + "Answer").innerHTML = "";
-    // }
     
     function setUpPreviousNextButtons(exercise){
         var previousButton = document.getElementById(exercise.name + "PreviousButton");
@@ -78,13 +94,13 @@
     function loadPrevious(exercise) {
         //decrement currentQuestion by 1
         exercise.currentQuestion--;
-        adminSetupQuestions(exercise);
+        setup1(exercise);
     }
     
     function loadNext(exercise) {
         //increment currentQuestion by 1
         exercise.currentQuestion++;
-        adminSetupQuestions(exercise);
+        setup1(exercise);
     }
 
     function drawSolidLine(canvasObject, pressedButton, secondButton) {
@@ -103,79 +119,190 @@
         $(secondButton).removeClass('ui-btn-active');
     }
 
+    function setUpLineButtons(canvasObject) { 
+
+        var solidButton = document.getElementById(canvasObject.canvasId + "SolidButton");
+        var dashedButton = document.getElementById(canvasObject.canvasId + "DashedButton");
+        if(solidButton !=undefined){
+            solidButton.onclick = function() {drawSolidLine(canvasObject, solidButton, dashedButton)};
+        }
+        if(dashedButton !=undefined){
+        dashedButton.onclick = function() {drawDashedLine(canvasObject, dashedButton, solidButton)};
+        
+        }
+}
+    function clearPTags(canvasObj){
+        var answer = document.getElementById(canvasObj.canvasId + "Answer");
+        if(answer !=undefined){
+            answer.innerHTML="";
+        }
+    }
 
 
     function setupCanvas(type, canvasArray){
 
-        var iso = 'isometric'
-        var ort = 'orthographic'
+        for (var i = 0; i < canvasArray.length; i++){
 
-        setUpLineButtons(canvas);
+            var canvas = canvasArray[i]
+
+            setUpLineButtons(canvas)
+            //if there is any feedback, clear
+            clearPTags(canvas);
+
+            if(type==iso){
+                //  disable touch
+              //  disableTouch(document.getElementById(canvas.canvasId));
+                //draw dots on the isometric canvas
+                drawDots(canvas);
+                //draw correct answer lines on canvas
+                drawLines(canvas, canvas.correctAnswer);
+                 //set up buttons for drawing lines
+                setUpIsometricButtons(canvas);
+    
+            }
+            else if(type==ort){
+                // disable touch
+               // disableTouchOrth(document.getElementById(canvas.canvasId));
+                //draw dots on the orthographic canvas
+                drawDotsOrth(canvas);
+                //draw correct answer lines on canvas
+                drawLinesOrth(canvas, canvas.correctAnswer);
+                //set up buttons for drawing lines
+                setUpButtonsOrth(canvas);
+            }
+        }
+
+    }
+
+    function setupTouchCanvas(type, canvasArray){
 
         for (var i = 0; i < canvasArray.length; i++){
             var canvas = canvasArray[i]
+
             if(type==iso){
                 //  disable touch
-                disableTouch(document.getElementById(canvas.canvasId));
-                //draw dots on the isometric canvas
-                drawDots(canvas);
-                //draw the question on the isometric canvas
-                drawLines(canvas, canvas.correctAnswer);
-                //set up the buttons for each orthographic canvas
-                //set up touch for the isometric  canvas
+                //disableTouch(document.getElementById(canvas.canvasId));
                 enableTouch(document.getElementById(canvas.canvasId));
             }
             else if(type==ort){
                 // disable touch
-                disableTouchOrth(document.getElementById(canvas.canvasId));
-                //draw dots on the isometric canvas
-                drawDotsOrth(canvas);
-                //draw the question on the isometric canvas
-                drawLinesOrth(canvas, canvas.correctAnswer);
-                //set up touch for the isometric  canvas
+               // disableTouchOrth(document.getElementById(canvas.canvasId));
                 enableTouchOrth(document.getElementById(canvas.canvasId));
 
             }
         }
 
     }
+
+
+    function setUpSaveButton(exercise){   
+        var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
+        saveQuestionButton.onclick = function() {
+            if(confirm("Are you sure you want to save changes?")){
+                prepareForSave(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
+           
+        }
+    }
     
-//////////////////////////////////////////////////////////////////
+    function setUpDeleteButton(exercise){   
+        var deleteQuestionButton = document.getElementById(exercise.name + "DeleteButton");
+        deleteQuestionButton.onclick = function(){
+            if(confirm('Are you sure your want to delete this question?')){
+                deleteFromDatabase(exercise.num,exercise.currentQuestion)
+            }
+        }
+    }
 
+    function setUpNewQuestionButton(exercise){
+        var createNewQuestionButton = document.getElementById(exercise.name + "AddButton");
+        createNewQuestionButton.onclick = function(){
+            if(confirm('Create a new question?')){
+                setUpNewQuestion(exercise);    
+            }
+        }
+    }
 
-    function setUpLineButtons(canvasObject) { 
-        
+    function setUpNewQuestion(exercise){
+        //make a copy of current question
+        var newQ = JSON.parse(JSON.stringify(exercise.questions[exercise.currentQuestion-1]))
+      
+        //clear all the attributes so its blank and ready to use
+        clearCanvasAttributes(newQ.answerCanvas);
+        clearCanvasAttributes(newQ.questionCanvas);
+
+        //clear the rotation canvas elements as well if there are an
+        for (var i = 0; i < newQ.rotationCanvas.length; i++){
+            newQ.rotationCanvas[i].numericRotations = [];
+            newQ.rotationCanvas[i].alphabeticRotations = [];
+        }
+        //add new question to exercise array
+        exercise.questions.push(newQ);
+        //set the current question to the new question
+        exercise.currentQuestion = exercise.questions.length
+        //set the question up as per the exercise requirements
+        adminSetupQuestions(exercise);
+    }
+
+    //clear canvas attributes to use for new question
+    function clearCanvasAttributes(canvasArray){
+        for (var i = 0; i < canvasArray.length; i++){
+            canvasArray[i].correctAnswer = [];
+            canvasArray[i].linesCurrentlyDrawn = [];
+            canvasArray[i].tempLine = [];
+            canvasArray[i].linesAllDrawn = []; 
+            canvasArray[i].dashed = false; 
+            canvasArray[i].attempts = []; 
+            canvasArray[i].justChecked = false; 
+            canvasArray[i].gridText = [];
+            canvasArray[i].axes = [];
+            canvasArray[i].axisTrails = [];
+            
+        }
+    }
+
+    function setUpIsometricButtons(canvasObject) { 
         //configure isometric button onlick events
-        document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoLine(canvasObject)};
-        document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clear(canvasObject)};
-              
-        var solidButton = document.getElementById(canvasObject.canvasId + "SolidButton");
-        var dashedButton = document.getElementById(canvasObject.canvasId + "DashedButton");
-        solidButton.onclick = function() {drawSolidLine(canvasObject, solidButton, dashedButton)};
-        dashedButton.onclick = function() {drawDashedLine(canvasObject, dashedButton, solidButton)};
+        var undoButton = document.getElementById(canvasObject.canvasId + "UndoButton");
+        if(undoButton!=undefined){
+            undoButton.onclick = function() {undoLine(canvasObject)};
+        }
+        var clearButton = document.getElementById(canvasObject.canvasId + "ClearButton");
+        if(clearButton!=undefined){
+            clearButton.onclick = function() {clearLines(canvasObject)};
+        }
+
+        var isometricCheckAnswerButton = document.getElementById(canvasObject.canvasId + "CheckAnswerButton");
+        if(isometricCheckAnswerButton!=undefined){
+            var isometricAnswer = canvasObject.canvasId + "Answer";
+            isometricCheckAnswerButton.onclick = function () {checkAnswerOrth(canvasObject, isometricAnswer)};
+        }
+
+    }
         
+
+    function setUpButtonsOrth(canvasObject) { //perhaps set up as answer is a better name for function
+        //configure isometric button onlick events
+        var undoButton = document.getElementById(canvasObject.canvasId + "UndoButton");
+        if(undoButton!=undefined){
+            undoButton.onclick = function() {undoLineOrth(canvasObject)};
+        }
+        var clearButton = document.getElementById(canvasObject.canvasId + "ClearButton");
+        if(clearButton!=undefined){
+            clearButton.onclick = function() {clearLinesOrth(canvasObject)};
+        }
+
+        var orthographicCheckAnswerButton = document.getElementById(canvasObject.canvasId + "CheckAnswerButton");
+        if(orthographicCheckAnswerButton!=undefined){
+            var orthographicAnswer = canvasObject.canvasId + "Answer";
+            orthographicCheckAnswerButton.onclick = function () {checkAnswerOrth(canvasObject, orthographicAnswer)};
+
+        }
+
     }
 
 
-
-    
-    // function setUpButtonsOrth(canvasObject) { //perhaps set up as answer is a better name for function
-        
-        
-    //     //configure isometric button onlick events
-    //     document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoLineOrth(canvasObject)};
-    //     document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clearLinesOrth(canvasObject)};
-        
-    //     var orthographicSolidButton = document.getElementById(canvasObject.canvasId + "SolidButton");
-    //     $(orthographicSolidButton).addClass('ui-btn-active');
-    //     var orthographicDashedButton = document.getElementById(canvasObject.canvasId + "DashedButton");
-    //     $(orthographicDashedButton).removeClass('ui-btn-active');
-    //     orthographicSolidButton.onclick = function() {drawSolidLine(canvasObject, orthographicSolidButton, orthographicDashedButton)};
-    //     orthographicDashedButton.onclick = function() {drawDashedLine(canvasObject, orthographicDashedButton, orthographicSolidButton)};
-        
-    // }
-
-    ///////////////////NEEDED FOR EXERCISE 1 AND 2 ///////////////////
+/////////////////////////////////////////////////////////////////////////////////
+//FUNCTIONS REQUIRED FOR EXERCISE 1 ////////////////////////////////////////////
     
     function enableDrawText(canvasObject, text, rotation, pressedButton, secondButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
@@ -192,11 +319,8 @@
     }
 
     function setUpFrontButtons(exercise){
-
         for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].questionCanvas.length; i++){
-
-            var canvasObject = exercise.questions[exercise.currentQuestion - 1].questionCanvas[i];
-            
+            var canvasObject = exercise.questions[exercise.currentQuestion - 1].questionCanvas[i];  
             var frontLeftButton = document.getElementById(canvasObject.canvasId + "FrontLeftButton");
             var frontRightButton = document.getElementById(canvasObject.canvasId + "FrontRightButton");
             frontLeftButton.onclick = function (){enableDrawText(canvasObject, textFront, textSlopeDownToTheRightAngle, frontLeftButton, frontRightButton)};
@@ -207,20 +331,50 @@
         
     }
 
-
-
-//////////////////////////////////////////////////////////////////
-
-///////////////////NEEDED FOR EXERCISE 3///////////////////
-
-    function setUpButtonsNumeric(exercise) { //perhaps set up as question is a better name for function
-    
+      //only required for exercise 1 to differentiate between feedback
+      function setUpFeedback(){
+        var topFeedback = document.getElementById("orthographicEx1FeedbackTop");
+        var frontFeedback = document.getElementById("orthographicEx1FeedbackFront");
+        var sideFeedback = document.getElementById("orthographicEx1FeedbackSide");
         
+        topFeedback.innerHTML = "Top: ";
+        topFeedback.style.visibility = "hidden";
+        frontFeedback.innerHTML = "Front: ";
+        frontFeedback.style.visibility = "hidden";
+        sideFeedback.innerHTML = "Side: ";
+        sideFeedback.style.visibility = "hidden";
+        
+        var checkButton = document.getElementById("Ex1CheckAnswerButton");
+        checkButton.onclick = function () {provideFeedback()};
+        
+    }
+    
+    //only required for exercise 1 to differentiate between feedback
+    function provideFeedback(){
+        var topFeedback = document.getElementById("orthographicEx1FeedbackTop");
+        var frontFeedback = document.getElementById("orthographicEx1FeedbackFront");
+        var sideFeedback = document.getElementById("orthographicEx1FeedbackSide");
+        
+        topFeedback.style.visibility = "visible";
+        frontFeedback.style.visibility = "visible";
+        sideFeedback.style.visibility = "visible";
+        
+        document.getElementById('orthographicTopEx1CheckAnswerButton').click();
+        document.getElementById('orthographicFrontEx1CheckAnswerButton').click();
+        document.getElementById('orthographicSideEx1CheckAnswerButton').click();
+    }
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+//FUNCTIONS REQUIRED FOR EXERCISE 3 ////////////////////////////////////////////
+
+    function setUpButtonsNumeric(exercise) { 
+
         for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].rotationCanvas.length; i++){
-            //configure isometric button onlick events
+           
             var canvasObject = exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i];
 
-            //configure isometric button onlick events
             document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoNumericRotation(canvasObject)};
             document.getElementById(canvasObject.canvasId + "ClearButton").onclick = function() {clearNumericRotations(canvasObject)};
             
@@ -299,8 +453,8 @@
             }
         }
 
-        function setUp3(exercise){
-                setUpRotationCanvasNum(exercise)
+        function setupExercise3(exercise){
+               // setUpRotationCanvasNum(exercise)
                 setUpButtonsNumeric(exercise);
                 setUpButtonsBlankAxes(exercise);
                 setUpButtonsAxisTrails(exercise);
@@ -309,15 +463,13 @@
 
 
         
-//////////////////////////////////////////////////////////////////
-
-///////////////////NEEDED FOR EXERCISE 4 AND 5///////////////////
+/////////////////////////////////////////////////////////////////////////////////
+//FUNCTIONS REQUIRED FOR EXERCISES 4 & 5 ////////////////////////////////////////
 
 
     function setUpButtonsAlphabetic(exercise) { //perhaps set up as question is a better name for function
     
         for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].rotationCanvas.length; i++){
-        //configure isometric button onlick events
             var canvasObject = exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i];
 
             document.getElementById(canvasObject.canvasId + "UndoButton").onclick = function() {undoAlphabeticRotation(canvasObject)};
@@ -364,16 +516,15 @@
 
         }
 
-        function setUp4or5(exercise){
-            setUpRotationCanvasAlpha(exercise)
+        function setupExercise4or5(exercise){
+           // setUpRotationCanvasAlpha(exercise)
             setUpButtonsAlphabetic(exercise);
             setUpButtonsAxes(exercise);
    
         }
 
-    //////////////////////////////////////////////////////////////////
-
-///////////////////NEEDED FOR EXERCISE 3, 4 AND 5///////////////////
+/////////////////////////////////////////////////////////////////////////////////
+//FUNCTIONS REQUIRED FOR EXERCISES 3, 4 & 5 /////////////////////////////////////
 
     function enableDrawAxes(canvasObject, axis, axisLabel, pressedButton, secondButton, thirdButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
@@ -389,73 +540,3 @@
                 buttonElements[i].style.borderStyle = "";  
             }
     }
-
-    
-    function setUpSaveButton(exercise){   
-        var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
-        saveQuestionButton.onclick = function() {
-            if(confirm("Are you sure you want to save changes?")){
-                prepareForSave(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
-           
-        }
-    }
-    
-    function setUpDeleteButton(exercise){   
-        var deleteQuestionButton = document.getElementById(exercise.name + "DeleteButton");
-        deleteQuestionButton.onclick = function(){
-            if(confirm('Are you sure your want to delete this question?')){
-                deleteFromDatabase(exercise.num,exercise.currentQuestion)
-            }
-        }
-    }
-
-    function setUpNewQuestionButton(exercise){
-        var createNewQuestionButton = document.getElementById(exercise.name + "AddButton");
-        createNewQuestionButton.onclick = function(){
-            if(confirm('Create a new question?')){
-                setUpNewQuestion(exercise);    
-            }
-        }
-    }
-
-    function setUpNewQuestion(exercise){
-        //make a copy of current question
-        var newQ = JSON.parse(JSON.stringify(exercise.questions[exercise.currentQuestion-1]))
-      
-        //clear all the attributes so its blank and ready to use
-        clearCanvasAttributes(newQ.answerCanvas);
-        clearCanvasAttributes(newQ.questionCanvas);
-
-        //clear the rotation canvas elements as well if there are an
-        for (var i = 0; i < newQ.rotationCanvas.length; i++){
-            newQ.rotationCanvas[i].numericRotations = [];
-            newQ.rotationCanvas[i].alphabeticRotations = [];
-        }
-        //add new question to exercise array
-        exercise.questions.push(newQ);
-        //set the current question to the new question
-        exercise.currentQuestion = exercise.questions.length
-        //set the question up as per the exercise requirements
-        adminSetupQuestions(exercise);
-    }
-
-    function clearCanvasAttributes(canvasArray){
-        for (var i = 0; i < canvasArray.length; i++){
-            canvasArray[i].correctAnswer = [];
-            canvasArray[i].linesCurrentlyDrawn = [];
-            canvasArray[i].tempLine = [];
-            canvasArray[i].linesAllDrawn = []; 
-            canvasArray[i].dashed = false; 
-            canvasArray[i].attempts = []; 
-            canvasArray[i].justChecked = false; 
-            canvasArray[i].gridText = [];
-            canvasArray[i].axes = [];
-            canvasArray[i].axisTrails = [];
-            
-        }
-    }
-        
-    
-    
-    
-    

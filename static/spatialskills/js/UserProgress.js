@@ -27,7 +27,6 @@ function writeToDatabase(canvasObject){
                             data: prog,
                             dataType: "json",
                             success: function(resultData){
-                            alert("Save Complete");
                             }
                       });
                                   
