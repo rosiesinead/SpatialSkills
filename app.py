@@ -43,11 +43,9 @@ class Users(db.Model,UserMixin ):
 class Progress(db.Model,UserMixin ):
     user_id = db.Column(db.Integer, primary_key=True)
     exercise_id =db.Column(db.Integer, primary_key=True)
-    # exercise_number = db.Column(db.Integer, primary_key=True)
-    # question_number = db.Column(db.Integer, primary_key=True)
-    answer_canvas = db.Column(db.Integer, primary_key=True)
+    canvas_number = db.Column(db.Integer, primary_key=True)
     complete = db.Column(db.Integer, default=0)
-    answer_data = db.Column(db.String(1000000))
+    canvas_data = db.Column(db.String(1000000))
 
 #---------------------------------------------------------------------------
 
@@ -97,7 +95,7 @@ def homepage():
 @login_required
 def admin():
     if current_user.role == 'admin':
-       # return render_template("spatialskills/Ex3_ADMIN_RotationsDegrees.html")
+        #return render_template("spatialskills/Ex6_ADMIN_Reflection.html")
         return render_template("spatialskills/Admin_Homepage.html")
     else:
         return redirect(url_for('homepage'))
@@ -209,30 +207,31 @@ def writeprogress():
     data = json.dumps(request.form)
     dataToDict = json.loads(data)
     #data from dictionary and store in variables
-    exercise_number = dataToDict["exercise_number"]
-    question_number = dataToDict["question_number"]
-    answer_canvas= dataToDict["answer_canvas"]
+    exerciseNumber = dataToDict["exerciseNumber"]
+    questionNumber = dataToDict["questionNumber"]
+    canvasNumber = dataToDict["canvasNumber"]
     complete = dataToDict["complete"]
-    answer_data = dataToDict["answer_data"]
+    canvasData = dataToDict["canvasData"]
+    #get the exercise id
+    exId = Exercises.query.with_entities(Exercises.id).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).scalar()
     #check if prog already exists in database
-    exId = Exercises.query.with_entities(Exercises.id).filter_by(exercise_number=exercise_number,question_number=question_number).scalar()
-    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_id=exId,answer_canvas=answer_canvas).first()
+    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_id=exId,canvas_number=canvasNumber).first()
     #if it does, check whether it has been completed already and if so don't change anything
     #otherwise update complete and answer_data columns
     if checkProg:
         if checkProg.complete==1:
-            return ""
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
         else:
             checkProg.complete = complete            
-            checkProg.answer_data=answer_data
+            checkProg.canvas_data=canvasData
             db.session.commit()
     #if stat doesn't already exist then add it
     else:
-        newProgress = Progress(user_id=current_user.id,exercise_id=exId,answer_canvas=answer_canvas,complete=complete,answer_data=answer_data)
+        newProgress = Progress(user_id=current_user.id,exercise_id=exId,canvas_number=canvasNumber,complete=complete,canvas_data=canvasData)
         #commit to database
         db.session.add(newProgress)
         db.session.commit()
-    return ""
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
 
 
