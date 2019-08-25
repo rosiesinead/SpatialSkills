@@ -182,12 +182,12 @@
             if(type==iso){
                 //  disable touch
                 //disableTouch(document.getElementById(canvas.canvasId));
-                enableTouch(document.getElementById(canvas.canvasId));
+                enableTouch(iso,document.getElementById(canvas.canvasId));
             }
             else if(type==ort){
                 // disable touch
                // disableTouchOrth(document.getElementById(canvas.canvasId));
-                enableTouchOrth(document.getElementById(canvas.canvasId));
+                enableTouch(ort,document.getElementById(canvas.canvasId));
 
             }
         }
@@ -306,7 +306,7 @@
     
     function enableDrawText(canvasObject, text, rotation, pressedButton, secondButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
-        enableTouchText(canvasElement, text, rotation);
+        enableTouch("text",canvasElement, text, rotation);
         pressedButton.style.borderStyle = "inset";
         secondButton.style.borderStyle = "";  
     }
@@ -432,7 +432,7 @@
 
     function enableDrawTrails(canvasObject, axis, pressedButton, secondButton, thirdButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
-        enableTouchTrails(canvasElement, axis);
+        enableTouch("trails",canvasElement, axis);
         pressedButton.style.borderStyle = "inset";
         secondButton.style.borderStyle = ""; 
         secondButton.style.borderStyle = "";
@@ -528,7 +528,7 @@
 
     function enableDrawAxes(canvasObject, axis, axisLabel, pressedButton, secondButton, thirdButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
-        enableTouchAxes(canvasElement, axis, axisLabel);
+        enableTouch("axes",canvasElement, axis, axisLabel);
         pressedButton.style.borderStyle = "inset";
         secondButton.style.borderStyle = ""; 
         secondButton.style.borderStyle = "";
