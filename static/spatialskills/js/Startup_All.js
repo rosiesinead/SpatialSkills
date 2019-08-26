@@ -1,6 +1,0 @@
-
-function startupAll() {
-    setUpExercises();
-    homePageLoad()
-   
-}
