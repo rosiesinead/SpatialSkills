@@ -3,7 +3,7 @@
 
 function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers){ 
   
-    var save = new DatabaseExercise(exerciseNumber,questionNumber,questionData,questionAnswers);
+    var save = new DatabaseExercise(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers));
 
     console.log(save)
     
@@ -49,14 +49,14 @@ function prepareForSave(question,exerciseNumber,questionNumber){
 
     var questionData = JSON.parse(JSON.stringify(question));
 
-    addCorrectToCanvas(questionData.answerCanvas)
-    addCorrectToCanvas(questionData.questionCanvas)
+    addCorrectToCanvas(questionData.answerCanvas);
+    addCorrectToCanvas(questionData.questionCanvas);
 
     var questionAnswers = JSON.parse(JSON.stringify(questionData));
 
-    clearLinesDrawn(questionData.answerCanvas)
+    clearLinesDrawn(questionData.answerCanvas);
 
-    saveToDatabase(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers))
+    saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers);
 }
 
 //clear correct answer and update with new lines drawn. linesAllDrawn and tempLine must be cleared as well.
@@ -107,7 +107,7 @@ function breakUp(exercise){
         var questionAnswers = JSON.parse(JSON.stringify(questionData));
         addCorrectAnswerToLinesDrawn(questionAnswers.answerCanvas);
         addCorrectAnswerToLinesDrawn(questionAnswers.questionCanvas);
-        saveToDatabase(exercise.num,i+1,JSON.stringify(questionData),JSON.stringify(questionAnswers));
+        saveToDatabase(exercise.num,i+1,questionData,questionAnswers);
     }
 
 }
@@ -126,7 +126,6 @@ function correctOnToLines(canvasObject){
         canvasObject.linesCurrentlyDrawn.push(canvasObject.correctAnswer[i]);
     }
 }
-
 // this breaks up the correct answer and copies in back into correct answer and then also into linesCurrentlyDRawn
 function breakCorrectLines(canvasArray,type){
     
@@ -147,4 +146,20 @@ function breakCorrectLines(canvasArray,type){
             canvasArray[i].correctAnswer.push(breakCorrect[j]);
         }
     }             
+}
+
+//this function was used to update the linescurrentlydrawn in the question canvases
+//to make the lines visable.
+function updatelines(exercise){
+    for(var i=0;i<exercise.questions.length;i++){
+        var questionData = JSON.parse(JSON.stringify(exercise.questions[i]));
+        for(j=0;j<questionData.questionCanvas;j++){
+            correctOnToLines(questionData.questionCanvas[j])
+
+        }
+        var questionAnswers = JSON.parse(JSON.stringify(questionData));
+        clearLinesDrawn(questionData.answerCanvas)
+
+        saveToDatabase(exercise.num,i+1,questionData,questionAnswers)
+    }
 }

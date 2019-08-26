@@ -9,10 +9,24 @@ var distBetweenDots = 32; //a default value just now but could possibly be chang
 var firstDotXPos = distBetweenDots / 2;
 var firstDotYPos  = firstDotXPos; 
 
-var yDistBetweenDots = distBetweenDots / 2; //this is halfway between a dot and the dot immediately above and below
+ //this is halfway between a dot and the dot immediately above and below
+function getyDistBetweenDots(){
+    var yDistBetweenDots = distBetweenDots / 2;
+
+    return yDistBetweenDots
+} 
+
+var yDistBetweenDots = getyDistBetweenDots();
 
 //the xDistance between the dots on the isometric grid can be worked out by creating a right angled triangle e.g. a line from the first dot that goes halfway to the dot directly below (yDistBetweenDots), then a line from there (the hypotenuse which is distBetweenDots) to the dot directly to the right of the first, and then a line from there back to the first dot to complete the triangle. Using Pythagoras' Theorem we can work out the distance between the first dot and the dot immediately to the right of the first dot (the length of the side of the triangle).
-var xDistBetweenDots = Math.round(lengthOfSide(distBetweenDots, yDistBetweenDots)); 
+function getxDistBetweenDots(){
+    var xDistBetweenDots = Math.round(lengthOfSide(distBetweenDots, yDistBetweenDots)); 
+
+    return xDistBetweenDots
+} 
+
+var xDistBetweenDots = getxDistBetweenDots();
+
  
 //work out how many dots there are on the isometric canvas in terms of rows and columns
 //var canvas = document.getElementById("isometricEx6"); 
@@ -20,88 +34,18 @@ var xDistBetweenDots = Math.round(lengthOfSide(distBetweenDots, yDistBetweenDots
 var canvasWidth = 600;
 var canvasHeight = 600;
 var numOfColumns = Math.floor(((canvasWidth - firstDotXPos) / xDistBetweenDots)) + 1;  
-var numOfRows = Math.floor(((canvasHeight - firstDotYPos) / yDistBetweenDots)) + 1; 
+var numOfRows = Math.floor(((canvasHeight - firstDotYPos) / yDistBetweenDots)) + 1;
 
-//ROSIE NOTE AGREED THIS SHOULD NOT BE IN HERE
+////DOT PROPERTIES/////////////////
+var dotWidth = 2;
+//set the lineTouchCircleWidth
+var lineTouchCircleWidth = 4;
+var backgroundColor = 'white';
+//set the colour of the grid dots
+var dotColor = 'black';
+//set the color of the circle to indicate a touch has occurred
+var lineTouchColor = 'orange';
 
-//////AXIS PROPERTIES////////////////TODO Move these later, probably a better idea to move the isometric diatnaces above along with this to a global properties file e.g. LineProperties
-//set the label for x axis that appears on canvas
-var axisLabelX = "X";
-//set the label for y axis that appears on canvas
-var axisLabelY = "Y";
-//set the label for z axis that appears on canvas
-var axisLabelZ = "Z";
-//set the string for blank axis
-var axisLabelBlank = "blank";
-//set the string for x axis
-var axisStringX = "X";
-//set the string for y axis
-var axisStringY = "Y";
-//set the string for z axis
-var axisStringZ = "Z";
-//set axis arrow lineWidth
-var axisArrowLineWidth = 2;
-//set axis arrow length
-var axisArrowLength = 2* yDistBetweenDots; //original 2*
-//set arrow offset
-var axisArrowOffset = -yDistBetweenDots/2; //yDistBetweenDots/2; //original 1*
-//set width of arrow head
-var axisArrowHeadWidth = yDistBetweenDots/2;
-//set width of arrow head
-var axisArrowHeadHeight = yDistBetweenDots/2;
-//set color of axis arrow head
-var axisArrowHeadColor = 'black';
-//set color of axis arrow tail
-var axisArrowTailColor = 'black';
-//set axis text color
-var axisTextColor = 'black';
-//set axis text pixels
-var axisTextPixels = xDistBetweenDots;
-//set axis text style
-var axisTextStyle = 'sans-serif';
-//set x axis arrow text offset height
-var axisXTextOffsetHeight = yDistBetweenDots/2;
-//set x axis arrow text offset Width
-var axisXTextOffsetWidth = (-(distBetweenDots/4));
-//set y axis arrow text offset height
-var axisYTextOffsetHeight = yDistBetweenDots;
-//set y axis arrow text offset Width
-var axisYTextOffsetWidth = distBetweenDots/4;
-//set z axis arrow text offset height
-var axisZTextOffsetHeight = 2 * (distBetweenDots/3);
-//set z axis arrow text offset Width
-var axisZTextOffsetWidth = 0;
-//set xAxis rotation
-var axisXRotation = 120;
-//set xAxis rotation
-var axisYRotation = 0;
-//set zAxis rotation
-var axisZRotation = 240;
-
-///////////TRAIL PROPERTIES/////////////////////////////
-//set the string for x axis
-var trailStringX = "X";
-//set the string for y axis
-var trailStringY = "Y";
-//set the string for z axis
-var trailStringZ = "Z";
-//set axis arrow length
-var trailLength = 2* yDistBetweenDots; //original 2*yDistBetweenDots
-//set trail offset
-var trailOffset = -yDistBetweenDots/2; //original 1* yDistBetweenDots
-//set trail color
-var trailColor = 'black';
-//set trail lineWidth
-var trailLineWidth = 2;
-//set trail rotation
-var trailXRotation = 300;
-//set xAxis rotation
-var trailYRotation = 180;
-//set zAxis rotation
-var trailZRotation = 60;
-
-
-//ROSIE - MOVE THIS AS WELL BELONGS WITH GRID STUFF
 
 ///////////ISOMETRIC GRID HELPER FUNCTIONS//////////////////////////////
 
@@ -368,61 +312,9 @@ function drawACircle(canvasObject, x, y, radius, color){
         curCtx.fill();  
 }
 
-//function to draw all line objects in an array
-function drawLines(canvasObject, lineArray) {
-    //now clear the canvas by running drawDots and draw each Line object in the lines array
-    drawDots(canvasObject);
-    var curCtx = document.getElementById(canvasObject.canvasId).getContext("2d");
-    for(var i = 0; i < lineArray.length; i++){
-        //drawALine(canvasObject.ctx, lineArray[i]);
-        drawALine(curCtx, lineArray[i]);
-    }
-    //have to make sure any canvas text is drawn too
-    drawText(canvasObject);
-    //have to make sure any canvas axes are drawn too
-    drawAxes(canvasObject);
-    //have to make sure any canvas trails are drawn too
-    drawTrails(canvasObject);
-}
 
-//function to draw a line between 2 points based on a line object
-function drawALine(ctx, line) { 
-    //check whether drawing dashed lines
-    if (line.type == "dashed"){
-        ctx.setLineDash([dashLineWidth, dashSpaceWidth]);
-    }
-    else{
-        ctx.setLineDash([]);
-    }
-    
-    ctx.beginPath();
-    ctx.moveTo(findTrueXCoord(line.x1), findTrueYCoord(line.y1));
-    ctx.lineWidth = lineWidth;
-    ctx.lineTo(findTrueXCoord(line.x2), findTrueYCoord(line.y2));
-    if (line.color == "correct"){
-        ctx.strokeStyle = lineCorrectColor;
-    }
-    else if (line.color == "incorrect"){
-        ctx.strokeStyle = lineIncorrectColor;
-    }
-    else {
-        ctx.strokeStyle = lineColor;
-    }
-    ctx.stroke();
-}
 
-//function to undo the last line drawn
-function undoLine(canvasObject) {
-    if (canvasObject.linesCurrentlyDrawn.length > 0){
-        //remove the last item from the lines currently drawn, but add an undo line to linesAllDrawn to keep a record of the event
-        canvasObject.linesAllDrawn.push(canvasObject.linesCurrentlyDrawn.pop()); 
-        canvasObject.linesAllDrawn[canvasObject.linesAllDrawn.length - 1].type = "undo";
-        
-        drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
-        //ensure any touch points become unselected
-        canvasObject.tempLine.pop();
-    }
-}
+
 
 function clear(canvasObject){
     clearLines(canvasObject);
@@ -432,366 +324,19 @@ function clear(canvasObject){
 
 }
 
-//function to clear the canvas
-function clearLines(canvasObject) {
-    drawDots(canvasObject);
 
-    //clear any touch points
-    canvasObject.tempLine.pop();
-    
-    //remove all lines from the lines currently drawn, but add them to linesAllDrawn to keep a record of the lines cleared
-    for (var i = 0; i < canvasObject.linesCurrentlyDrawn; i++){
-        canvasObject.linesAllDrawn.push(canvasObject.linesCurrentlyDrawn[i]);
-        canvasObject.linesAllDrawn[canvasObject.linesAllDrawn.length - 1].type = "clear";
-    }
-    canvasObject.linesCurrentlyDrawn.length = 0;
-}
 
-function clearText(canvasObject) {
-    drawDots(canvasObject);
-    //clear any touch points
-    canvasObject.tempLine.pop();    
-    //remove all lines from the lines currently drawn, but add them to linesAllDrawn to keep a record of the lines cleared
-    canvasObject.gridText = [];
-}
+
 
 ////////////////ADDITIONAL ISOMETRIC FUNCTIONS//////////////////////
 
-///////////ADD GRID TEXT TO A CANVAS////////////////
 
-function addGridText(canvasObject, x, y, text, rotation) {
-    
-    var dotCoordinateArray = findClosestCoord(x, y);
-    canvasObject.gridText.push(new GridText(dotCoordinateArray[0], dotCoordinateArray[1], text, rotation));
-    drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
-}
 
-//function to add text to the canvas at the touch point////
-function drawText(canvasObject){
-    for (var i = 0; i < canvasObject.gridText.length; i++){
-        var trueX = findTrueXCoord(canvasObject.gridText[i].x1);
-        var trueY = findTrueYCoord(canvasObject.gridText[i].y1);
-        var curCtx = document.getElementById(canvasObject.canvasId).getContext("2d");
-        //need some rotation
-        //save the current canvas state
-        curCtx.save();
-        //move the canvas origin to the start of the text
-        curCtx.translate(trueX, trueY);
-        //do the rotation
-        curCtx.rotate((Math.PI / 180) * canvasObject.gridText[i].rotation);
-        
-        //set the font and color
-        curCtx.fillStyle = textColor;
-        curCtx.font = '' + textPixels + 'px ' + textStyle;
-        
-        //draw the text
-        curCtx.fillText(canvasObject.gridText[i].text, 0, 0);
-        
-        //restore the canvas
-        curCtx.restore();
-    }
-}
 
-//function to undo the last text drawn
-function undoText(canvasObject) {
-    if (canvasObject.gridText.length > 0){
-        //remove the last item from the text currently drawn 
-        canvasObject.gridText.pop();
-        
-        drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);        
-    }
-}
 
-///////////ADD NUMERIC ROTATIONS TO A CANVAS/////////////////
 
-//function to add numeric rotation instruction
-function addNumericRotation(rotationCanvas, degrees){
-    rotationCanvas.numericRotations.push(new NumericRotation(degrees));
-    drawNumericRotations(rotationCanvas);
-}
 
-//function to undo a numeric rotation instruction
-function undoNumericRotation(rotationCanvas) {
-    rotationCanvas.numericRotations.pop();
-    drawNumericRotations(rotationCanvas);
-}
 
-//function to clear numeric rotation instructions
-function clearNumericRotations(rotationCanvas){
-    rotationCanvas.numericRotations.length = 0;
-    clearRotationCanvas(rotationCanvas);
-}
 
-//function to clear the rotationsCanvas
-function clearRotationCanvas(rotationCanvas){
-    var rotationCanvasWidth = document.getElementById(rotationCanvas.canvasId).width;
-    var rotationCanvasHeight = document.getElementById(rotationCanvas.canvasId).height;
-    var curCtx = document.getElementById(rotationCanvas.canvasId).getContext("2d");
-    curCtx.fillStyle = rotationsBackgroundColor;
-    curCtx.fillRect(0, 0, rotationCanvasWidth, rotationCanvasHeight);
-    curCtx.fill();
-}
 
-function drawNumericRotations(rotationCanvas){
-    clearRotationCanvas(rotationCanvas);
-    var width = document.getElementById(rotationCanvas.canvasId).width;
-    var height = document.getElementById(rotationCanvas.canvasId).height;
-    var curCtx = document.getElementById(rotationCanvas.canvasId).getContext("2d");
-    curCtx.fillStyle = rotationColor;
-    curCtx.font = '' + rotationPixelSize + 'px ' + rotationStyle;
-    
-    for (var i = 0; i < rotationCanvas.numericRotations.length; i++){
-        curCtx.fillText(rotationCanvas.numericRotations[i].degrees + " degrees", width/3, rotationPixelSize + (rotationPixelSize * i));
-        curCtx.strokeText(rotationCanvas.numericRotations[i].degrees + " degrees", width/3, rotationPixelSize + (rotationPixelSize * i));
-    }
-}
 
-///////////ADD ALPHABETIC ROTATIONS TO A CANVAS/////////////////
-
-//function to add alphabetic rotation instruction
-function addAlphabeticRotation(rotationCanvas, direction, axis){
-    rotationCanvas.alphabeticRotations.push(new AlphabeticRotation(direction, axis));
-    drawAlphabeticRotations(rotationCanvas);
-}
-
-//function to undo a alphabetic rotation instruction
-function undoAlphabeticRotation(rotationCanvas) {
-    rotationCanvas.alphabeticRotations.pop();
-    drawAlphabeticRotations(rotationCanvas);
-}
-
-//function to clear alphabetic rotation instructions
-function clearAlphabeticRotations(rotationCanvas){
-    rotationCanvas.alphabeticRotations.length = 0;
-    clearRotationCanvas(rotationCanvas);
-}
-
-function drawAlphabeticRotations(rotationCanvas){
-    clearRotationCanvas(rotationCanvas);
-    var width = document.getElementById(rotationCanvas.canvasId).width;
-    var height = document.getElementById(rotationCanvas.canvasId).height;
-    
-    for (var i = 0; i < rotationCanvas.alphabeticRotations.length; i++){
-        if (rotationCanvas.alphabeticRotations[i].direction == "positive"){
-            drawPositiveAlphabeticArrow(rotationCanvas, rotationCanvas.alphabeticRotations[i], width/3, rotationPixelSize + (rotationPixelSize * i));
-        }
-        else {
-            drawNegativeAlphabeticArrow(rotationCanvas, rotationCanvas.alphabeticRotations[i],  width/3, rotationPixelSize + (rotationPixelSize * i));
-        }
-    }
-}
-
-function drawNegativeAlphabeticArrow(rotationCanvas, alphabeticRotation, width, height){
-    var curCtx = document.getElementById(rotationCanvas.canvasId).getContext("2d");
-    curCtx.beginPath();
-    curCtx.moveTo(width, height);
-    curCtx.lineWidth = rotationArrowLineWidth;
-    
-    //draw the arrow head
-    curCtx.lineTo(width , height - (rotationArrowHeadWidth/2));
-    curCtx.lineTo(width - rotationArrowHeadHeight, height);
-    curCtx.lineTo(width , height + (rotationArrowHeadWidth/2));
-    curCtx.lineTo(width , height);
-    curCtx.strokeStyle = rotationArrowHeadColor;
-    curCtx.stroke();
-    curCtx.fillStyle = rotationArrowHeadColor;
-    curCtx.fill();
-    
-    
-    
-    curCtx.lineTo(width + rotationArrowLength, height);
-    curCtx.strokeStyle = rotationArrowTailColor;
-    curCtx.stroke();
-    
-    curCtx.font = '' + rotationPixelSize + 'px ' + rotationStyle;
-    curCtx.fillStyle = rotationColor;
-    curCtx.fillText(alphabeticRotation.axis, width + rotationArrowLength + rotationTextOffsetWidth, height + rotationTextOffsetHeight);
-    curCtx.strokeStyle = rotationColor;
-    curCtx.strokeText(alphabeticRotation.axis, width + rotationArrowLength + rotationTextOffsetWidth, height + rotationTextOffsetHeight);
-    
-}
-    
-function drawPositiveAlphabeticArrow(rotationCanvas, alphabeticRotation, width, height){
-    var curCtx = document.getElementById(rotationCanvas.canvasId).getContext("2d");
-    curCtx.beginPath();
-    curCtx.moveTo(width, height);
-    curCtx.lineWidth = rotationArrowLineWidth;
-    
-    curCtx.lineTo(width + rotationArrowLength, height);
-    curCtx.strokeStyle = rotationArrowTailColor;
-    curCtx.stroke();
-    
-    //draw the arrow head
-    curCtx.lineTo(width + rotationArrowLength, height - (rotationArrowHeadWidth/2));
-    curCtx.lineTo(width + rotationArrowLength + rotationArrowHeadHeight, height);
-    curCtx.lineTo(width + rotationArrowLength, height + (rotationArrowHeadWidth/2));
-    curCtx.lineTo(width + rotationArrowLength, height);
-    curCtx.strokeStyle = rotationArrowHeadColor;
-    curCtx.stroke();
-    curCtx.fillStyle = rotationArrowHeadColor;
-    curCtx.fill();
-    
-    
-    curCtx.font = '' + rotationPixelSize + 'px ' + rotationStyle;
-    curCtx.fillText(alphabeticRotation.axis, width + rotationArrowLength + rotationTextOffsetWidth, height + rotationTextOffsetHeight);
-    curCtx.strokeText(alphabeticRotation.axis, width + rotationArrowLength + rotationTextOffsetWidth, height + rotationTextOffsetHeight);
-    
-}
-
-////////////////AXES////////////////////////////////////////////////////
-
-function addGridAxis(canvasObject, x, y, axis, axisLabel) {
-    
-    var dotCoordinateArray = findClosestCoord(x, y);
-    canvasObject.axes.push(new Axis(dotCoordinateArray[0], dotCoordinateArray[1], axis, axisLabel));
-    //drawText(canvasObject);
-    drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
-}
-
-//function to add axis to the canvas at the touch point////
-function drawAxes(canvasObject){
-    for (var i = 0; i < canvasObject.axes.length; i++){
-        var trueX = findTrueXCoord(canvasObject.axes[i].x1);
-        var trueY = findTrueYCoord(canvasObject.axes[i].y1);
-        var curCtx = document.getElementById(canvasObject.canvasId).getContext("2d");
-        var axis = canvasObject.axes[i].axis;
-        var axisLabel = canvasObject.axes[i].axisLabel;
-        var rotation = 0;
-        var textHeightOffset = axisYTextOffsetHeight;
-        var textWidthOffset = axisYTextOffsetWidth;
-        
-        if (canvasObject.axes[i].axis == axisStringX){
-            rotation = axisXRotation;
-            textHeightOffset = axisXTextOffsetHeight;
-            textWidthOffset = axisXTextOffsetWidth;
-        }
-        if (canvasObject.axes[i].axis == axisStringZ){
-            rotation = axisZRotation;
-            textHeightOffset = axisZTextOffsetHeight;
-            textWidthOffset = axisZTextOffsetWidth;
-        }
-        
-        //may need some rotation
-        //save the current canvas state
-        curCtx.save();
-        //move the canvas origin to the start of the arrow
-        curCtx.translate(trueX, trueY);
-        //do the rotation
-        curCtx.rotate((Math.PI / 180) * rotation);
-        //move the canvas origin to the start of the canvas again
-        curCtx.translate(-(trueX), -(trueY));
-        
-        //draw the arrow line
-        curCtx.beginPath();
-        curCtx.moveTo(trueX, trueY + axisArrowOffset);
-        curCtx.lineWidth = axisArrowLineWidth;
-        curCtx.lineTo(trueX, trueY - axisArrowLength);
-        curCtx.strokeStyle = axisArrowTailColor;
-        curCtx.stroke();
-        
-        //draw the arrow head
-        curCtx.lineTo(trueX - (axisArrowHeadWidth/2), trueY - axisArrowLength);
-        curCtx.lineTo(trueX, trueY - axisArrowLength - axisArrowHeadHeight);
-        curCtx.lineTo(trueX + (axisArrowHeadWidth/2), trueY - axisArrowLength);
-        curCtx.lineTo(trueX, trueY - axisArrowLength);
-        curCtx.strokeStyle = axisArrowHeadColor;
-        curCtx.stroke();
-        curCtx.fillStyle = axisArrowHeadColor;
-        curCtx.fill();
-        
-        if (canvasObject.axes[i].axisLabel != axisLabelBlank) {
-        
-            curCtx.translate(trueX - textWidthOffset, trueY - axisArrowLength - axisArrowHeadHeight - textHeightOffset);
-        
-            //rotate back so that that text is not rotated
-            curCtx.rotate((Math.PI / 180) * (-(rotation)));
-        
-            //set the font and color
-            curCtx.fillStyle = axisTextColor;
-            curCtx.font = '' + axisTextPixels + 'px ' + axisTextStyle;
-        
-        
-            //draw the text
-            curCtx.fillText(canvasObject.axes[i].axisLabel, 0, 0);
-        }
-        
-        //restore the canvas
-        curCtx.restore();
-        
-    }
-}
-
-//function to undo the last axis drawn
-function undoAxis(canvasObject) {
-    console.log(canvasObject)
-    canvasObject.axes.pop();
-    drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);        
-}
-
-//function to clear axes
-function clearAxes(canvasObject){
-    canvasObject.axes.length = 0;
-    drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
-}
-
-/////////////////////////////TRAILS//////////////////////////////////////////////
-
-function addGridTrails(canvasObject, x, y, axis) {
-    
-    var dotCoordinateArray = findClosestCoord(x, y);
-    canvasObject.axisTrails.push(new AxisTrail(dotCoordinateArray[0], dotCoordinateArray[1], axis));
-    //drawText(canvasObject);
-    drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
-}
-
-//function to add trail to the canvas at the touch point////
-function drawTrails(canvasObject){
-    for (var i = 0; i < canvasObject.axisTrails.length; i++){
-        var trueX = findTrueXCoord(canvasObject.axisTrails[i].x1);
-        var trueY = findTrueYCoord(canvasObject.axisTrails[i].y1);
-        var curCtx = document.getElementById(canvasObject.canvasId).getContext("2d");
-        var axis = canvasObject.axisTrails[i].axis;
-        var rotation = trailYRotation;
-        
-        if (canvasObject.axisTrails[i].axis == trailStringX){
-            rotation = trailXRotation;
-        }
-        if (canvasObject.axisTrails[i].axis == trailStringZ){
-            rotation = trailZRotation;
-        }
-        
-        //may need some rotation
-        //save the current canvas state
-        curCtx.save();
-        //move the canvas origin to the start of the arrow
-        curCtx.translate(trueX, trueY);
-        //do the rotation
-        curCtx.rotate((Math.PI / 180) * rotation);
-        //move the canvas origin to the start of the canvas again
-        curCtx.translate(-(trueX), -(trueY));
-        
-        //draw the trail line
-        curCtx.beginPath();
-        curCtx.moveTo(trueX, trueY + trailOffset);
-        curCtx.lineWidth = trailLineWidth;
-        curCtx.lineTo(trueX, trueY - trailLength);
-        curCtx.strokeStyle = trailColor;
-        curCtx.stroke();
-        
-        //restore the canvas
-        curCtx.restore();
-        
-    }
-}
-
-//function to undo the last trail drawn
-function undoTrail(canvasObject) {
-    canvasObject.axisTrails.pop();
-    drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);        
-}
-
-//function to clear trails
-function clearTrails(canvasObject){
-    canvasObject.axisTrails.length = 0;
-    drawLines(canvasObject, canvasObject.linesCurrentlyDrawn);
-}

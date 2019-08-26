@@ -1,5 +1,5 @@
 
-function ProgressObject(exerciseNumber,questionNumber,canvasNumber,complete,canvasData){
+function Progress(exerciseNumber,questionNumber,canvasNumber,complete,canvasData){
     this.exerciseNumber=exerciseNumber;
     this.questionNumber=questionNumber;
     this.canvasNumber=canvasNumber;

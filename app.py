@@ -143,9 +143,11 @@ def editquestion():
     questionNumber = dataToDict["questionNumber"]
     questionData = dataToDict["questionData"]
     questionAnswers = dataToDict["questionAnswers"]
+    print(questionData)
     #Get question from database and update
     getQuestion = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
     if getQuestion:
+        print(getQuestion)
         getQuestion.question_data = questionData
         getQuestion.question_answers = questionAnswers       
         db.session.commit()
@@ -154,8 +156,6 @@ def editquestion():
         #commit to database
         db.session.add(newExercise)
         db.session.commit()
-        # db.session.execute(Exercises.__table__.insert(), dataToDict)
-        # db.session.commit()
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     
 #delete a question from the database

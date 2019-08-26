@@ -6,35 +6,8 @@
 
 //The code below also makes use of the originalevent as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo as we need the original event when making use of the JQuery bind structure
 
-
-//////ISOMETRIC TOUCH FUNCTIONS/////////////////
-
-// function enableTouch(canvas) {
-//     //this enables touch for the canvas object
-//     //Based upon JQuery bind structure posted by Levarne Sobotker on stackoverflow: https://stackoverflow.com/questions/7069458/prevent-touchstart-when-swiping
-//     $('#' + canvas.id).on('vmouseup', function(e){
-//         if(touchmoved != true){
-      
-         
-//             //find the corresponding canvasObject for the touched canvas
-//             var currentCanvasObject = getCurrentCanvas(canvas.id);
-
-//             //find the x and y offsets of the canvas from top left of screen
-//             var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
-//             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
-//             //pass to logic to help determine whether to add touch, and possibly a line
-//             addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
-//         }
-//     }).on('vmousemove', function(e){
-//         touchmoved = true;
-        
-//     }).on('vmousedown', function(e){
-//         touchmoved = false; 
-//         touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
-//     });
-// }
-
-function enableTouch(flag,canvas,var3,var4) {
+function enableTouch(typeOfTouch,canvas,var3,var4) {
+  
     //this enables touch for the canvas object
     //Based upon JQuery bind structure posted by Levarne Sobotker on stackoverflow: https://stackoverflow.com/questions/7069458/prevent-touchstart-when-swiping
     $('#' + canvas.id).on('vmouseup', function(e){
@@ -46,12 +19,14 @@ function enableTouch(flag,canvas,var3,var4) {
             //find the x and y offsets of the canvas from top left of screen
             var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
-            switch(flag){
-                case "isometric":
+        
+
+            switch(typeOfTouch){
+                case 'isometric':
                     //pass to logic to help determine whether to add touch, and possibly a line
                     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
                     break;
-                case "orthographic":
+                case 'orthographic':
                     //pass to logic to help determine whether to add touch, and possibly a line
                     addPointOrth(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
                     break;
@@ -204,14 +179,14 @@ function getCurrentCanvas(canvasid){
 // }
 
     
-// function disableTouchText(canvas, text, rotation) {
-//     //this disables touch for the canvas object in terms of placing text
-//     canvas.removeEventListener("touchstart", myAnonymous);
-//     //deselect the adding text buttons
-//     disableDrawText();
-//     //we have to then enable the drawing of lines again (only isometric)
-//     enableTouch(canvas);
-// }
+function disableTouchText(canvas, text, rotation) {
+    //this disables touch for the canvas object in terms of placing text
+    canvas.removeEventListener("touchstart", myAnonymous);
+    //deselect the adding text buttons
+    disableDrawText();
+    //we have to then enable the drawing of lines again (only isometric)
+    enableTouch(canvas);
+}
 
 // function enableTouchAxes(canvas, axis, axisLabel) {
 //     //we have to disable drawing lines on the canvas while we add axis (only isometric)
@@ -287,37 +262,37 @@ function disableTouchTrails(canvas, axis) {
     enableTouch(canvas);
 }
 
-function enableTouchMirror(canvas, mirrorCanvasObject) {
+// function enableTouchMirror(canvas, mirrorCanvasObject) {
 
-    disableTouch(canvas);
-    $('#' + canvas.id).on('vmouseup', function(e){
-        if(touchmoved != true){
+//     disableTouch(canvas);
+//     $('#' + canvas.id).on('vmouseup', function(e){
+//         if(touchmoved != true){
        
-            //find the corresponding canvasObject for the touched canvas
-            var currentCanvasObject = getCurrentCanvas(canvas.id);
+//             //find the corresponding canvasObject for the touched canvas
+//             var currentCanvasObject = getCurrentCanvas(canvas.id);
 
-            //find the x and y offsets of the canvas from top left of screen
-            var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
-            var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
+//             //find the x and y offsets of the canvas from top left of screen
+//             var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
+//             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
 
-               //pass to logic to help determine whether to add touch, and possibly a line
-    addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
-    //add the same touches to the mirror canvas to help with admin
-    addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, mirrorCanvasObject);
-    disableTouch(canvas)
-    disableTouch(mirrorCanvasObject)
+//                //pass to logic to help determine whether to add touch, and possibly a line
+//     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
+//     //add the same touches to the mirror canvas to help with admin
+//     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, mirrorCanvasObject);
+//     disableTouch(canvas)
+//     disableTouch(mirrorCanvasObject)
 
-}
-    }).on('vmousemove', function(e){
-        touchmoved = true;
+// }
+//     }).on('vmousemove', function(e){
+//         touchmoved = true;
         
-    }).on('vmousedown', function(e){
-        touchmoved = false; 
-        touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
-    });
+//     }).on('vmousedown', function(e){
+//         touchmoved = false; 
+//         touches = e;//.originalEvent.touches[0]; //as described by user mkoistinen on stackoverflow: https://stackoverflow.com/questions/4780837/is-there-an-equivalent-to-e-pagex-position-for-touchstart-event-as-there-is-fo
+//     });
 
 
-}
+// }
 
 ////////The following functions are directly from the Mozilla Developer Network Tutorial https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/////////////////
 

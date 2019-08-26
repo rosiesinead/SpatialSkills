@@ -46,18 +46,24 @@
         var answerCanvas = currentQuestion.answerCanvas;
         setUpQuestionNumber(exercise);
         setUpPreviousNextButtons(exercise);
-        setUpRotationCanvasNum(exercise);
-        setUpRotationCanvasAlpha(exercise);
         setupCanvas(exercise.questionType,questionCanvas);
         setupCanvas(exercise.answerType,answerCanvas);
-        setupTouchCanvas(exercise.questionType,answerCanvas);
+        if(exercise.num==3){
+            setUpRotationCanvasNum(exercise);
+        }
+        if(exercise.num==4 || exercise.num==5){
+            setUpRotationCanvasAlpha(exercise);
+        }
+
+        //setupTouchCanvas(exercise.questionType,answerCanvas);
         if(role=='admin'){
-            setupTouchCanvas(exercise.questionType,questionCanvas);
+          //  setupTouchCanvas(exercise.questionType,questionCanvas);
             setUpSaveButton(exercise);
             setUpDeleteButton(exercise);
             setUpNewQuestionButton(exercise); 
         }
         else if(role=='user'){
+            removeTouchCanvas(questionCanvas)
             setUpFeedback();
 
         }
@@ -140,67 +146,57 @@
 
 
     function setupCanvas(type, canvasArray){
-
         for (var i = 0; i < canvasArray.length; i++){
-
             var canvas = canvasArray[i]
-
+            var canvasElement = document.getElementById(canvas.canvasId)
             setUpLineButtons(canvas)
             //if there is any feedback, clear
             clearPTags(canvas);
 
             if(type==iso){
                 //  disable touch
-              //  disableTouch(document.getElementById(canvas.canvasId));
+               // disableTouch(document.getElementById(canvas.canvasId));
                 //draw dots on the isometric canvas
                 drawDots(canvas);
                 //draw correct answer lines on canvas
-                drawLines(canvas, canvas.correctAnswer);
+                drawLines(canvas, canvas.linesCurrentlyDrawn);
                  //set up buttons for drawing lines
                 setUpIsometricButtons(canvas);
+                enableTouch(iso,canvasElement);
     
             }
             else if(type==ort){
                 // disable touch
-               // disableTouchOrth(document.getElementById(canvas.canvasId));
+                //disableTouch(document.getElementById(canvas.canvasId));
                 //draw dots on the orthographic canvas
                 drawDotsOrth(canvas);
                 //draw correct answer lines on canvas
-                drawLinesOrth(canvas, canvas.correctAnswer);
+                drawLinesOrth(canvas, canvas.linesCurrentlyDrawn);
                 //set up buttons for drawing lines
                 setUpButtonsOrth(canvas);
+                enableTouch(ort,canvasElement);
             }
         }
 
     }
 
-    function setupTouchCanvas(type, canvasArray){
-
+    function removeTouchCanvas(canvasArray){
         for (var i = 0; i < canvasArray.length; i++){
-            var canvas = canvasArray[i]
-
-            if(type==iso){
-                //  disable touch
-                //disableTouch(document.getElementById(canvas.canvasId));
-                enableTouch(iso,document.getElementById(canvas.canvasId));
-            }
-            else if(type==ort){
-                // disable touch
-               // disableTouchOrth(document.getElementById(canvas.canvasId));
-                enableTouch(ort,document.getElementById(canvas.canvasId));
-
+            var canvas = canvasArray[i];
+            var canvasElement = document.getElementById(canvas.canvasId)
+                disableTouch(canvasElement);
             }
         }
 
-    }
+
 
 
     function setUpSaveButton(exercise){   
         var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
         saveQuestionButton.onclick = function() {
             if(confirm("Are you sure you want to save changes?")){
-                prepareForSave(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
-           
+                //prepareForSave(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
+                updatelines(exercise)}
         }
     }
     
@@ -240,7 +236,7 @@
         //set the current question to the new question
         exercise.currentQuestion = exercise.questions.length
         //set the question up as per the exercise requirements
-        adminSetupQuestions(exercise);
+        setup1(exercise);
     }
 
     //clear canvas attributes to use for new question
@@ -446,15 +442,19 @@
     }
 
     function setUpRotationCanvasNum(exercise){
-        //for each rotation canvas (only one at the moment)
-        for (var i = 0; i < exercise.questions[exercise.currentQuestion - 1].rotationCanvas.length; i++){
-            drawNumericRotations(exercise.questions[exercise.currentQuestion - 1].rotationCanvas[i]);
-           
+     
+        if(exercise.num==3){
+            var currentQuestion = exercise.questions[exercise.currentQuestion-1]
+            //for each rotation canvas (only one at the moment)
+            for (var i = 0; i < currentQuestion.rotationCanvas.length; i++){
+                drawNumericRotations(currentQuestion.rotationCanvas[i]);
             }
+
         }
 
+    }
+
         function setupExercise3(exercise){
-               // setUpRotationCanvasNum(exercise)
                 setUpButtonsNumeric(exercise);
                 setUpButtonsBlankAxes(exercise);
                 setUpButtonsAxisTrails(exercise);
@@ -517,7 +517,6 @@
         }
 
         function setupExercise4or5(exercise){
-           // setUpRotationCanvasAlpha(exercise)
             setUpButtonsAlphabetic(exercise);
             setUpButtonsAxes(exercise);
    
