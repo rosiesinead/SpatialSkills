@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Canvas tutorial</title>
+    <script src="{{ url_for('static', filename='spatialskills/js/vendor/jquery.js') }}"></script>
+    <script src=""></script>
+    <script src=""></script>
+    <script src=""></script>
+    <script src=""></script>
+    <style type="text/css">
+      canvas { border: 1px solid black; } 
+      
+        #stage {
+    width: 600px;
+    height: 600px;
+    position: relative;
+  }
+  
+  #isometricEx6 { z-index: 2; 
+        position: absolute; }
+  
+  #isometricPreImageMirrorEx6 { z-index: 1;
+        position: absolute; 
+        background-color: white; }
+    </style>
+  </head>
+  <body onload="startupEx6();">
+      <div>
+          <canvas id="isometricPreImageEx6" width="560" height="560">
+            Your browser does not support the canvas element.
+          </canvas>
+           
+      </div>
+      
+      <div>
+          <button id="isometricPreImageEx6UndoButton">Undo</button>
+          <button id="isometricPreImageEx6ClearButton">Clear</button>
+          <button id="isometricPreImageEx6SolidButton"  style="border-style:inset;" onclick="drawDashedLine(this, isometricEx6DashedButton);">Solid</button>
+          <button id="isometricPreImageEx6DashedButton">Dashed</button>
+          <button id="isometricPreImageEx6CheckAnswerButton" style="display:none">Check Answer</button>
+      </div>
+    <div style="position:relative">
+      <div id="stage">
+          
+          <canvas id="isometricPreImageMirrorEx6" width="560" height="560">
+            Your browser does not support the canvas element.
+          </canvas>
+          
+          <canvas id="isometricEx6" width="560" height="560">
+            Your browser does not support the canvas element.
+          </canvas> 
+        
+      </div>
+           
+    </div>        
+      
+      <div style="position:relative">
+          
+          <button id="isometricEx6UndoButton">Undo</button>
+          <button id="isometricEx6ClearButton">Clear</button>
+          <button id="isometricEx6SolidButton"  style="border-style:inset;" onclick="drawDashedLine(this, isometricEx6DashedButton);">Solid</button>
+          <button id="isometricEx6DashedButton" style="display:none">Dashed</button>
+          <button id="isometricEx6CheckAnswerButton" style="display:none">Check Answer</button>
+          
+      </div>
+      
+      
+      <div>
+          <p id="answer"></p>
+          <button id="writeToJSONButton">Write to JSON</button>
+          <br>
+          
+          <textarea id="question" rows="20" columns="60" style="width:100%"></textarea>
+          
+      </div>
+    <script src="{{ url_for('static', filename='spatialskills/js/Question.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/CanvasObject.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/RotationCanvas.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/AlphabeticRotation.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Line.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Axis.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/AxisTrail.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/LineProperties.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/IsometricDistances.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/AddTouch_ADMIN_only.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/Messages.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex6_Admin.js') }}"></script>
+  </body>
+    
+     
+        
+</html>
