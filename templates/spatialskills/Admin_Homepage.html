@@ -59,11 +59,11 @@
         /* based upon the custom icon information regarding proper display of icons on mobile devices at: http://demos.jquerymobile.com/1.2.1/docs/buttons/buttons-icons.html */
         @media only screen and (-webkit-min-device-pixel-ratio: 2) {
 	           .ui-icon-solidicon:after {
-		              background-image: url("../static/spatialskills/css/themes/default/images/icons-png/solid-line-white.png");
+		              background-image: url("{{ url_for('static', filename='spatialskills/css/themes/default/images/icons-png/solid-line-white.png') }}");
 		              background-size: 18px 18px;
 	           }
                 .ui-icon-dashedicon:after {
-		              background-image: url("../static/spatialskills/css/themes/default/images/icons-png/dashed-line-white.png");
+		              background-image: url("{{ url_for('static', filename='spatialskills/css/themes/default/images/icons-png/dashed-line-white.png') }}");
 		              background-size: 18px 18px;
 	           }
 
@@ -105,7 +105,7 @@
 
     </style>
   </head>
-   <body onload="adminStartup();">
+   <body onload=" startupAll();">
 
      <!-- Start of home page: #home -->
      <div data-role="page" id="home" class="ui-responsive-panel">
@@ -113,7 +113,7 @@
        <div data-role="header">
               <a href="#nav-panel-home" data-icon="bars" data-theme="b" data-iconpos="notext">Menu</a>
         <h1>Home</h1>
-             <a href="/logout" class="button" data-role="button" >Logout</a>
+        <a href="/logout" rel="external" class="button">Logout</a>
        </div><!-- /header -->
 
        <div role="main" class="ui-content">
@@ -811,55 +811,52 @@
            
            <div role="main" class="ui-content">
 
-                <div style="display:flex;flex-direction:row;">
+                <div style="display:flex;flex-direction:column;">
+                
                         <div>
-                    
-                            <canvas id="isometricPreImageEx6" width="300" height="300">Your browser does not support the canvas element.</canvas>
-    
-    
-                            <div class="ui-nodisc-icon">
-                                <button id="isometricPreImageEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
-    
-                                <button id="isometricPreImageEx6SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx6DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
-                                <button id="isometricPreImageEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
-                               
+                            <h4>Answer</h4>
+                                          <div id="stage">
+                            <canvas id="isometricPreImageEx6" width="560" height="560">Your browser does not support the canvas element.
+                            </canvas>
+                            <canvas id="isometricEx6" width="560" height="560">Your browser does not support the canvas element.</canvas>
+                          <div class="ui-nodisc-icon" style="display:inline;position:absolute;left:562px;">
+                                <button id="isometricPreImageEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
                             </div>
-    
-                          
-                        </div>
-                        <div class="ui-nodisc-icon" style="display:inline;position:relative;">
-                                    <button id="isometricPreImageEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
-                                </div>
-                        <div>
-                        
-                            <canvas id="isometricEx6" width="260" height="300">Your browser does not support the canvas element.</canvas>
-                            <div class="ui-nodisc-icon">
-                                <button id="isometricEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline">Undo</button>
-    
-                                <button id="isometricEx6SolidButton" data-inline="true" style="border-style:inset;" onclick="drawDashedLine(this, isometricEx6DashedButton);" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active">Solid</button>
-                                <button id="isometricEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline" >Dashed</button>
-                                <button id="Ex6PreviousButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-b ui-btn-inline" >Previous</button>
-                                <button id="Ex6NextButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-b ui-btn-inline">Next</button>
-                                <div style="display:inline;">
-                                    <p style="display:inline;" id="questionNumberEx6"></p>
-                                </div>
-                               
-            
+                            <div class="ui-nodisc-icon" style="display:inline;position:absolute;left:500px;">
+                                <button id="isometricEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000;">Clear</button>
                             </div>
+                        </div> 
+
+                     
+                                <div class="ui-nodisc-icon">
+
+                                    <button id="isometricPreImageEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline"></button>
+                                    <button id="isometricPreImageEx6SolidButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active"style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx6DashedButton);">Solid</button>
+                                    <button id="isometricPreImageEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline">Dashed</button>
+                                    <button id="isometricEx6UndoButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-back ui-btn-icon-notext ui-btn-b ui-btn-inline"></button>
+                                    <button id="isometricEx6SolidButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-solidicon ui-btn-icon-notext ui-btn-b ui-btn-inline ui-btn-active"style="border-style:inset;" onclick="drawDashedLine(this, isometricPreImageEx6DashedButton);">Solid</button>
+                                    <button id="isometricEx6DashedButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-dashedicon ui-btn-icon-notext ui-btn-b ui-btn-inline">Dashed</button>
+                                    
+                                     
+                              <button id="Ex6PreviousButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-l ui-btn-icon-notext ui-btn-b ui-btn-inline" >Previous</button>
+                                    <div style="display:inline;">
+                                        <p style="display:inline;" id="questionNumberEx6"></p>
+                                    </div>
+                                    <button id="Ex6NextButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-notext ui-btn-b ui-btn-inline">Next</button>
+                                    
+                                </div>
                         </div>
-                        <div class="ui-nodisc-icon" style="display:inline;position:relative;">
-                            <button id="isometricEx6ClearButton" data-inline="true" class="ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-b ui-btn-inline" style="background-color: #ff0000">Clear</button>
-                            
-                        </div>
+
+
+
+                </div> 
+                   
+                    <div> 
+                        <button id="Ex6SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
+                        <button id="Ex6DeleteButton" data-inline="true" style="background-color: #f5e2bf" >Delete Question</button>
+                        <button id="Ex6AddButton" data-inline="true" style="background-color: #e6d7f5" >Create a New Question</button>
                     </div>
-    
-                        
-                     <div> 
-                            <button id="Ex6SaveButton" data-inline="true" style="background-color: #c9f2d4" >Save Changes</button>
-                            <button id="Ex6DeleteButton" data-inline="true" style="background-color: #f5e2bf" >Delete Question</button>
-                            <button id="Ex6AddButton" data-inline="true" style="background-color: #e6d7f5" >Create a New Question</button>
-                    </div>
-                     </div>
+            </div>
 
 
             <div data-role="panel" data-display="push" data-theme="b" id="nav-panel-ex6" class="mymenu">
@@ -881,8 +878,8 @@
         </div>
 
     <script src="{{ url_for('static', filename='spatialskills/js/Exercise.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Admin_ExerciseSetup.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/DBExercise.js') }}"></script> 
+    <script src="{{ url_for('static', filename='spatialskills/js/SetupExercises.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/DatabaseExercise.js') }}"></script> 
     <script src="{{ url_for('static', filename='spatialskills/js/Question.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/CanvasObject.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Line.js') }}"></script>
@@ -894,8 +891,8 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Messages.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/IsometricAnswers.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/OrthographicAnswers.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup2_All.js') }}"></script>
-    <script src="{{ url_for('static', filename='spatialskills/js/Admin_QuestionSetup.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/Startup_All.js') }}"></script>
+    <script src="{{ url_for('static', filename='spatialskills/js/SetupQuestions.js') }}"></script>
     <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawOrthographicFromIsometric.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawIsometricFromOrthographic.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricRotationDegreesSingleAxis.js') }}"></script>
@@ -904,13 +901,9 @@
     <script src="{{ url_for('static', filename='spatialskills/js/Startup3_DrawSingleIsometricReflection.js') }}"></script> -->
     <script src="{{ url_for('static', filename='spatialskills/js/Admin_AddTouch.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/Admin_Startup.js') }}"></script> 
-    <!-- <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex2_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex3_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex4_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex5_Admin.js') }}"></script> 
-    <script src="{{ url_for('static', filename='spatialskills/js/Startup_Ex6_Admin.js') }}"></script>  
- -->
- <script src="{{ url_for('static', filename='spatialskills/js/WriteQuestionsToDatabase.js') }}"></script> 
+
+
+ <script src="{{ url_for('static', filename='spatialskills/js/Admin_EditQuestions.js') }}"></script> 
 
     <script src="{{ url_for('static', filename='spatialskills/js/RotationCanvas.js') }}"></script>
     <script src="{{ url_for('static', filename='spatialskills/js/NumericRotation.js') }}"></script>
