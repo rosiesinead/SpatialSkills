@@ -13,14 +13,13 @@ function writeToDatabase(canvasObject){
                 var attempted = false;
                 var correct = true;
                 if(JSON.stringify(exercises[i].questions[j].answerCanvas[k]) == JSON.stringify(canvasObject)){
-               // console.log("MATCH")    
                     if (canvasObject.correct != true){
                             correct = false;
                         }
                     if (canvasObject.attempts.length > 0){
                         attempted = true;
                         //create a progress object
-                        prog = new ProgressObject((i+1),(j+1),(k+1),Number(attempted),Number(correct),JSON.stringify(canvasObject))
+                        prog = new ProgressObject((i+1),(j+1),(k+1),Number(correct),JSON.stringify(canvasObject))
                         //send prog to database
                         $.ajax({
                             type: "POST",
@@ -28,7 +27,6 @@ function writeToDatabase(canvasObject){
                             data: prog,
                             dataType: "json",
                             success: function(resultData){
-                            alert("Save Complete");
                             }
                       });
                                   

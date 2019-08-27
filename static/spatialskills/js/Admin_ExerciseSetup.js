@@ -31,6 +31,7 @@ function setUpAdminExercises(){
         var current = receivedEx[i]
         var exercise = exercises[current.exercise_number-1]
         exercise.questions.push(JSON.parse(current.question_answers))
+        
         exercise.answerType = current.answer_type
         exercise.questionType = current.question_type
        
