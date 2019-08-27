@@ -1,8 +1,5 @@
 //////////////ISOMETRIC GRID VARIABLES////////////////////////
 
-
-//ROSIE NOTE: THESE SHOULD BE ATTRIBUTES OF AN ISOMETRIC CANVAS OBJECT
-
 var distBetweenDots = 32; //a default value just now but could possibly be changed here without affecting rest of code. This offers the potential to adjust it based on user device or even user preference without altering rest of code. This distance is the vertical distance between dots with same x position, and the distance between dots diagonally between x coordinates for isometric paper.
 
 //the position of the first dot in top left hand corner fixed
@@ -22,7 +19,6 @@ var canvasHeight = 600;
 var numOfColumns = Math.floor(((canvasWidth - firstDotXPos) / xDistBetweenDots)) + 1;  
 var numOfRows = Math.floor(((canvasHeight - firstDotYPos) / yDistBetweenDots)) + 1; 
 
-//ROSIE NOTE AGREED THIS SHOULD NOT BE IN HERE
 
 //////AXIS PROPERTIES////////////////TODO Move these later, probably a better idea to move the isometric diatnaces above along with this to a global properties file e.g. LineProperties
 //set the label for x axis that appears on canvas
@@ -100,8 +96,6 @@ var trailYRotation = 180;
 //set zAxis rotation
 var trailZRotation = 60;
 
-
-//ROSIE - MOVE THIS AS WELL BELONGS WITH GRID STUFF
 
 ///////////ISOMETRIC GRID HELPER FUNCTIONS//////////////////////////////
 

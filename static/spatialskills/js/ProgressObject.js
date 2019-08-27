@@ -1,8 +1,9 @@
 
-function ProgressObject(exerciseNumber,questionNumber,canvasNumber,complete,canvasData){
-    this.exerciseNumber=exerciseNumber;
-    this.questionNumber=questionNumber;
-    this.canvasNumber=canvasNumber;
+function ProgressObject(exercise_number,question_number,answer_canvas,attempted,complete,answer_data){
+    this.exercise_number=exercise_number;
+    this.question_number=question_number;
+    this.answer_canvas=answer_canvas;
+    this.attempted=attempted;
     this.complete=complete;
-    this.canvasData=canvasData;
+    this.answer_data=answer_data;
 }
