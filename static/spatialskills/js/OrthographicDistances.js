@@ -16,9 +16,6 @@ var numOfColumnsOrth = Math.floor(((canvasOrthWidth - firstDotXPosOrth) / distBe
 var numOfRowsOrth = Math.floor(((canvasOrthHeight - firstDotYPos) / distBetweenDotsOrth)) + 1; 
 
 
-//ROSIE NOTE: SINCE THE PARAMETERS AND RETURN VALUES ARE THE SAME IN BOTH ISO AND ORTH CAN WE NOT USE SOME KIND OF
-// POLYMORPHISM?? THAT WAY WHEN THIS METHOD IS CALLED IT WOULD CALL THE RELEVANT ONE TO THE CANVAS OBJECT
-
 ///////////FINDING ORTHOGRAPHIC GRID COORDINATES////////////////////////
 
 //This function will make use of other functions to determine the closest coord (i.e. closest dot) based on the touch coordinates x and y.
@@ -95,15 +92,6 @@ function findTrueYCoordOrth(y){
     var yCoord = firstDotYPosOrth + (y * distBetweenDotsOrth);
     return yCoord;
 } 
-
-//ROSIE SUGGESTION
-//find the actual coordinate based upon the grid coordinate
-// function findTrueCoordOrth(firstDot, coord){
-//     var oord = firstDot + (coord * distBetweenDotsOrth);
-//     return trueCoord;
-// } 
-
-//ALSO NOT NECESSARY TO REPEAT ABOVE FOR ISOMETRC ITS THE SAME!
 
 ///////////////////ORTHOGRAPHIC CANVAS DRAWING FUNCTIONS////////////////////////////
 
