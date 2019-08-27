@@ -10,13 +10,14 @@
  //ROSIE: this function has been been updated to eliminate code repetition. There is now one single enableTouch function used by both the admin and user interface.
  //The switch statement checks the type of touch and calls the relevant function.
 
- function enableTouch(typeOfTouch,canvas,variable3,variable4) {
-    //this enables touch for the canvas object
-   
-    $('#' + canvas.id).on('vmouseup', function(e){
+ function enableTouch(typeOfTouch,canvasElement,variable3,variable4) {
+    //need to disable touch first to prevent lines and axes/trails/text being drawn at the same time
+    disableTouch(canvasElement);
+
+    $('#' + canvasElement.id).on('vmouseup', function(e){
         if(touchmoved != true){
             //find the corresponding canvasObject for the touched canvas
-            var currentCanvasObject = getCurrentCanvas(canvas.id);
+            var currentCanvasObject = getCurrentCanvas(canvasElement.id);
             //find the x and y offsets of the canvas from top left of screen
             var xOffSet = $("#" + currentCanvasObject.canvasId).offset().left;
             var yOffSet = $("#" + currentCanvasObject.canvasId).offset().top;
@@ -35,33 +36,38 @@
                     rotation = variable4;
                      //this enables touch for the canvas object and sets it to handle placing text with touch
                     addGridText(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, text, rotation);
-                    disableTouch(canvas)
-                    disableDrawText();
+                    disableTouch(canvasElement)
+                    disableDrawText()
+                    prepareForNewLine(currentCanvasObject,canvasElement);
                     break;
                 case "axes":
                     axis = variable3;
                     axisLabel = variable4;
                     //this enables touch for the canvas object and sets it to handle placing text with touch
                     addGridAxis(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, axis, axisLabel);
-                    disableTouch(canvas)
+                    disableTouch(canvasElement)
                     disableDrawAxes();
+                    prepareForNewLine(currentCanvasObject,canvasElement);
                     break;
                 case "trails":
                     axis = variable3;
                     //this enables touch for the canvas object and sets it to handle placing text with touch
                     addGridTrails(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, axis);
-                    disableTouch(canvas)
+                    disableTouch(canvasElement)
                     disableDrawTrails();
+                    prepareForNewLine(currentCanvasObject,canvasElement);
+                    
                     break;
                 case "mirror":
                     mirrorCanvasObject = variable3;
                     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
                     //add the same touches to the mirror canvas to help with admin
                     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, mirrorCanvasObject);
-                    disableTouch(canvas)
+                    disableTouch(canvasElement)
                     disableTouch(mirrorCanvasObject)
                     break;
             }
+            
             
         }
     }).on('vmousemove', function(e){
@@ -79,24 +85,31 @@ function disableTouch(canvas) {
     $('#' + canvas.id).unbind('vmouseup');
 }
 
-function disableTouchText(canvas, text, rotation) {
-    //this disables touch for the canvas object in terms of placing text
-    canvas.removeEventListener("touchstart", myAnonymous);
-    //deselect the adding text buttons
-    disableDrawText();
-    //we have to then enable the drawing of lines again (only isometric)
-    enableTouch(canvas);
+// this clears the temp line so that the point will start in a new place and then enables touch 
+function prepareForNewLine(currentCanvasObject,canvasElement){
+    currentCanvasObject.tempLine = []
+    enableTouch("isometric",canvasElement)
+    
 }
 
+// function disableTouchText(canvas, text, rotation) {
+//     //this disables touch for the canvas object in terms of placing text
+//     canvas.removeEventListener("touchstart", myAnonymous);
+//     //deselect the adding text buttons
+//     disableDrawText();
+//     //we have to then enable the drawing of lines again (only isometric)
+//     enableTouch(canvas);
+// }
+
     
-function disableTouchTrails(canvas, axis) {
-    //this disables touch for the canvas object in terms of placing trails
-    canvas.removeEventListener("touchstart", myAnonymous);
-    //deselect the adding trail buttons
-    disableDrawTrails();
-    //we have to then enable the drawing of lines again (only isometric)
-    enableTouch(canvas);
-}
+// function disableTouchTrails(canvas, axis) {
+//     //this disables touch for the canvas object in terms of placing trails
+//     canvas.removeEventListener("touchstart", myAnonymous);
+//     //deselect the adding trail buttons
+//     disableDrawTrails();
+//     //we have to then enable the drawing of lines again (only isometric)
+//     enableTouch(canvas);
+// }
 
 
 //loop through exercises to find current canvas

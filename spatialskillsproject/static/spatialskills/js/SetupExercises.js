@@ -72,7 +72,7 @@ function setUpExercises(){
     }
 
     for(var i=0;i<totalNoExercises;i++){
-        setupQuestions(role, exercises[i])
+        setupQuestions(exercises[i])
     }
 
     // else if(role=="admin"){

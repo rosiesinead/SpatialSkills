@@ -244,7 +244,6 @@ function addPoint(x, y, canvasObject) {
         //below we used to add a new line to lines, but let's create a temp line instead so we can do some checks e.g. make sure there are 2 points, and make sure they are different
         canvasObject.tempLine[0] = new Line(dotCoordinateArray[0], dotCoordinateArray[1], 0, 0);
         //we want to set the dashed property to true if the corresponding button is pressed
-       
         //draw a circle on the isometric dot that the touch is closest to
         drawACircle(canvasObject, adjustedCoordinateX, adjustedCoordinateY, lineTouchCircleWidth, lineTouchColor);
     }
@@ -324,11 +323,6 @@ function clear(canvasObject){
 
 }
 
-
-
-
-
-////////////////ADDITIONAL ISOMETRIC FUNCTIONS//////////////////////
 
 
 
