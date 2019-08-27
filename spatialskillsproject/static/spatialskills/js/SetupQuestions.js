@@ -1,17 +1,10 @@
     //variables needed by several functions
-    var role;
+    var role = document.getElementById("role").title;
     var iso = 'isometric';
     var ort = 'orthographic';
     
-    function setupQuestions(role, exercise){
-        //set the role variable, as this will not change 
-        this.role = role;
+    function setupQuestions(exercise){
         setup1(exercise);
-
-    }
-
-    function setup1 (exercise){
-        setup2(exercise);
         
         //set up specific admin functions
         if(role=='admin'){
@@ -37,8 +30,8 @@
 //FUNCTIONS REQUIRED FOR ALL EXERCISES//////////////////////////////////////////
 
     //set up canvases and buttons
-    function setup2(exercise){
-        var currentQuestion = exercise.questions[exercise.currentQuestion-1]
+    function setup1(exercise){
+        var currentQuestion = exercise.questions[exercise.currentQuestion-1]  
         var questionCanvas = currentQuestion.questionCanvas;
         var answerCanvas = currentQuestion.answerCanvas;
         setUpQuestionNumber(exercise);
@@ -95,13 +88,13 @@
     function loadPrevious(exercise) {
         //decrement currentQuestion by 1
         exercise.currentQuestion--;
-        setup1(exercise);
+        setupQuestions(exercise);
     }
     
     function loadNext(exercise) {
         //increment currentQuestion by 1
         exercise.currentQuestion++;
-        setup1(exercise);
+        setupQuestions(exercise);
     }
 
     function drawSolidLine(canvasObject, pressedButton, secondButton) {
@@ -142,8 +135,9 @@
 
     function setupCanvas(type, canvasArray){
         for (var i = 0; i < canvasArray.length; i++){
-            var canvas = canvasArray[i]
-            var canvasElement = document.getElementById(canvas.canvasId)
+            var canvas = canvasArray[i];
+            var canvasElement = document.getElementById(canvas.canvasId);
+
             setUpLineButtons(canvas)
             //if there is any feedback, clear
             clearPTags(canvas);
@@ -223,7 +217,7 @@
         //set the current question to the new question
         exercise.currentQuestion = exercise.questions.length
         //set the question up as per the exercise requirements
-        setup1(exercise);
+        setupQuestions(exercise);
     }
 
     //clear canvas attributes to use for new question
@@ -259,7 +253,7 @@
         var isometricCheckAnswerButton = document.getElementById(canvasObject.canvasId + "CheckAnswerButton");
         if(isometricCheckAnswerButton!=undefined){
             var isometricAnswer = canvasObject.canvasId + "Answer";
-            isometricCheckAnswerButton.onclick = function () {checkAnswerOrth(canvasObject, isometricAnswer)};
+            isometricCheckAnswerButton.onclick = function () {checkAnswer(canvasObject, isometricAnswer)};
         }
 
     }

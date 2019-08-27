@@ -13,8 +13,8 @@ function createAnswerFromArrayOrth(canvasObject, inputArray) {
 //function to check current drawing matches answer
 function checkAnswerOrth(canvasObject, answerId){
     //first you have to create an attempt from the current lines array which can be compared with the coorect answer
-    canvasObject.attempts.push(canvasObject.linesCurrentlyDrawn);
-    var correctAnswer = canvasObject.correctAnswer;
+    canvasObject.attempts.push(breakUpAllLinesOrth(canvasObject.linesCurrentlyDrawn));
+    var correctAnswer = breakUpAllLinesOrth(canvasObject.correctAnswer);
     var correctLines = 0;
     var incorrectLines = 0;
     var incorrectDashedLines = false;
