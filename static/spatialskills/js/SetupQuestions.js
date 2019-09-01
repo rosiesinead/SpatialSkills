@@ -283,7 +283,7 @@
     
     function enableDrawText(canvasObject, text, rotation, pressedButton, secondButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
-        enableTouch("text",canvasElement, text, rotation);
+        enableTouchText(canvasElement, text, rotation);
         pressedButton.style.borderStyle = "inset";
         secondButton.style.borderStyle = "";  
     }
@@ -407,7 +407,7 @@
 
     function enableDrawTrails(canvasObject, axis, pressedButton, secondButton, thirdButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
-        enableTouch("trails",canvasElement, axis);
+        enableTouchTrails(canvasElement, axis);
         pressedButton.style.borderStyle = "inset";
         secondButton.style.borderStyle = ""; 
         secondButton.style.borderStyle = "";
@@ -502,7 +502,7 @@
 
     function enableDrawAxes(canvasObject, axis, axisLabel, pressedButton, secondButton, thirdButton) {
         var canvasElement = document.getElementById(canvasObject.canvasId);
-        enableTouch("axes",canvasElement, axis, axisLabel);
+        enableTouchAxes(canvasElement, axis, axisLabel);
         pressedButton.style.borderStyle = "inset";
         secondButton.style.borderStyle = ""; 
         secondButton.style.borderStyle = "";
