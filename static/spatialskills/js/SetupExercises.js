@@ -22,7 +22,7 @@ function setUpExercises(){
         dataType: 'json',
         success: function(res) {
             receivedEx = JSON.parse(res)
-            //console.log(res)
+           // console.log(res)
            // alert(res);
         }
     });
@@ -54,6 +54,7 @@ function setUpExercises(){
             dataType: 'json',
             success: function(res) {
                 receivedProg = JSON.parse(res)
+                //console.log(receivedProg)
             }
         });
 

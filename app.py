@@ -19,19 +19,19 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-#create database model for exercises table
+#create database model for exercise table
 class Exercises(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    exercise_number = db.Column(db.Integer)
-    question_number = db.Column(db.Integer)
-    question_data = db.Column(db.String(10000))
-    question_answers = db.Column(db.String(1000000))
-
-#create database model for exercise types
-class Types(db.Model):
     exercise = db.Column(db.Integer, primary_key=True)
     answer_type = db.Column(db.String(30))
     question_type = db.Column(db.String(30))
+
+#create database model for questions table
+class Questions(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    exercise_number = db.Column(db.Integer, db.ForeignKey(Exercises.exercise))
+    question_number = db.Column(db.Integer)
+    question_data = db.Column(db.String(10000))
+    question_answers = db.Column(db.String(1000000))
 
 #create database model for users table
 class Users(db.Model,UserMixin ):
@@ -41,10 +41,9 @@ class Users(db.Model,UserMixin ):
 
 #create database model for progress table
 class Progress(db.Model,UserMixin ):
-    user_id = db.Column(db.Integer, primary_key=True)
-    exercise_id =db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer,db.ForeignKey(Users.id, ondelete='CASCADE'), primary_key=True)
+    question_id =db.Column(db.Integer, db.ForeignKey(Questions.id,ondelete='CASCADE'),primary_key=True)
     canvas_number = db.Column(db.Integer, primary_key=True)
-    complete = db.Column(db.Integer, default=0)
     canvas_data = db.Column(db.String(1000000))
 
 #---------------------------------------------------------------------------
@@ -117,24 +116,22 @@ def logout():
 def editquestion():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
-    dataToDict = json.loads(data)
+    data_to_dict = json.loads(data)
     #data from dictionary and store in variables
-    exerciseNumber = dataToDict["exerciseNumber"]
-    questionNumber = dataToDict["questionNumber"]
-    questionData = dataToDict["questionData"]
-    questionAnswers = dataToDict["questionAnswers"]
-    print(questionData)
+    exercise_number = data_to_dict["exerciseNumber"]
+    question_number = data_to_dict["questionNumber"]
+    question_data = data_to_dict["questionData"]
+    question_answers = data_to_dict["questionAnswers"]
     #Get question from database and update
-    getQuestion = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
-    if getQuestion:
-        print(getQuestion)
-        getQuestion.question_data = questionData
-        getQuestion.question_answers = questionAnswers       
+    get_question = db.session.query(Questions).filter_by(exercise_number=exercise_number,question_number=question_number).first()
+    if get_question:
+        get_question.question_data = question_data
+        get_question.question_answers = question_answers       
         db.session.commit()
     else:
-        newExercise = Exercises(exercise_number=exerciseNumber, question_number=questionNumber,question_data=questionData, question_answers=questionAnswers)
+        new_question = Questions(exercise_number=exercise_number, question_number=question_number,question_data=question_data, question_answers=question_answers)
         #commit to database
-        db.session.add(newExercise)
+        db.session.add(new_question)
         db.session.commit()
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
     
@@ -142,19 +139,20 @@ def editquestion():
 @app.route('/deletequestion', methods=['POST'])
 @login_required
 def deletequestion(): 
+    db.session.execute('pragma foreign_keys=on') # https://stackoverflow.com/questions/2614984/sqlite-sqlalchemy-how-to-enforce-foreign-keys
     #receive data and convert to dictionary
     data = json.dumps(request.form)
-    dataToDict = json.loads(data)
+    data_to_dict = json.loads(data)
     #data from dictionary and store in variables
-    exerciseNumber = dataToDict["exerciseNumber"]
-    questionNumber = dataToDict["questionNumber"]
-    deleteQu = db.session.query(Exercises).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).first()
-    if deleteQu:
-        db.session.delete(deleteQu)
+    exercise_number = data_to_dict["exerciseNumber"]
+    question_number = data_to_dict["questionNumber"]
+    delete_qu = db.session.query(Questions).filter_by(exercise_number=exercise_number,question_number=question_number).first()
+    if delete_qu:
+        db.session.delete(delete_qu)
         db.session.commit()
-        #get exercises from database and update question numbers of those after deleted recod
-        for i in db.session.query(Exercises).filter_by(exercise_number=exerciseNumber).all():
-            if i.question_number > int(questionNumber):
+        #get questions from database and update question numbers of those after deleted recod
+        for i in db.session.query(Questions).filter_by(exercise_number=exercise_number).all():
+            if i.question_number > int(question_number):
                 i.question_number = i.question_number - 1
                 db.session.commit()
     return json.dumps({"redirect":True,"redirect_url":"/admin"}), 200, {'ContentType':'application/json'}
@@ -163,9 +161,9 @@ def deletequestion():
 @app.route('/getexercises', methods=['GET'])
 @login_required
 def getexercises():
-    dataframe = pd.read_sql_query("SELECT * from exercises AS e, types AS t where e.exercise_number=t.exercise", 'sqlite:///ssdatabase.db')
-    senddata = dataframe.to_json(orient='records')
-    return json.dumps(senddata)
+    data_frame = pd.read_sql_query("SELECT * from questions AS Q, exercises AS E where Q.exercise_number=E.exercise", 'sqlite:///ssdatabase.db')
+    send_data = data_frame.to_json(orient='records')
+    return json.dumps(send_data)
 
 #---------------------------------------------------------------------------
 #--USER PROGRESS------------------------------------------------------------
@@ -175,9 +173,9 @@ def getexercises():
 @app.route('/getprogress', methods=['GET'])
 @login_required
 def getprogress():
-    dataframe = pd.read_sql_query("SELECT * from progress as P, exercises as E where P.exercise_id= E.id and P.user_id =?", 'sqlite:///ssdatabase.db',params=[current_user.id])
-    senddata = dataframe.to_json(orient='records')
-    return json.dumps(senddata)
+    data_frame = pd.read_sql_query("SELECT * from Progress as P, Questions as Q WHERE P.question_id= Q.id and P.user_id =?", 'sqlite:///ssdatabase.db',params=[current_user.id])
+    send_data = data_frame.to_json(orient='records')
+    return json.dumps(send_data)
 
 #add user progress to database
 @app.route('/writeprogress', methods=['POST'])
@@ -185,31 +183,25 @@ def getprogress():
 def writeprogress():
     #receive data and convert to dictionary
     data = json.dumps(request.form)
-    dataToDict = json.loads(data)
+    data_to_dict = json.loads(data)
     #data from dictionary and store in variables
-    exerciseNumber = dataToDict["exerciseNumber"]
-    questionNumber = dataToDict["questionNumber"]
-    canvasNumber = dataToDict["canvasNumber"]
-    complete = dataToDict["complete"]
-    canvasData = dataToDict["canvasData"]
-    #get the exercise id
-    exId = Exercises.query.with_entities(Exercises.id).filter_by(exercise_number=exerciseNumber,question_number=questionNumber).scalar()
+    exercise_number = data_to_dict["exerciseNumber"]
+    question_number = data_to_dict["questionNumber"]
+    canvas_number = data_to_dict["canvasNumber"]
+    canvas_data = data_to_dict["canvasData"]
+    #get the question id
+    qu_id = Questions.query.with_entities(Questions.id).filter_by(exercise_number=exercise_number,question_number=question_number).scalar()
     #check if prog already exists in database
-    checkProg = db.session.query(Progress).filter_by(user_id=current_user.id,exercise_id=exId,canvas_number=canvasNumber).first()
-    #if it does, check whether it has been completed already and if so don't change anything
-    #otherwise update complete and answer_data columns
-    if checkProg:
-        if checkProg.complete==1:
-            return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-        else:
-            checkProg.complete = complete            
-            checkProg.canvas_data=canvasData
+    check_prog = db.session.query(Progress).filter_by(user_id=current_user.id,question_id=qu_id,canvas_number=canvas_number).first()
+    #if it does,update answer_data columns
+    if check_prog:     
+            check_prog.canvas_data=canvas_data
             db.session.commit()
     #if stat doesn't already exist then add it
     else:
-        newProgress = Progress(user_id=current_user.id,exercise_id=exId,canvas_number=canvasNumber,complete=complete,canvas_data=canvasData)
+        new_progress = Progress(user_id=current_user.id,question_id=qu_id,canvas_number=canvas_number,canvas_data=canvas_data)
         #commit to database
-        db.session.add(newProgress)
+        db.session.add(new_progress)
         db.session.commit()
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
