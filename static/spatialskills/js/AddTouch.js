@@ -58,6 +58,7 @@
                     prepareForNewLine(currentCanvasObject,canvasElement);
                     
                     break;
+                //not currently used but may be usefl for exercise 6 set up.
                 case "mirror":
                     mirrorCanvasObject = variable3;
                     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
@@ -70,7 +71,7 @@
             
             
         }
-    }).on('vmousemove', function(e){
+    }).on('touchmove', function(e){
         touchmoved = true;
         
     }).on('vmousedown', function(e){
@@ -91,25 +92,6 @@ function prepareForNewLine(currentCanvasObject,canvasElement){
     enableTouch("isometric",canvasElement)
     
 }
-
-// function disableTouchText(canvas, text, rotation) {
-//     //this disables touch for the canvas object in terms of placing text
-//     canvas.removeEventListener("touchstart", myAnonymous);
-//     //deselect the adding text buttons
-//     disableDrawText();
-//     //we have to then enable the drawing of lines again (only isometric)
-//     enableTouch(canvas);
-// }
-
-    
-// function disableTouchTrails(canvas, axis) {
-//     //this disables touch for the canvas object in terms of placing trails
-//     canvas.removeEventListener("touchstart", myAnonymous);
-//     //deselect the adding trail buttons
-//     disableDrawTrails();
-//     //we have to then enable the drawing of lines again (only isometric)
-//     enableTouch(canvas);
-// }
 
 
 //loop through exercises to find current canvas
@@ -144,6 +126,17 @@ function getCurrentCanvas(canvasid){
 
     return currentCanvasObject;
 }
+
+function enableTouchText(canvasElement,text,rotation){
+  enableTouch("text",canvasElement,text,rotation);
+}
+function enableTouchAxes(canvasElement,axis,axisLabel){
+  enableTouch("axes",canvasElement,axis, axisLabel);
+}
+function enableTouchTrails(canvasElement,axis){
+  enableTouch("trails",canvasElement,axis);
+}
+
 
 
 ////////The following functions are directly from the Mozilla Developer Network Tutorial https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/////////////////
