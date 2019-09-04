@@ -173,13 +173,14 @@
 //BUTTONS FOR ADMIN PAGES/////////////////////////////////////////////////////////
 
     function setUpSaveButton(exercise){   
+        var currentQuestion = exercise.questions[exercise.currentQuestion - 1];
         var saveQuestionButton = document.getElementById(exercise.name + "SaveButton");
         saveQuestionButton.onclick = function() {
             if(confirm("Are you sure you want to save changes?")){
-                if(canvasBlank){
+                if(canvasBlank(currentQuestion)){
                     alert("Please ensure all canvases are complete");
                 }
-                else prepareForSave(exercise.questions[exercise.currentQuestion - 1],exercise.num,exercise.currentQuestion)};
+                else prepareForSave(currentQuestion,exercise.num,exercise.currentQuestion)};
               
         }
     }
