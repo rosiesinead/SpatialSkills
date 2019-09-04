@@ -60,17 +60,18 @@ def index():
 #login process
 @app.route('/login', methods=['POST'])
 def login():
-    print("login")
-    print(current_user)
     #get username from login form
     username = request.form['username']
     #create user variable and query the table by username
     user = Users.query.filter_by(username=username).first()
     #content found in database is now saved in user variable
     #if user is in database then:
+    print(user==None)
     if user:
+            print(username==user.username)
             #login user in, check role and redirect to appropriate page
             login_user(user)
+            print(current_user.username == username)
             if current_user.role == 'admin':
                 return redirect(url_for('admin'))
             else:
@@ -78,9 +79,12 @@ def login():
     else:
         #add new user to db
         new_user = Users(username=username)
+        print(new_user.username == username)
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
+        print(current_user.username == new_user.username)
+        print(current_user.role == 'user')
         return redirect(url_for('homepage'))
 
 #go to homepage  
