@@ -1,9 +1,8 @@
 //CREATED BY ROSIE FOR PREPARING QUESTIONS FOR SAVING AND DELETING FROM DATABASE
 
-
 function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers){ 
   
-    var save = new DatabaseExercise(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers));
+    var save = new DatabaseQuestion(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers));
 
     console.log(save)
     
@@ -38,7 +37,22 @@ function deleteFromDatabase(exerciseNumber,questionNumber){
   });
 
 }
-
+//loop through question and answer canvases and return true if any are blank
+function canvasBlank(question){
+    var answerCanvasArray = question.answerCanvas;
+    var questionCanvasArray = question.questionCanvas;
+    for(var i=0;i<answerCanvasArray.length;i++){
+        if(answerCanvasArray[i].linesCurrentlyDrawn.length==0){
+            return true;
+        }
+    }
+    for(var i=0;i<questionCanvasArray.length;i++){
+        if(questionCanvasArray[i].linesCurrentlyDrawn.length==0){
+            return true;
+        }
+    }
+    return false;
+}
 // 1. make a copy of the question to work on and save as questionData
 // 2. get the correct answer from linesCurrentlyDrawn and copy into correctAnswer for both answer and question canvas
 // 3. make a copy of the questionData to save as questionAnswers
