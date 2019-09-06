@@ -55,18 +55,17 @@
                     addGridTrails(currentCanvasObject, touches.pageX - xOffSet, touches.pageY - yOffSet, axis);
                     disableTouch(canvasElement)
                     disableDrawTrails();
-                    prepareForNewLine(currentCanvasObject,canvasElement);
-                    
+                    prepareForNewLine(currentCanvasObject,canvasElement);             
                     break;
                 //not currently used but may be usefl for exercise 6 set up.
-                case "mirror":
-                    mirrorCanvasObject = variable3;
-                    addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
-                    //add the same touches to the mirror canvas to help with admin
-                    addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, mirrorCanvasObject);
-                    disableTouch(canvasElement)
-                    disableTouch(mirrorCanvasObject)
-                    break;
+                // case "mirror":
+                //     mirrorCanvasObject = variable3;
+                //     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, currentCanvasObject);
+                //     //add the same touches to the mirror canvas to help with admin
+                //     addPoint(touches.pageX - xOffSet, touches.pageY - yOffSet, mirrorCanvasObject);
+                //     disableTouch(canvasElement)
+                //     disableTouch(mirrorCanvasObject)
+                //     break;
             }
             
             
@@ -127,6 +126,7 @@ function getCurrentCanvas(canvasid){
     return currentCanvasObject;
 }
 
+//functions to send the necessary flags to enableTouch()
 function enableTouchText(canvasElement,text,rotation){
   enableTouch("text",canvasElement,text,rotation);
 }

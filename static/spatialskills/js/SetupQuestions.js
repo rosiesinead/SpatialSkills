@@ -180,7 +180,7 @@
                 if(canvasBlank(currentQuestion)){
                     alert("Please ensure all canvases are complete");
                 }
-                else prepareForSave(currentQuestion,exercise.num,exercise.currentQuestion)};
+                else prepareQuestionForSave(currentQuestion,exercise.num,exercise.currentQuestion)};
               
         }
     }
@@ -189,7 +189,7 @@
         var deleteQuestionButton = document.getElementById(exercise.name + "DeleteButton");
         deleteQuestionButton.onclick = function(){
             if(confirm('Are you sure your want to delete this question?')){
-                deleteFromDatabase(exercise.num,exercise.currentQuestion)
+                deleteQuestionFromDatabase(exercise.num,exercise.currentQuestion)
             }
         }
     }

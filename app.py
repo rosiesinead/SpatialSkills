@@ -19,16 +19,16 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-#create database model for exercise table
-class Exercises(db.Model):
-    exercise = db.Column(db.Integer, primary_key=True)
+#create database model for exercise types table
+class ExerciseTypes(db.Model):
+    number = db.Column(db.Integer, primary_key=True)
     answer_type = db.Column(db.String(30))
     question_type = db.Column(db.String(30))
 
 #create database model for questions table
 class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    exercise_number = db.Column(db.Integer, db.ForeignKey(Exercises.exercise))
+    exercise_number = db.Column(db.Integer, db.ForeignKey(ExerciseTypes.number))
     question_number = db.Column(db.Integer)
     question_data = db.Column(db.String(10000))
     question_answers = db.Column(db.String(1000000))
@@ -66,12 +66,9 @@ def login():
     user = Users.query.filter_by(username=username).first()
     #content found in database is now saved in user variable
     #if user is in database then:
-    print(user==None)
     if user:
-            print(username==user.username)
             #login user in, check role and redirect to appropriate page
             login_user(user)
-            print(current_user.username == username)
             if current_user.role == 'admin':
                 return redirect(url_for('admin'))
             else:
@@ -79,12 +76,9 @@ def login():
     else:
         #add new user to db
         new_user = Users(username=username)
-        print(new_user.username == username)
         db.session.add(new_user)
         db.session.commit()
         login_user(new_user)
-        print(current_user.username == new_user.username)
-        print(current_user.role == 'user')
         return redirect(url_for('homepage'))
 
 #go to homepage  
@@ -111,8 +105,8 @@ def logout():
     return redirect(url_for('index'))
 
 #---------------------------------------------------------------------------
-#--EXERCISES----------------------------------------------------------------
-#---------------------------------------------------------------------------"
+#--EXERCISES & QUESTIONS----------------------------------------------------
+#---------------------------------------------------------------------------
 
 #edit a question
 @app.route('/savequestion', methods=['POST'])
@@ -150,6 +144,7 @@ def deletequestion():
     #data from dictionary and store in variables
     exercise_number = data_to_dict["exerciseNumber"]
     question_number = data_to_dict["questionNumber"]
+    #get question to delete, if it exists delete it
     delete_qu = db.session.query(Questions).filter_by(exercise_number=exercise_number,question_number=question_number).first()
     if delete_qu:
         db.session.delete(delete_qu)
@@ -165,7 +160,7 @@ def deletequestion():
 @app.route('/getexercises', methods=['GET'])
 @login_required
 def getexercises():
-    data_frame = pd.read_sql_query("SELECT * from questions AS Q, exercises AS E where Q.exercise_number=E.exercise", 'sqlite:///ssdatabase.db')
+    data_frame = pd.read_sql_query("SELECT * from Questions AS Q, ExerciseTypes AS E where Q.exercise_number=E.number", 'sqlite:///ssdatabase.db')
     send_data = data_frame.to_json(orient='records')
     return json.dumps(send_data)
 
@@ -201,10 +196,9 @@ def writeprogress():
     if check_prog:     
             check_prog.canvas_data=canvas_data
             db.session.commit()
-    #if stat doesn't already exist then add it
+    #if prog doesn't already exist then add it
     else:
         new_progress = Progress(user_id=current_user.id,question_id=qu_id,canvas_number=canvas_number,canvas_data=canvas_data)
-        #commit to database
         db.session.add(new_progress)
         db.session.commit()
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 

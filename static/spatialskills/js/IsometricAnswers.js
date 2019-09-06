@@ -12,8 +12,6 @@ function createAnswerFromArray(canvasObject, inputArray) {
 
 //function to check current drawing matches answer
 function checkAnswer(canvasObject, answerId){
-   
-    console.log("checking answer")
     //first you have to create an attempt from the current lines array which can be compared with the coorect answer
     canvasObject.attempts.push(breakUpAllLines(canvasObject.linesCurrentlyDrawn));
     var correctAnswer = breakUpAllLines(canvasObject.correctAnswer);

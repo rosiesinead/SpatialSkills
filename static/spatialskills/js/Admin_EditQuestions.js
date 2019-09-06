@@ -1,6 +1,6 @@
 //CREATED BY ROSIE FOR PREPARING QUESTIONS FOR SAVING AND DELETING FROM DATABASE
 
-function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers){ 
+function saveQuestionToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers){ 
   
     var save = new DatabaseQuestion(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers));
 
@@ -18,7 +18,7 @@ function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswe
   });
 }
 
-function deleteFromDatabase(exerciseNumber,questionNumber){
+function deleteQuestionFromDatabase(exerciseNumber,questionNumber){
 
     var send = {exerciseNumber:exerciseNumber,questionNumber:questionNumber}
 
@@ -41,6 +41,7 @@ function deleteFromDatabase(exerciseNumber,questionNumber){
 function canvasBlank(question){
     var answerCanvasArray = question.answerCanvas;
     var questionCanvasArray = question.questionCanvas;
+    var rotationCanvasArray = question.rotationCanvas;
     for(var i=0;i<answerCanvasArray.length;i++){
         if(answerCanvasArray[i].linesCurrentlyDrawn.length==0){
             return true;
@@ -51,6 +52,17 @@ function canvasBlank(question){
             return true;
         }
     }
+
+    //if there are any rotation canvases check they are not blank
+    if(rotationCanvasArray.length > 0){
+        for(var i=0;i<rotationCanvasArray.length;i++){
+            if(rotationCanvasArray[i].numericRotations.length==0 && rotationCanvasArray[i].alphabeticRotations.length==0){
+                return true;
+            }
+        }
+
+    }
+
     return false;
 }
 // 1. make a copy of the question to work on and save as questionData
@@ -59,7 +71,7 @@ function canvasBlank(question){
 // 4. clear the lines drawn from the answer canvas so the answer does not appear to users
 // 5. save to database
 
-function prepareForSave(question,exerciseNumber,questionNumber){
+function prepareQuestionForSave(question,exerciseNumber,questionNumber){
 
     var questionData = JSON.parse(JSON.stringify(question));
 
@@ -70,7 +82,7 @@ function prepareForSave(question,exerciseNumber,questionNumber){
 
     clearLinesDrawn(questionData.answerCanvas);
 
-    saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers);
+    saveQuestionToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers);
 }
 
 //clear correct answer and update with new lines drawn. linesAllDrawn and tempLine must be cleared as well.
