@@ -41,6 +41,7 @@ function deleteQuestionFromDatabase(exerciseNumber,questionNumber){
 function canvasBlank(question){
     var answerCanvasArray = question.answerCanvas;
     var questionCanvasArray = question.questionCanvas;
+    var rotationCanvasArray = question.rotationCanvas;
     for(var i=0;i<answerCanvasArray.length;i++){
         if(answerCanvasArray[i].linesCurrentlyDrawn.length==0){
             return true;
@@ -51,6 +52,17 @@ function canvasBlank(question){
             return true;
         }
     }
+
+    //if there are any rotation canvases check they are not blank
+    if(rotationCanvasArray.length > 0){
+        for(var i=0;i<rotationCanvasArray.length;i++){
+            if(rotationCanvasArray[i].numericRotations.length==0 && rotationCanvasArray[i].alphabeticRotations.length==0){
+                return true;
+            }
+        }
+
+    }
+
     return false;
 }
 // 1. make a copy of the question to work on and save as questionData
