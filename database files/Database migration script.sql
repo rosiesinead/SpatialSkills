@@ -1,86 +1,86 @@
 --
--- File generated with SQLiteStudio v3.2.1 on Tue Sep 3 13:44:33 2019
+-- File generated with SQLiteStudio v3.2.1 on Fri Sep 6 08:28:28 2019
 --
 -- Text encoding used: System
 --
 PRAGMA foreign_keys = off;
 BEGIN TRANSACTION;
 
--- Table: Exercises
-CREATE TABLE Exercises (
-    exercise      INTEGER      NOT NULL,
+-- Table: ExerciseTypes
+CREATE TABLE ExerciseTypes (
+    number        INTEGER      NOT NULL,
     question_type VARCHAR (20),
     answer_type   VARCHAR (20),
     PRIMARY KEY (
-        exercise
+        number
     )
 );
 
-INSERT INTO Exercises (
-                          exercise,
-                          question_type,
-                          answer_type
-                      )
-                      VALUES (
-                          1,
-                          'isometric',
-                          'orthographic'
-                      );
+INSERT INTO ExerciseTypes (
+                              number,
+                              question_type,
+                              answer_type
+                          )
+                          VALUES (
+                              1,
+                              'isometric',
+                              'orthographic'
+                          );
 
-INSERT INTO Exercises (
-                          exercise,
-                          question_type,
-                          answer_type
-                      )
-                      VALUES (
-                          2,
-                          'orthographic',
-                          'isometric'
-                      );
+INSERT INTO ExerciseTypes (
+                              number,
+                              question_type,
+                              answer_type
+                          )
+                          VALUES (
+                              2,
+                              'orthographic',
+                              'isometric'
+                          );
 
-INSERT INTO Exercises (
-                          exercise,
-                          question_type,
-                          answer_type
-                      )
-                      VALUES (
-                          3,
-                          'isometric',
-                          'isometric'
-                      );
+INSERT INTO ExerciseTypes (
+                              number,
+                              question_type,
+                              answer_type
+                          )
+                          VALUES (
+                              3,
+                              'isometric',
+                              'isometric'
+                          );
 
-INSERT INTO Exercises (
-                          exercise,
-                          question_type,
-                          answer_type
-                      )
-                      VALUES (
-                          4,
-                          'isometric',
-                          'isometric'
-                      );
+INSERT INTO ExerciseTypes (
+                              number,
+                              question_type,
+                              answer_type
+                          )
+                          VALUES (
+                              4,
+                              'isometric',
+                              'isometric'
+                          );
 
-INSERT INTO Exercises (
-                          exercise,
-                          question_type,
-                          answer_type
-                      )
-                      VALUES (
-                          5,
-                          'isometric',
-                          'isometric'
-                      );
+INSERT INTO ExerciseTypes (
+                              number,
+                              question_type,
+                              answer_type
+                          )
+                          VALUES (
+                              5,
+                              'isometric',
+                              'isometric'
+                          );
 
-INSERT INTO Exercises (
-                          exercise,
-                          question_type,
-                          answer_type
-                      )
-                      VALUES (
-                          6,
-                          'isometric',
-                          'isometric'
-                      );
+INSERT INTO ExerciseTypes (
+                              number,
+                              question_type,
+                              answer_type
+                          )
+                          VALUES (
+                              6,
+                              'isometric',
+                              'isometric'
+                          );
 
 
 -- Table: Progress
@@ -102,8 +102,8 @@ CREATE TABLE Progress (
     FOREIGN KEY (
         question_id
     )
-    REFERENCES Questions (id) ON DELETE CASCADE
-                              ON UPDATE CASCADE
+    REFERENCES Questions ON DELETE CASCADE
+                         ON UPDATE CASCADE
 );
 
 
@@ -120,7 +120,7 @@ CREATE TABLE Questions (
     FOREIGN KEY (
         exercise_number
     )
-    REFERENCES Exercises (exercise),
+    REFERENCES ExerciseTypes (number),
     UNIQUE (
         exercise_number,
         question_number

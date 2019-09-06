@@ -1,6 +1,6 @@
 //CREATED BY ROSIE FOR PREPARING QUESTIONS FOR SAVING AND DELETING FROM DATABASE
 
-function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers){ 
+function saveQuestionToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers){ 
   
     var save = new DatabaseQuestion(exerciseNumber,questionNumber,JSON.stringify(questionData),JSON.stringify(questionAnswers));
 
@@ -18,7 +18,7 @@ function saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswe
   });
 }
 
-function deleteFromDatabase(exerciseNumber,questionNumber){
+function deleteQuestionFromDatabase(exerciseNumber,questionNumber){
 
     var send = {exerciseNumber:exerciseNumber,questionNumber:questionNumber}
 
@@ -59,7 +59,7 @@ function canvasBlank(question){
 // 4. clear the lines drawn from the answer canvas so the answer does not appear to users
 // 5. save to database
 
-function prepareForSave(question,exerciseNumber,questionNumber){
+function prepareQuestionForSave(question,exerciseNumber,questionNumber){
 
     var questionData = JSON.parse(JSON.stringify(question));
 
@@ -70,7 +70,7 @@ function prepareForSave(question,exerciseNumber,questionNumber){
 
     clearLinesDrawn(questionData.answerCanvas);
 
-    saveToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers);
+    saveQuestionToDatabase(exerciseNumber,questionNumber,questionData,questionAnswers);
 }
 
 //clear correct answer and update with new lines drawn. linesAllDrawn and tempLine must be cleared as well.
